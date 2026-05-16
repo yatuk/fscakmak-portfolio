@@ -1,0 +1,124 @@
+---
+import { oppositeLocale, swapLocaleInUrl, t } from '@core/i18n';
+import type { Locale } from '@ptypes/profile';
+
+export interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const target = oppositeLocale(locale);
+const href = swapLocaleInUrl(Astro.url.pathname, target);
+const label = t(locale, `language.label_${locale}`);
+const targetLabel = t(locale, `language.label_${target}`);
+const ariaLabel = t(locale, `language.switch_to_${target}_aria`);
+---
+
+<a
+  class="lang-toggle"
+  href={href}
+  aria-label={ariaLabel}
+  data-locale-link={target}
+>
+  <span class="lang-dot" aria-hidden="true"></span>
+  <span class="lang-current">{label}</span>
+  <span class="lang-sep" aria-hidden="true">/</span>
+  <span class="lang-target">{targetLabel}</span>
+</a>
+
+<script is:inline>
+  (() => {
+    const html = document.documentElement;
+    const current = html.getAttribute('lang') === 'tr' ? 'tr' : 'en';
+    try {
+      localStorage.setItem('fsc.lang', current);
+    } catch {
+      /* private mode / disabled storage — no-op */
+    }
+    document.querySelectorAll('[data-locale-link]').forEach((el) => {
+      el.addEventListener('click', () => {
+        const target = el.getAttribute('data-locale-link');
+        if (target) {
+          try {
+            localStorage.setItem('fsc.lang', target);
+          } catch {
+            /* no-op */
+          }
+        }
+      });
+    });
+  })();
+</script>
+
+<style>
+  .lang-toggle {
+    position: fixed;
+    top: var(--space-4);
+    right: var(--space-4);
+    z-index: 100;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 44px; /* touch target */
+    padding: 0 var(--space-3);
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    text-decoration: none;
+    transition:
+      border-color var(--transition-base),
+      transform var(--transition-fast),
+      box-shadow var(--transition-base);
+  }
+
+  .lang-toggle:hover,
+  .lang-toggle:focus-visible {
+    border-color: var(--color-link);
+    box-shadow: 0 0 0 3px rgba(83, 184, 255, 0.08);
+  }
+
+  .lang-toggle:active {
+    transform: scale(0.97);
+  }
+
+  .lang-dot {
+    width: 7px;
+    height: 7px;
+    background: var(--color-prompt);
+    border-radius: 50%;
+    box-shadow: 0 0 6px rgba(65, 217, 140, 0.35);
+  }
+
+  .lang-current {
+    color: var(--color-link);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+
+  .lang-sep {
+    color: var(--color-text-dim);
+    opacity: 0.6;
+  }
+
+  .lang-target {
+    color: var(--color-text-dim);
+    letter-spacing: 0.05em;
+  }
+
+  .lang-toggle:hover .lang-target,
+  .lang-toggle:focus-visible .lang-target {
+    color: var(--color-text);
+  }
+
+  @media (max-width: 640px) {
+    .lang-toggle {
+      top: var(--space-2);
+      right: var(--space-2);
+      padding: 0 var(--space-2);
+      font-size: var(--text-xs);
+    }
+  }
+</style>

@@ -19,8 +19,3 @@ const profiles: Record<Locale, Profile> = {
 export function getProfile(locale: Locale): Profile {
   return profiles[locale];
 }
-
-/** Narrow Astro's `currentLocale` (string | undefined) to our `Locale` union. */
-export function resolveLocale(input: string | undefined): Locale {
-  return input === 'tr' ? 'tr' : 'en';
-}

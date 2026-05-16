@@ -1,0 +1,44 @@
+{
+  "site": {
+    "skip_to_content": "İçeriğe atla",
+    "back_to_top": "Yukarı dön"
+  },
+  "language": {
+    "label_en": "EN",
+    "label_tr": "TR",
+    "switch_to_tr_aria": "Dili Türkçeye çevir",
+    "switch_to_en_aria": "Dili İngilizceye çevir",
+    "current_aria": "Geçerli dil: Türkçe"
+  },
+  "sections": {
+    "about": "Hakkımda",
+    "skills": "Yetenekler",
+    "experience": "Deneyim",
+    "education": "Eğitim",
+    "projects": "Projeler",
+    "certifications": "Sertifikalar",
+    "contact": "İletişim",
+    "languages": "Diller"
+  },
+  "skill_groups": {
+    "cybersecurity": "Siber Güvenlik",
+    "infrastructure": "Altyapı",
+    "compliance": "Uyum",
+    "tools": "Araçlar & Programlama",
+    "spoken_languages": "Konuşulan Diller"
+  },
+  "time": {
+    "present": "Bugün",
+    "part_time": "Yarı Zamanlı",
+    "expected": "Beklenen"
+  },
+  "project": {
+    "owner_personal": "Kişisel proje",
+    "owner_team": "Takım projesi",
+    "view_repo": "Repo'yu görüntüle"
+  },
+  "scaffold": {
+    "step1_done": "Adım 1 ✓ — içerik CV'ye birebir uyumlu, tipli JSON'dan geliyor.",
+    "step2_done": "Adım 2 ✓ — i18n runtime aktif, dil değiştirici bağlı."
+  }
+}

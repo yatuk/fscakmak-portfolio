@@ -1,10 +1,13 @@
 ---
 import '@styles/globals.css';
+import LanguageToggle from '@components/LanguageToggle.astro';
+import { t } from '@core/i18n';
+import type { Locale } from '@ptypes/profile';
 
 export interface Props {
   title: string;
   description: string;
-  locale?: 'en' | 'tr';
+  locale?: Locale;
   canonical?: string;
   ogImage?: string;
 }
@@ -88,7 +91,8 @@ const ogImageUrl = new URL(ogImage, site).toString();
     })} />
   </head>
   <body>
-    <a href="#main" class="skip-link">Skip to content</a>
+    <a href="#main" class="skip-link">{t(locale, 'site.skip_to_content')}</a>
+    <LanguageToggle locale={locale} />
     <main id="main">
       <slot />
     </main>

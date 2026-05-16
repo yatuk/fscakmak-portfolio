@@ -1,8 +1,10 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { getProfile } from '@lib/profile';
+import { t } from '@core/i18n';
 
-const profile = getProfile('tr');
+const locale = 'tr';
+const profile = getProfile(locale);
 const { identity, about } = profile;
 
 const title = 'Fatih Serdar Çakmak — SOC Analist Stajyeri | İTÜ Bilgisayar Müh.';
@@ -10,7 +12,7 @@ const description =
   "Fibabanka'da SOC Analist Stajyeri, İTÜ Bilgisayar Mühendisliği. SIEM, SOAR, EDR, MITRE ATT&CK. İstanbul, Türkiye.";
 ---
 
-<BaseLayout title={title} description={description} locale="tr">
+<BaseLayout title={title} description={description} locale={locale}>
   <div class="boot">
     <header>
       <h1>{identity.name}</h1>
@@ -19,15 +21,13 @@ const description =
       <p class="current">{identity.current}</p>
     </header>
 
-    <section class="about">
+    <section class="about" aria-labelledby="about-heading">
+      <h2 id="about-heading" class="sr-only">{t(locale, 'sections.about')}</h2>
       <p>{about}</p>
     </section>
 
     <footer>
-      <p class="hint">
-        Adım 1 ✓ — içerik CV'ye birebir uyumlu, tipli JSON'dan geliyor.
-        <a href="/">→ English</a>
-      </p>
+      <p class="hint">{t(locale, 'scaffold.step2_done')}</p>
     </footer>
   </div>
 </BaseLayout>
@@ -82,9 +82,5 @@ const description =
     color: var(--color-text-dim);
     font-size: var(--text-sm);
     margin-top: var(--space-5);
-  }
-
-  .hint a {
-    margin-left: var(--space-2);
   }
 </style>

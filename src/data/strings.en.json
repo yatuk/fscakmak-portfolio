@@ -1,0 +1,44 @@
+{
+  "site": {
+    "skip_to_content": "Skip to content",
+    "back_to_top": "Back to top"
+  },
+  "language": {
+    "label_en": "EN",
+    "label_tr": "TR",
+    "switch_to_tr_aria": "Switch language to Turkish",
+    "switch_to_en_aria": "Switch language to English",
+    "current_aria": "Current language: English"
+  },
+  "sections": {
+    "about": "About",
+    "skills": "Skills",
+    "experience": "Experience",
+    "education": "Education",
+    "projects": "Projects",
+    "certifications": "Certifications",
+    "contact": "Contact",
+    "languages": "Languages"
+  },
+  "skill_groups": {
+    "cybersecurity": "Cybersecurity",
+    "infrastructure": "Infrastructure",
+    "compliance": "Compliance",
+    "tools": "Tools & Programming",
+    "spoken_languages": "Spoken Languages"
+  },
+  "time": {
+    "present": "Present",
+    "part_time": "Part-time",
+    "expected": "Expected"
+  },
+  "project": {
+    "owner_personal": "Personal project",
+    "owner_team": "Team project",
+    "view_repo": "View repository"
+  },
+  "scaffold": {
+    "step1_done": "Step 1 ✓ — content driven by typed JSON, CV-verbatim.",
+    "step2_done": "Step 2 ✓ — i18n runtime online, locale toggle wired."
+  }
+}
