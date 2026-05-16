@@ -35,10 +35,10 @@ const ogImageUrl = new URL(ogImage, site).toString();
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
 
-    <!-- hreflang -->
-    <link rel="alternate" hreflang="en" href={`${site}/`} />
-    <link rel="alternate" hreflang="tr" href={`${site}/tr/`} />
-    <link rel="alternate" hreflang="x-default" href={`${site}/`} />
+    <!-- hreflang — trailingSlash: 'never' in astro.config -->
+    <link rel="alternate" hreflang="en" href={site} />
+    <link rel="alternate" hreflang="tr" href={`${site}/tr`} />
+    <link rel="alternate" hreflang="x-default" href={site} />
 
     <!-- Open Graph -->
     <meta property="og:type" content="profile" />

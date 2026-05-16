@@ -1,0 +1,152 @@
+{
+  "identity": {
+    "name": "Fatih Serdar Çakmak",
+    "role": "SOC Analyst & ITU CS Student",
+    "location": "Istanbul, Turkey",
+    "sector": "Financial Services / Banking Security",
+    "current": "Defending production banking systems @ Fibabanka",
+    "motto": "Defend the systems others depend on.",
+    "email": "fscakmak@proton.me",
+    "phone": "+90 538 482 8810",
+    "social": {
+      "github": "yatuk",
+      "linkedin": "fatihserdar",
+      "twitter": "fscakmak",
+      "reddit": "fscakmak",
+      "discord": "fscakmak"
+    }
+  },
+  "about": "Computer Engineering student at Istanbul Technical University (class of 2027), with a background in Industrial Automation from Kocaeli ENKA Technical Schools. I got into cybersecurity through CTFs and never looked back. Did my first real SOC shift at Doğuş Teknoloji, where I went from filtering false positives to writing SOAR playbooks and tuning EDR alerts. Now I monitor live threats in a production banking environment at Fibabanka. I think in MITRE ATT&CK TTPs, dream in log queries, and believe the best defense is understanding the offense. When I'm not staring at SIEM dashboards, you'll find me exploring new attack vectors, contributing to open-source security tools, or doom-scrolling r/netsec.",
+  "skills": {
+    "blue_team": [
+      "SOC Operations",
+      "Incident Response",
+      "Log Analysis",
+      "MITRE ATT&CK",
+      "SIEM",
+      "SOAR",
+      "EDR Tuning",
+      "Playbook Development",
+      "False-Positive Filtering"
+    ],
+    "infrastructure": [
+      "Network Security",
+      "Firewall Analysis",
+      "Active Directory",
+      "Windows / Linux Admin",
+      "Network Segmentation",
+      "Vulnerability Assessment"
+    ],
+    "compliance": [
+      "BDDK Regulatory",
+      "Banking Standards",
+      "SLA / Incident Reporting"
+    ],
+    "tools": [
+      "Python",
+      "C / C++",
+      "SQL",
+      "Wireshark",
+      "Git",
+      "Bash"
+    ]
+  },
+  "experience": [
+    {
+      "active": true,
+      "start": "2026-03",
+      "end": null,
+      "title": "SOC Intern",
+      "company": "Fibabanka",
+      "location": "Istanbul",
+      "highlights": [
+        "Real-time alert monitoring and triage in a production banking environment",
+        "BDDK compliance workflows and SLA-driven incident reporting",
+        "Firewall log review, threat hunting, and incident response"
+      ],
+      "stack": ["SIEM", "EDR", "Firewall", "Splunk"]
+    },
+    {
+      "active": false,
+      "start": "2025-07",
+      "end": "2026-03",
+      "title": "Cybersecurity & IR Intern",
+      "company": "Doğuş Teknoloji",
+      "location": "Istanbul",
+      "highlights": [
+        "SIEM configuration and detection rule tuning",
+        "SOAR playbook development for automated triage",
+        "EDR tuning and L1 incident response",
+        "Root cause analysis, AD monitoring, and IT/OT segmentation"
+      ],
+      "stack": ["SIEM", "SOAR", "EDR", "Active Directory"]
+    }
+  ],
+  "education": [
+    {
+      "start": "2023",
+      "end": "2027",
+      "degree": "B.Sc. Computer Engineering",
+      "institution": "Istanbul Technical University (ITU)",
+      "notes": "Networks, Operating Systems, Databases, Algorithms. Where the journey got serious."
+    },
+    {
+      "start": "2019",
+      "end": "2023",
+      "degree": "Industrial Automation Diploma",
+      "institution": "Kocaeli ENKA Technical Schools",
+      "notes": "Control systems and technical foundations. Where it all started."
+    }
+  ],
+  "projects": [
+    {
+      "slug": "soc-case-study",
+      "name": "SOC Case Study — SIEM/SOAR Simulation",
+      "url": "https://github.com/yatuk/SOC-case-study-project",
+      "tags": ["Python", "SIEM", "SOAR", "MITRE ATT&CK"],
+      "summary": "Multi-stage attack simulation mapped to ATT&CK TTPs. Custom log datasets for SIEM correlation plus Python-based SOAR playbook flows for automated triage.",
+      "outcomes": [
+        "10K+ log events processed",
+        "12 ATT&CK techniques covered",
+        "End-to-end IR playbook from alert to closure"
+      ],
+      "featured": true
+    },
+    {
+      "slug": "wdi-analytics",
+      "name": "WDI Analytics — Database Management System",
+      "url": "https://github.com/s411hs/Database-Management-System",
+      "tags": ["SQL", "RBAC", "Full-Stack", "Security"],
+      "summary": "Full-stack data platform with role-based access control, parameterized SQL against injection, and data-integrity guarantees across 10K+ records.",
+      "outcomes": [
+        "RBAC across analyst / admin / viewer roles",
+        "Parameterized queries (no string-concat SQL)"
+      ],
+      "featured": false
+    }
+  ],
+  "certs": [
+    {
+      "name": "CompTIA Security+",
+      "issuer": "CompTIA",
+      "in_progress": true
+    },
+    {
+      "name": "Blue Team Level 1 (BTL1)",
+      "issuer": "Security Blue Team",
+      "in_progress": true
+    },
+    {
+      "name": "CompTIA CySA+",
+      "issuer": "CompTIA",
+      "in_progress": true
+    },
+    {
+      "name": "TryHackMe — SOC Level 1 Path",
+      "issuer": "TryHackMe",
+      "in_progress": true,
+      "credential_url": "https://tryhackme.com/path/outline/soclevel1"
+    }
+  ],
+  "writeups": []
+}

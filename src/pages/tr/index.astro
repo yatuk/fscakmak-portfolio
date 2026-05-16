@@ -1,16 +1,35 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
+import { getProfile } from '@lib/profile';
 
-const title = 'Fatih Serdar Çakmak — SOC Analisti | İTÜ Bilgisayar Müh.';
+const profile = getProfile('tr');
+const { identity, about } = profile;
+
+const title = `${identity.name} — ${identity.role}`;
 const description =
   'Fibabanka SOC Analisti, İTÜ Bilgisayar Mühendisliği. Bankacılık SOC, SIEM/SOAR, MITRE ATT&CK. Başkalarının bağımlı olduğu sistemleri savun.';
 ---
 
 <BaseLayout title={title} description={description} locale="tr">
   <div class="boot">
-    <h1>fscakmak.com</h1>
-    <p>v2 iskelesi ayakta — terminal sonraki adımlarda geri dönüyor.</p>
-    <p class="hint">Adım 0 ✓ — Astro + TS kuruldu.</p>
+    <header>
+      <h1>{identity.name}</h1>
+      <p class="role">{identity.role}</p>
+      <p class="location">{identity.location} · {identity.sector}</p>
+      <p class="current">{identity.current}</p>
+    </header>
+
+    <section class="about">
+      <p>{about}</p>
+    </section>
+
+    <footer>
+      <p class="motto">"{identity.motto}"</p>
+      <p class="hint">
+        Adım 1 ✓ — içerik artık tipli JSON'dan geliyor.
+        <a href="/">→ English</a>
+      </p>
+    </footer>
   </div>
 </BaseLayout>
 
@@ -27,16 +46,43 @@ const description =
     z-index: 1;
   }
 
-  h1 {
+  header h1 {
     color: var(--color-link);
     font-size: var(--text-xl);
-    margin-bottom: var(--space-3);
     text-shadow: var(--glow-accent);
+    margin-bottom: var(--space-2);
   }
 
-  p {
+  .role {
+    color: var(--color-text);
+    font-size: var(--text-md);
+    margin-bottom: var(--space-1);
+  }
+
+  .location {
+    color: var(--color-text-dim);
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-3);
+  }
+
+  .current {
+    color: var(--color-prompt);
+    font-size: var(--text-base);
+    margin-bottom: var(--space-5);
+  }
+
+  .about p {
     color: var(--color-text);
     line-height: var(--leading-relaxed);
+    font-size: var(--text-base);
+    padding-left: var(--space-3);
+    border-left: 2px solid var(--color-link);
+  }
+
+  .motto {
+    color: var(--color-text);
+    font-style: italic;
+    margin-top: var(--space-5);
     margin-bottom: var(--space-2);
   }
 
@@ -44,5 +90,9 @@ const description =
     color: var(--color-text-dim);
     font-size: var(--text-sm);
     margin-top: var(--space-4);
+  }
+
+  .hint a {
+    margin-left: var(--space-2);
   }
 </style>

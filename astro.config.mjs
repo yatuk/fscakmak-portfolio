@@ -31,7 +31,7 @@ export default defineConfig({
         '@commands': r('./src/commands'),
         '@data': r('./src/data'),
         '@styles': r('./src/styles'),
-        '@types': r('./src/types'),
+        '@ptypes': r('./src/types'),
         '@components': r('./src/components'),
         '@layouts': r('./src/layouts'),
         '@lib': r('./src/lib'),

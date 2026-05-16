@@ -1,0 +1,152 @@
+{
+  "identity": {
+    "name": "Fatih Serdar Çakmak",
+    "role": "SOC Analisti & İTÜ Bilgisayar Müh. Öğrencisi",
+    "location": "İstanbul, Türkiye",
+    "sector": "Finansal Hizmetler / Bankacılık Güvenliği",
+    "current": "Fibabanka'da canlı bankacılık sistemlerini savunuyor",
+    "motto": "Başkalarının bağımlı olduğu sistemleri savun.",
+    "email": "fscakmak@proton.me",
+    "phone": "+90 538 482 8810",
+    "social": {
+      "github": "yatuk",
+      "linkedin": "fatihserdar",
+      "twitter": "fscakmak",
+      "reddit": "fscakmak",
+      "discord": "fscakmak"
+    }
+  },
+  "about": "İstanbul Teknik Üniversitesi Bilgisayar Mühendisliği öğrencisiyim (2027 mezunu) — öncesi Kocaeli ENKA Teknik Liseleri'nde Endüstriyel Otomasyon. Siber güvenliğe CTF'lerle girdim, bir daha da geri dönmedim. İlk gerçek SOC vardiyamı Doğuş Teknoloji'de yaptım; false-positive elemekten başlayıp SOAR playbook'ları yazmaya ve EDR alert'lerini tune etmeye kadar geçtim. Şu an Fibabanka'da canlı bir bankacılık ortamında tehditleri gerçek zamanlı izliyorum. MITRE ATT&CK TTP'leri ile düşünürüm, log sorgularıyla rüya görürüm ve en iyi savunmanın saldırıyı anlamaktan geçtiğine inanırım. SIEM dashboard'larına bakmadığım zamanlarda yeni saldırı vektörlerini keşfederken, açık-kaynak güvenlik araçlarına katkı verirken ya da r/netsec'te kaybolurken bulabilirsiniz.",
+  "skills": {
+    "blue_team": [
+      "SOC Operasyonları",
+      "Olay Müdahale (IR)",
+      "Log Analizi",
+      "MITRE ATT&CK",
+      "SIEM",
+      "SOAR",
+      "EDR Tuning",
+      "Playbook Geliştirme",
+      "False-Positive Filtreleme"
+    ],
+    "infrastructure": [
+      "Ağ Güvenliği",
+      "Firewall Analizi",
+      "Active Directory",
+      "Windows / Linux Yönetimi",
+      "Ağ Segmentasyonu",
+      "Zafiyet Değerlendirme"
+    ],
+    "compliance": [
+      "BDDK Mevzuatı",
+      "Bankacılık Standartları",
+      "SLA / Olay Raporlama"
+    ],
+    "tools": [
+      "Python",
+      "C / C++",
+      "SQL",
+      "Wireshark",
+      "Git",
+      "Bash"
+    ]
+  },
+  "experience": [
+    {
+      "active": true,
+      "start": "2026-03",
+      "end": null,
+      "title": "SOC Stajyeri",
+      "company": "Fibabanka",
+      "location": "İstanbul",
+      "highlights": [
+        "Canlı bankacılık ortamında gerçek zamanlı alert izleme ve triyaj",
+        "BDDK uyum süreçleri ve SLA odaklı olay raporlama",
+        "Firewall log incelemesi, threat hunting ve olay müdahale"
+      ],
+      "stack": ["SIEM", "EDR", "Firewall", "Splunk"]
+    },
+    {
+      "active": false,
+      "start": "2025-07",
+      "end": "2026-03",
+      "title": "Siber Güvenlik & IR Stajyeri",
+      "company": "Doğuş Teknoloji",
+      "location": "İstanbul",
+      "highlights": [
+        "SIEM konfigürasyonu ve detection kuralı tuning",
+        "Otomatik triyaj için SOAR playbook geliştirme",
+        "EDR tuning ve L1 olay müdahale",
+        "Root Cause Analysis, AD izleme ve IT/OT segmentasyon"
+      ],
+      "stack": ["SIEM", "SOAR", "EDR", "Active Directory"]
+    }
+  ],
+  "education": [
+    {
+      "start": "2023",
+      "end": "2027",
+      "degree": "Bilgisayar Mühendisliği Lisans",
+      "institution": "İstanbul Teknik Üniversitesi (İTÜ)",
+      "notes": "Ağlar, İşletim Sistemleri, Veritabanları, Algoritmalar. İşin ciddileştiği yer."
+    },
+    {
+      "start": "2019",
+      "end": "2023",
+      "degree": "Endüstriyel Otomasyon Diploması",
+      "institution": "Kocaeli ENKA Teknik Liseleri",
+      "notes": "Kontrol sistemleri ve teknik temeller. Her şeyin başladığı yer."
+    }
+  ],
+  "projects": [
+    {
+      "slug": "soc-case-study",
+      "name": "SOC Case Study — SIEM/SOAR Simülasyonu",
+      "url": "https://github.com/yatuk/SOC-case-study-project",
+      "tags": ["Python", "SIEM", "SOAR", "MITRE ATT&CK"],
+      "summary": "ATT&CK TTP'lerine eşlenmiş çok aşamalı saldırı simülasyonu. SIEM correlation için özel log veri setleri ve otomatik triyaj için Python tabanlı SOAR playbook akışları.",
+      "outcomes": [
+        "10K+ log olayı işlendi",
+        "12 ATT&CK tekniği kapsandı",
+        "Alert'ten kapanışa uçtan uca IR playbook"
+      ],
+      "featured": true
+    },
+    {
+      "slug": "wdi-analytics",
+      "name": "WDI Analytics — Veritabanı Yönetim Sistemi",
+      "url": "https://github.com/s411hs/Database-Management-System",
+      "tags": ["SQL", "RBAC", "Full-Stack", "Güvenlik"],
+      "summary": "RBAC, SQL injection'a karşı parametreli sorgular ve 10K+ kayıt üzerinde veri bütünlüğü garantili full-stack veri platformu.",
+      "outcomes": [
+        "Analist / admin / viewer rolleri arasında RBAC",
+        "Parametreli sorgular (string-concat SQL yok)"
+      ],
+      "featured": false
+    }
+  ],
+  "certs": [
+    {
+      "name": "CompTIA Security+",
+      "issuer": "CompTIA",
+      "in_progress": true
+    },
+    {
+      "name": "Blue Team Level 1 (BTL1)",
+      "issuer": "Security Blue Team",
+      "in_progress": true
+    },
+    {
+      "name": "CompTIA CySA+",
+      "issuer": "CompTIA",
+      "in_progress": true
+    },
+    {
+      "name": "TryHackMe — SOC Level 1 Yolu",
+      "issuer": "TryHackMe",
+      "in_progress": true,
+      "credential_url": "https://tryhackme.com/path/outline/soclevel1"
+    }
+  ],
+  "writeups": []
+}
