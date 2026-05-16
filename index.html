@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>fsc ~ terminal</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Press+Start+2P&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0e14;--tbg:#0f1319;--tbar:#151a22;
+  --tx:#b3b9c5;--dim:#3d4455;--grn:#41d98c;--cyan:#53b8ff;
+  --mag:#c778dd;--red:#e55561;--ylw:#e2b93d;--org:#e8804f;
+  --brd:#1e2533;--acc:#3a86ff;
+}
+html{font-size:16px}
+body{
+  background:var(--bg);color:var(--tx);font-family:'JetBrains Mono',monospace;
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  padding:16px;overflow-x:hidden;
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse at 15% 50%,rgba(65,217,140,0.04) 0%,transparent 50%),
+    radial-gradient(ellipse at 85% 30%,rgba(83,184,255,0.03) 0%,transparent 50%),
+    linear-gradient(rgba(83,184,255,0.012) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(83,184,255,0.012) 1px,transparent 1px);
+  background-size:100%,100%,22px 22px,22px 22px;
+}
+
+.lang-toggle{
+  position:fixed;top:16px;right:16px;display:flex;align-items:center;gap:8px;
+  background:var(--tbar);border:1px solid var(--brd);border-radius:20px;
+  padding:5px 13px;cursor:pointer;z-index:100;
+  font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--tx);transition:.3s;
+}
+.lang-toggle:hover{border-color:var(--cyan)}
+.lang-dot{width:7px;height:7px;background:var(--grn);border-radius:50%}
+
+.tw{
+  width:100%;max-width:880px;background:var(--tbg);border-radius:12px;
+  border:1px solid var(--brd);overflow:hidden;position:relative;z-index:1;
+  box-shadow:0 0 0 1px rgba(0,0,0,.3),0 30px 80px rgba(0,0,0,.55),0 0 140px rgba(58,134,255,.03);
+}
+
+.tb{
+  background:var(--tbar);padding:11px 16px;display:flex;align-items:center;
+  justify-content:space-between;border-bottom:1px solid var(--brd);user-select:none;
+}
+.tb-dots{display:flex;gap:8px}
+.tb-dot{width:13px;height:13px;border-radius:50%;cursor:pointer;transition:.2s}
+.tb-dot:hover{opacity:.8}
+.d-r{background:#ff5f57}.d-y{background:#febc2e}.d-g{background:#28c840}
+.tb-t{font-size:.75rem;color:var(--dim);position:absolute;left:50%;transform:translateX(-50%)}
+.tb-sc{display:flex;align-items:center;gap:10px;font-size:.72rem}
+.sc-l{color:var(--dim)}.sc-v{color:var(--grn);font-weight:600;transition:color .3s}
+.sc-bar{width:110px;height:5px;background:var(--brd);border-radius:3px;overflow:hidden}
+.sc-fill{height:100%;background:linear-gradient(90deg,var(--acc),var(--grn));border-radius:3px;transition:width .8s cubic-bezier(.4,0,.2,1)}
+
+.tbody{padding:26px 30px;min-height:500px;max-height:78vh;overflow-y:auto;scroll-behavior:smooth}
+.tbody::-webkit-scrollbar{width:5px}
+.tbody::-webkit-scrollbar-track{background:0 0}
+.tbody::-webkit-scrollbar-thumb{background:var(--brd);border-radius:3px}
+
+.logo{
+  font-family:'Press Start 2P',monospace;color:var(--cyan);font-size:1.5rem;line-height:1.4;
+  margin-bottom:12px;text-shadow:0 0 30px rgba(83,184,255,.22);letter-spacing:3px;
+  white-space:pre;animation:gp 4s ease-in-out infinite;
+}
+@keyframes gp{0%,100%{text-shadow:0 0 20px rgba(83,184,255,.18)}50%{text-shadow:0 0 40px rgba(83,184,255,.35),0 0 80px rgba(83,184,255,.07)}}
+
+.sub{color:var(--dim);font-size:.82rem;margin-bottom:3px}
+.nav{color:var(--dim);font-size:.82rem;margin-bottom:22px}
+.nav .ar{color:var(--grn)}
+.nav a{color:var(--cyan);text-decoration:none;cursor:pointer;transition:.2s;border-bottom:1px solid transparent}
+.nav a:hover{color:#7cc8ff;border-bottom-color:rgba(83,184,255,.3)}
+.nav .sp{color:var(--dim);margin:0 3px}
+
+#output{min-height:40px}
+
+.line{margin-bottom:4px;font-size:.84rem;line-height:1.7;animation:fi .3s ease}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.p{color:var(--grn);font-weight:600}
+.c{color:var(--ylw);font-weight:500}
+
+.il{display:flex;align-items:center;gap:0;margin-top:12px}
+.ip{color:var(--grn);font-weight:600;white-space:pre}
+.if{
+  background:0 0;border:0;outline:0;color:var(--ylw);
+  font-family:'JetBrains Mono',monospace;font-size:.86rem;font-weight:500;
+  flex:1;caret-color:var(--grn);
+}
+.if::placeholder{color:var(--dim);opacity:.35}
+
+.sec{margin:8px 0 16px 18px;animation:fi .35s ease}
+.st{font-size:.86rem;font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.ct{margin-left:2px;display:flex;flex-direction:column;gap:5px}
+.cr{display:flex;gap:14px;font-size:.82rem;line-height:1.6}
+.cn{color:var(--cyan);min-width:135px;font-weight:500}
+.cd{color:var(--tx)}
+.cp{color:var(--dim);font-size:.76rem}
+
+.pc{margin-left:2px;border-left:2px solid var(--brd);padding-left:14px}
+.pr{display:flex;gap:10px;font-size:.82rem;line-height:1.85}
+.pk{color:var(--mag);min-width:125px;font-weight:500}
+.pv{color:var(--tx)}
+.pv a{color:var(--cyan);text-decoration:none}
+.pv a:hover{text-decoration:underline}
+
+.sg{margin-left:2px;margin-bottom:14px}
+.sgt{color:var(--org);font-size:.82rem;font-weight:600;margin-bottom:7px}
+.sts{display:flex;flex-wrap:wrap;gap:7px}
+.sk{
+  background:rgba(83,184,255,.07);border:1px solid rgba(83,184,255,.13);color:var(--cyan);
+  padding:3px 10px;border-radius:4px;font-size:.74rem;transition:.3s;
+}
+.sk:hover{background:rgba(83,184,255,.14);border-color:var(--cyan);transform:translateY(-2px);box-shadow:0 4px 10px rgba(83,184,255,.08)}
+.sk.h{background:rgba(65,217,140,.08);border-color:rgba(65,217,140,.2);color:var(--grn)}
+.sk.h:hover{background:rgba(65,217,140,.15);border-color:var(--grn);box-shadow:0 4px 10px rgba(65,217,140,.08)}
+
+.tl{margin-left:2px;position:relative}
+.tl::before{content:'';position:absolute;left:7px;top:5px;bottom:5px;width:2px;background:linear-gradient(180deg,var(--grn),var(--acc),var(--brd))}
+.ti{position:relative;padding-left:30px;margin-bottom:18px}
+.td{position:absolute;left:2px;top:5px;width:12px;height:12px;border-radius:50%;border:2px solid var(--cyan);background:var(--tbg);transition:.3s}
+.ti:first-child .td{background:var(--grn);border-color:var(--grn);box-shadow:0 0 8px rgba(65,217,140,.4)}
+.ti:hover .td{border-color:var(--grn);box-shadow:0 0 8px rgba(65,217,140,.3)}
+.t-dt{color:var(--ylw);font-size:.74rem;font-weight:600}
+.t-tt{color:var(--tx);font-size:.82rem;font-weight:500}
+.t-co{color:var(--mag);font-size:.78rem}
+.t-ds{color:var(--dim);font-size:.74rem;margin-top:2px;line-height:1.45}
+
+.pjc{
+  margin-left:2px;margin-bottom:14px;padding:12px 14px;
+  background:rgba(83,184,255,.03);border:1px solid var(--brd);border-radius:8px;transition:.3s;
+}
+.pjc:hover{border-color:rgba(83,184,255,.25);background:rgba(83,184,255,.05);transform:translateX(3px)}
+.pjn{color:var(--cyan);font-size:.83rem;font-weight:600;margin-bottom:3px}
+.pjn a{color:var(--cyan);text-decoration:none}
+.pjn a:hover{text-decoration:underline}
+.pjt{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:5px}
+.pjtt{font-size:.66rem;background:rgba(199,120,221,.08);border:1px solid rgba(199,120,221,.18);color:var(--mag);padding:2px 7px;border-radius:3px}
+.pjd{color:var(--dim);font-size:.76rem;line-height:1.45}
+
+.cl{margin-left:2px;display:flex;flex-direction:column;gap:8px}
+.clr{display:flex;align-items:center;gap:10px;font-size:.82rem}
+.cli{font-size:1rem}
+.cll{color:var(--mag);min-width:105px;font-weight:500}
+.clv a{color:var(--cyan);text-decoration:none}
+.clv a:hover{text-decoration:underline}
+
+.nf-g{display:grid;grid-template-columns:auto 1fr;gap:0 20px;margin-left:2px;align-items:start}
+.nf-a{color:var(--cyan);font-size:.55rem;line-height:1.1;white-space:pre;text-shadow:0 0 10px rgba(83,184,255,.18)}
+.cb{display:flex;gap:3px;margin-top:8px}
+.cbl{width:16px;height:16px;border-radius:3px;display:inline-block}
+
+.tf{text-align:center;padding:7px;font-size:.66rem;color:var(--dim);border-top:1px solid var(--brd);background:var(--tbar)}
+
+/* Matrix canvas */
+#matrix{position:fixed;top:0;left:0;width:100%;height:100%;z-index:200;pointer-events:none;display:none}
+
+/* Train animation */
+.train-line{white-space:pre;font-size:.7rem;color:var(--grn);line-height:1.1;overflow:hidden}
+
+/* Hack animation */
+@keyframes scanline{0%{background-position:0 0}100%{background-position:0 100%}}
+
+.hint{color:var(--dim);font-size:.68rem;margin-top:5px;opacity:.4}
+
+@media(max-width:640px){
+  body{padding:6px}
+  .tbody{padding:14px}
+  .logo{font-size:.95rem;letter-spacing:2px}
+  .tb-t{font-size:.58rem}
+  .cn{min-width:100px}
+  .pk{min-width:90px}
+  .tb-sc{display:none}
+  .cr{flex-wrap:wrap}
+  .nf-g{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div class="lang-toggle" onclick="toggleLang()">
+  <span class="lang-dot"></span>
+  <span id="langLabel">EN</span>
+</div>
+
+<div class="tw">
+  <div class="tb">
+    <div class="tb-dots">
+      <div class="tb-dot d-r"></div>
+      <div class="tb-dot d-y"></div>
+      <div class="tb-dot d-g"></div>
+    </div>
+    <div class="tb-t">fsc@kali ~ % zsh</div>
+    <div class="tb-sc">
+      <span class="sc-l">Score:</span>
+      <div class="sc-bar"><div class="sc-fill" id="scoreBar" style="width:0%"></div></div>
+      <span class="sc-v" id="scoreVal">0/100</span>
+    </div>
+  </div>
+
+  <div class="tbody" id="tbody">
+    <div class="logo">FSC.DEV</div>
+    <div class="sub">fsc.dev — Fatih Serdar Çakmak's portfolio</div>
+    <div class="nav">
+      <span class="ar">→</span> type
+      <a onclick="run('help')">help</a>
+      <span class="sp">to get started</span>
+    </div>
+
+    <div id="output"></div>
+
+    <div class="il">
+      <span class="ip">$ </span>
+      <input type="text" class="if" id="cmd" placeholder="" autocomplete="off" spellcheck="false" autofocus>
+    </div>
+    <div class="hint" id="hint">tab to autocomplete • ↑↓ history</div>
+  </div>
+
+  <div class="tf">fsc.dev terminal v2.1.0 — built with ☕ & 🛡️</div>
+</div>
+
+<script>
+// ── State ──
+let score=0;const mx=100;const earned=new Set();
+const pts={help:3,whoami:7,skills:10,contact:5,experience:8,'git log':15,projects:15,neofetch:5,'cat motto.txt':2,socials:3,'cat about.txt':7,ls:2};
+const hist=[];let hi=-1;
+
+function addScore(c){
+  if(pts[c]&&!earned.has(c)){earned.add(c);score+=pts[c];
+  document.getElementById('scoreVal').textContent=score+'/'+mx;
+  document.getElementById('scoreBar').style.width=((score/mx)*100)+'%';
+  const e=document.getElementById('scoreVal');e.style.color='#fff';setTimeout(()=>e.style.color='',300)}
+}
+
+// ── Render helpers ──
+const O=document.getElementById('output');
+const B=document.getElementById('tbody');
+
+function addLine(html,cls=''){
+  const d=document.createElement('div');d.className='line '+(cls||'');d.innerHTML=html;O.appendChild(d);
+  setTimeout(()=>B.scrollTop=B.scrollHeight,30);
+}
+function addBlock(html){
+  const d=document.createElement('div');d.innerHTML=html;O.appendChild(d);
+  setTimeout(()=>B.scrollTop=B.scrollHeight,30);
+}
+function addPrompt(cmd){
+  addLine(`<span class="p">$ </span><span class="c">${cmd}</span>`);
+}
+
+// ── Commands ──
+const cmds={
+
+help(){return `
+<div class="sec">
+  <div class="st">📋 Available commands:</div>
+  <div class="ct">
+    <div class="cr"><span class="cn">whoami</span><span class="cd">Who am I? <span class="cp">(+7)</span></span></div>
+    <div class="cr"><span class="cn">cat about.txt</span><span class="cd">The longer story <span class="cp">(+7)</span></span></div>
+    <div class="cr"><span class="cn">skills</span><span class="cd">Technical skillset <span class="cp">(+10)</span></span></div>
+    <div class="cr"><span class="cn">experience</span><span class="cd">Work history <span class="cp">(+8)</span></span></div>
+    <div class="cr"><span class="cn">git log</span><span class="cd">Full career timeline <span class="cp">(+15)</span></span></div>
+    <div class="cr"><span class="cn">projects</span><span class="cd">Things I've built <span class="cp">(+15)</span></span></div>
+    <div class="cr"><span class="cn">contact</span><span class="cd">Reach me <span class="cp">(+5)</span></span></div>
+    <div class="cr"><span class="cn">socials</span><span class="cd">Internet presence <span class="cp">(+3)</span></span></div>
+    <div class="cr"><span class="cn">neofetch</span><span class="cd">System info <span class="cp">(+5)</span></span></div>
+    <div class="cr"><span class="cn">cat motto.txt</span><span class="cd">Words I live by <span class="cp">(+2)</span></span></div>
+    <div class="cr"><span class="cn">ls</span><span class="cd">List directory <span class="cp">(+2)</span></span></div>
+    <div class="cr"><span class="cn">clear</span><span class="cd">Clear screen</span></div>
+  </div>
+  <div style="color:var(--dim);font-size:.74rem;margin-top:10px;">💡 Hint: There are hidden commands. Try to find them all and reach 100/100.</div>
+</div>`},
+
+whoami(){return `
+<div class="sec">
+  <div class="st">🛡️ whoami</div>
+  <div class="pc">
+    <div class="pr"><span class="pk">name:</span><span class="pv">Fatih Serdar Çakmak</span></div>
+    <div class="pr"><span class="pk">role:</span><span class="pv">SOC Analyst & ITU CS Student</span></div>
+    <div class="pr"><span class="pk">location:</span><span class="pv">Istanbul, Turkey 🇹🇷</span></div>
+    <div class="pr"><span class="pk">sector:</span><span class="pv">Financial Services / Banking Security</span></div>
+    <div class="pr"><span class="pk">currently:</span><span class="pv" style="color:var(--grn)">Defending production banking systems @ Fibabanka</span></div>
+  </div>
+</div>`},
+
+'cat about.txt'(){return `
+<div class="sec">
+  <div style="border-left:2px solid var(--cyan);padding-left:14px;margin-left:2px;color:var(--tx);font-size:.82rem;line-height:1.75;">
+    <div style="color:var(--cyan);font-size:.74rem;margin-bottom:6px">~/about.txt</div>
+    Computer Engineering student at <span style="color:var(--ylw)">Istanbul Technical University</span> (class of 2027)
+    with a background in Industrial Automation from Kocaeli ENKA Technical Schools.<br><br>
+    I got into cybersecurity through CTFs and never looked back. Did my first real SOC shift at
+    <span style="color:var(--mag)">Doğuş Teknoloji</span> where I went from filtering false positives to
+    writing SOAR playbooks and tuning EDR alerts. Now I'm monitoring live threats in a production
+    banking environment at <span style="color:var(--mag)">Fibabanka</span>.<br><br>
+    I think in <span style="color:var(--grn)">MITRE ATT&CK TTPs</span>, dream in log queries,
+    and believe the best defense is understanding the offense.<br><br>
+    <span style="color:var(--dim)">When I'm not staring at SIEM dashboards, you'll find me
+    exploring new attack vectors, contributing to open-source security tools,
+    or doom-scrolling r/netsec.</span>
+  </div>
+</div>`},
+
+skills(){return `
+<div class="sec">
+  <div class="st">⚡ Skills</div>
+  <div class="sg">
+    <div class="sgt">▸ Blue Team / SOC:</div>
+    <div class="sts">
+      <span class="sk h">SOC Operations</span><span class="sk h">Incident Response</span>
+      <span class="sk h">Log Analysis</span><span class="sk h">MITRE ATT&CK</span>
+      <span class="sk">SIEM</span><span class="sk">SOAR</span>
+      <span class="sk">EDR Tuning</span><span class="sk">Playbook Dev</span>
+      <span class="sk">False-Positive Filtering</span>
+    </div>
+  </div>
+  <div class="sg">
+    <div class="sgt">▸ Infrastructure:</div>
+    <div class="sts">
+      <span class="sk">Network Security</span><span class="sk">Firewall Analysis</span>
+      <span class="sk">Active Directory</span><span class="sk">Windows/Linux Admin</span>
+      <span class="sk">Network Segmentation</span><span class="sk">Vuln Assessment</span>
+    </div>
+  </div>
+  <div class="sg">
+    <div class="sgt">▸ Compliance:</div>
+    <div class="sts">
+      <span class="sk">BDDK Regulatory</span><span class="sk">Banking Standards</span>
+      <span class="sk">SLA / Incident Reporting</span>
+    </div>
+  </div>
+  <div class="sg">
+    <div class="sgt">▸ Tools & Code:</div>
+    <div class="sts">
+      <span class="sk">Python</span><span class="sk">C/C++</span><span class="sk">SQL</span>
+      <span class="sk">Wireshark</span><span class="sk">Git</span><span class="sk">Bash</span>
+    </div>
+  </div>
+</div>`},
+
+experience(){return `
+<div class="sec">
+  <div class="st">💼 Experience</div>
+  <div class="ct" style="gap:12px">
+    <div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="color:var(--grn);font-size:.74rem;font-weight:600">● ACTIVE</span>
+        <span style="color:var(--ylw);font-size:.74rem">Mar 2026 – present</span>
+      </div>
+      <div style="color:var(--tx);font-size:.84rem;font-weight:500">SOC Intern — <span style="color:var(--mag)">Fibabanka</span></div>
+      <div style="color:var(--dim);font-size:.76rem;line-height:1.5;margin-top:2px">
+        Real-time alert monitoring & triage in production banking env.<br>
+        BDDK compliance • IR workflows • Firewall log review
+      </div>
+    </div>
+    <div>
+      <div style="color:var(--ylw);font-size:.74rem;font-weight:600">Jul 2025 – Mar 2026</div>
+      <div style="color:var(--tx);font-size:.84rem;font-weight:500">Cybersecurity & IR Intern — <span style="color:var(--mag)">Doğuş Teknoloji</span></div>
+      <div style="color:var(--dim);font-size:.76rem;line-height:1.5;margin-top:2px">
+        SIEM config • SOAR playbooks • EDR tuning • L1 IR support<br>
+        Root Cause Analysis • AD monitoring • IT/OT segmentation
+      </div>
+    </div>
+  </div>
+</div>`},
+
+'git log'(){return `
+<div class="sec">
+  <div class="st">📦 git log --graph --all</div>
+  <div class="tl">
+    <div class="ti">
+      <div class="td"></div>
+      <div class="t-dt">Mar 2026 — present</div>
+      <div class="t-tt">SOC Intern</div>
+      <div class="t-co">@ Fibabanka — Istanbul</div>
+      <div class="t-ds">Production banking SOC. Real-time threat monitoring, BDDK compliance, incident response.</div>
+    </div>
+    <div class="ti">
+      <div class="td"></div>
+      <div class="t-dt">Jul 2025 — Mar 2026</div>
+      <div class="t-tt">Cybersecurity & IR Intern</div>
+      <div class="t-co">@ Doğuş Teknoloji — Istanbul</div>
+      <div class="t-ds">SIEM/SOAR engineering, EDR tuning, L1 incident response, playbook development.</div>
+    </div>
+    <div class="ti">
+      <div class="td"></div>
+      <div class="t-dt">2023 — 2027</div>
+      <div class="t-tt">B.Sc. Computer Engineering</div>
+      <div class="t-co">@ Istanbul Technical University (ITU)</div>
+      <div class="t-ds">Networks, OS, Databases, Algorithms. Where the journey got serious.</div>
+    </div>
+    <div class="ti">
+      <div class="td"></div>
+      <div class="t-dt">2019 — 2023</div>
+      <div class="t-tt">Industrial Automation Diploma</div>
+      <div class="t-co">@ Kocaeli ENKA Technical Schools</div>
+      <div class="t-ds">Control systems, technical foundations. Where it all started.</div>
+    </div>
+  </div>
+</div>`},
+
+projects(){return `
+<div class="sec">
+  <div class="st">🔧 Projects</div>
+  <div class="pjc">
+    <div class="pjn"><a href="https://github.com/yatuk/SOC-case-study-project" target="_blank">🔗 SOC Case Study — SIEM/SOAR Simulation</a></div>
+    <div class="pjt">
+      <span class="pjtt">Python</span><span class="pjtt">SIEM</span><span class="pjtt">SOAR</span><span class="pjtt">MITRE ATT&CK</span>
+    </div>
+    <div class="pjd">Multi-stage attack simulation mapped to ATT&CK TTPs. Custom log datasets for SIEM correlation + Python-based SOAR playbook flows for automated triage.</div>
+  </div>
+  <div class="pjc">
+    <div class="pjn"><a href="https://github.com/s411hs/Database-Management-System" target="_blank">🔗 WDI Analytics — Database Management System</a></div>
+    <div class="pjt">
+      <span class="pjtt">SQL</span><span class="pjtt">RBAC</span><span class="pjtt">Full-Stack</span><span class="pjtt">Security</span>
+    </div>
+    <div class="pjd">Full-stack data platform with RBAC, parameterized SQL against injection, data integrity across 10K+ records.</div>
+  </div>
+</div>`},
+
+contact(){return `
+<div class="sec">
+  <div class="st">📬 Reach me</div>
+  <div class="cl">
+    <div class="clr"><span class="cli">📧</span><span class="cll">email:</span><span class="clv"><a href="mailto:fscakmak@proton.me">fscakmak@proton.me</a></span></div>
+    <div class="clr"><span class="cli">📱</span><span class="cll">phone:</span><span class="clv"><a href="tel:+905384828810">+90 538 482 8810</a></span></div>
+    <div class="clr"><span class="cli">💼</span><span class="cll">linkedin:</span><span class="clv"><a href="https://linkedin.com/in/fatihserdar" target="_blank">linkedin.com/in/fatihserdar</a></span></div>
+    <div class="clr"><span class="cli">🐙</span><span class="cll">github:</span><span class="clv"><a href="https://github.com/yatuk" target="_blank">github.com/yatuk</a></span></div>
+  </div>
+</div>`},
+
+socials(){return `
+<div class="sec">
+  <div class="st">🌐 Internet Presence</div>
+  <div class="cl">
+    <div class="clr"><span class="cli">🐙</span><span class="cll">GitHub:</span><span class="clv"><a href="https://github.com/yatuk" target="_blank">github.com/yatuk</a></span></div>
+    <div class="clr"><span class="cli">💼</span><span class="cll">LinkedIn:</span><span class="clv"><a href="https://linkedin.com/in/fatihserdar" target="_blank">linkedin.com/in/fatihserdar</a></span></div>
+    <div class="clr"><span class="cli">🤖</span><span class="cll">Reddit:</span><span class="clv"><a href="https://reddit.com/user/fscakmak" target="_blank">u/fscakmak</a> <span style="color:var(--dim)">(r/netsec enjoyer)</span></span></div>
+    <div class="clr"><span class="cli">🐦</span><span class="cll">Twitter/X:</span><span class="clv"><a href="https://x.com/fscakmak" target="_blank">@fscakmak</a></span></div>
+    <div class="clr"><span class="cli">🎮</span><span class="cll">Discord:</span><span class="clv">fscakmak</span></div>
+  </div>
+</div>`},
+
+neofetch(){return `
+<div class="sec">
+  <div class="nf-g">
+    <div>
+      <pre class="nf-a">
+  ███████╗███████╗ ██████╗
+  ██╔════╝██╔════╝██╔════╝
+  █████╗  ███████╗██║     
+  ██╔══╝  ╚════██║██║     
+  ██║     ███████║╚██████╗
+  ╚═╝     ╚══════╝ ╚═════╝</pre>
+      <div class="cb">
+        <span class="cbl" style="background:#ff5f57"></span><span class="cbl" style="background:#febc2e"></span>
+        <span class="cbl" style="background:#28c840"></span><span class="cbl" style="background:#53b8ff"></span>
+        <span class="cbl" style="background:#c778dd"></span><span class="cbl" style="background:#e8804f"></span>
+        <span class="cbl" style="background:#e55561"></span><span class="cbl" style="background:#b3b9c5"></span>
+      </div>
+    </div>
+    <div class="pc" style="border-left-color:var(--cyan);margin-left:0">
+      <div class="pr"><span class="pk" style="color:var(--cyan)">user@host:</span><span class="pv">fscakmak@kali</span></div>
+      <div class="pr"><span class="pk" style="color:var(--cyan)">os:</span><span class="pv">Kali Linux / Windows 11</span></div>
+      <div class="pr"><span class="pk" style="color:var(--cyan)">shell:</span><span class="pv">zsh 5.9</span></div>
+      <div class="pr"><span class="pk" style="color:var(--cyan)">editor:</span><span class="pv">VS Code / Vim</span></div>
+      <div class="pr"><span class="pk" style="color:var(--cyan)">role:</span><span class="pv">SOC Analyst Intern</span></div>
+      <div class="pr"><span class="pk" style="color:var(--cyan)">threat_model:</span><span class="pv">Financial APTs</span></div>
+      <div class="pr"><span class="pk" style="color:var(--cyan)">uptime:</span><span class="pv">${new Date().getFullYear()-2019}y in tech · ${new Date().getFullYear()-2025}y+ in SOC</span></div>
+      <div class="pr"><span class="pk" style="color:var(--cyan)">caffeine:</span><span class="pv">████████░░ 80%</span></div>
+    </div>
+  </div>
+</div>`},
+
+'cat motto.txt'(){return `
+<div class="sec">
+  <div style="border-left:3px solid var(--grn);padding:14px;background:rgba(65,217,140,.04);border-radius:0 6px 6px 0;margin-left:2px">
+    <div style="color:var(--grn);font-size:.74rem;margin-bottom:5px">~/motto.txt</div>
+    <div style="color:var(--tx);font-size:.88rem;font-style:italic;line-height:1.6">"Defend the systems others depend on."</div>
+    <div style="color:var(--dim);font-size:.74rem;margin-top:6px">— Blue Team Mindset 🛡️</div>
+  </div>
+</div>`},
+
+ls(){return `
+<div class="sec" style="font-size:.82rem;line-height:1.6">
+  <span style="color:var(--cyan)">about.txt</span>  
+  <span style="color:var(--cyan)">motto.txt</span>  
+  <span style="color:var(--mag)">projects/</span>  
+  <span style="color:var(--mag)">skills/</span>  
+  <span style="color:var(--mag)">.secret/</span>  
+  <span style="color:var(--grn)">README.md</span>  
+  <span style="color:var(--ylw)">resume.pdf</span>
+</div>`},
+
+};
+
+// ── Easter Eggs ──
+const eggs={
+
+'sudo rm -rf /'(){return `<div class="sec" style="color:var(--red);font-size:.84rem">
+  [sudo] password for fscakmak: ********<br>
+  rm: cannot remove '/': Operation not permitted<br>
+  <span style="color:var(--dim)">Nice try. This incident has been logged. 🛡️😏</span>
+</div>`},
+
+'hack'(){return `<div class="sec" style="font-size:.84rem">
+  <span style="color:var(--red)">⚠ ACCESS DENIED</span><br>
+  <span style="color:var(--dim)">Unauthorized access attempt detected.<br>
+  Your IP has been forwarded to the SOC team.<br>
+  ... oh wait, that's me. 😎</span>
+</div>`},
+
+'cat /etc/passwd'(){return `<div class="sec" style="font-size:.82rem">
+  <span style="color:var(--red)">cat: /etc/passwd: Permission denied</span><br>
+  <span style="color:var(--dim)">Did you really think that would work here? 🤨<br>
+  Try <span style="color:var(--cyan)">whoami</span> instead.</span>
+</div>`},
+
+'nmap localhost'(){return nmap()},
+'nmap'(){return nmap()},
+
+'ping'(){return `<div class="sec" style="font-size:.82rem">
+  PING fsc.dev (127.0.0.1): 56 data bytes<br>
+  64 bytes from 127.0.0.1: icmp_seq=0 ttl=64 time=<span style="color:var(--grn)">0.042</span> ms<br>
+  64 bytes from 127.0.0.1: icmp_seq=1 ttl=64 time=<span style="color:var(--grn)">0.038</span> ms<br>
+  <span style="color:var(--dim)">--- fsc.dev ping statistics ---</span><br>
+  <span style="color:var(--dim)">2 packets transmitted, 2 received, 0% packet loss</span><br>
+  <span style="color:var(--grn)">All systems operational. ✓</span>
+</div>`},
+
+'pwd'(){return `<div class="sec" style="font-size:.82rem;color:var(--cyan)">/home/fscakmak/portfolio</div>`},
+
+'whoami --root'(){return `<div class="sec" style="font-size:.82rem">
+  <span style="color:var(--red)">Error: You are not root.</span><br>
+  <span style="color:var(--dim)">But you are: a cybersecurity enthusiast with great taste in terminals. 😄</span>
+</div>`},
+
+'rm -rf /'(){return `<div class="sec" style="color:var(--red);font-size:.84rem">
+  rm: missing --no-preserve-root<br>
+  <span style="color:var(--dim)">Filesystem integrity preserved. Your SOC training is paying off. 👍</span>
+</div>`},
+
+'exit'(){return `<div class="sec" style="font-size:.82rem">
+  <span style="color:var(--dim)">Logout?</span><br>
+  <span style="color:var(--grn)">There is no escape from this terminal. You're here forever now. 🙂</span>
+</div>`},
+
+'42'(){return `<div class="sec" style="font-size:.82rem">
+  <span style="color:var(--ylw)">The Answer to the Ultimate Question of Life, the Universe, and Everything.</span><br>
+  <span style="color:var(--dim)">But the real question is: did you check your SIEM alerts today?</span>
+</div>`},
+
+'coffee'(){return `<div class="sec" style="font-size:.84rem">
+  <pre style="color:var(--ylw);font-size:.7rem;line-height:1.1">
+    ( (
+     ) )
+  ._______.
+  |       |]
+  \\       /
+   \`-----'
+  </pre>
+  <span style="color:var(--dim)">Brewing... ☕ SOC analysts run on caffeine.</span>
+</div>`},
+
+'sl'(){return `<div class="sec">
+  <pre class="train-line" style="font-size:.6rem">
+      ====        ________                ___________
+  _D _|  |_______/        \\__I_I_____===__|_________|
+   |(_)---  |   H\\________/ |   |        =|___ ___|  
+   /     |  |   H  |  |     |   |         ||_| |_||  
+  |      |  |   H  |__--------------------| [___] |  
+  | ________|___H__/__|_____/[][]~\\_______|       |  
+  |/ |   |-----------I_____I [][] []  D   |=======|__
+__/ =| o |=-~~\\  /~~\\  /~~\\  /~~\\ ____Y___________|__
+|/-=|___|=    ||    ||    ||    |_____/~\\___/        
+ \\_/      \\O=====O=====O=====O_/      \\_/           
+  </pre>
+  <span style="color:var(--dim);font-size:.74rem">You typed 'sl' instead of 'ls'. Classic. 🚂</span>
+</div>`},
+
+'cat .secret/flag.txt'(){return `<div class="sec" style="font-size:.84rem">
+  <span style="color:var(--grn)">🚩 CTF{y0u_f0und_th3_s3cr3t_fl4g}</span><br>
+  <span style="color:var(--dim)">Congratulations! You found the hidden flag.<br>
+  You clearly have what it takes for CTF challenges. 🏆</span>
+</div>`},
+
+'history'(){return `<div class="sec" style="font-size:.82rem;color:var(--dim)">
+  ${hist.map((c,i)=>` ${String(i+1).padStart(4,' ')}  ${c}`).join('<br>')||'  No commands yet.'}
+</div>`},
+
+'date'(){return `<div class="sec" style="font-size:.82rem;color:var(--tx)">${new Date().toString()}</div>`},
+
+'echo hello'(){return `<div class="sec" style="font-size:.82rem;color:var(--tx)">hello</div>`},
+
+};
+
+function nmap(){
+  return `<div class="sec" style="font-size:.78rem;line-height:1.5">
+  Starting Nmap 7.94 ( https://nmap.org )<br>
+  Scanning fsc.dev (127.0.0.1)...<br><br>
+  PORT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STATE&nbsp;&nbsp;&nbsp;SERVICE<br>
+  <span style="color:var(--grn)">22/tcp&nbsp;&nbsp;&nbsp;open&nbsp;&nbsp;&nbsp;&nbsp;ssh</span><br>
+  <span style="color:var(--grn)">80/tcp&nbsp;&nbsp;&nbsp;open&nbsp;&nbsp;&nbsp;&nbsp;http</span><br>
+  <span style="color:var(--grn)">443/tcp&nbsp;&nbsp;open&nbsp;&nbsp;&nbsp;&nbsp;https</span><br>
+  <span style="color:var(--red)">1337/tcp&nbsp;filtered&nbsp;leet-soc</span><br>
+  <span style="color:var(--ylw)">8080/tcp&nbsp;open&nbsp;&nbsp;&nbsp;&nbsp;caffeine-api</span><br><br>
+  <span style="color:var(--dim)">Nmap done: 1 IP address (1 host up) scanned in 0.42s</span><br>
+  <span style="color:var(--dim)">⚠ Port 1337: SOC monitoring active. Proceed with caution.</span>
+</div>`}
+
+// ── Matrix Rain ──
+let matrixActive=false;
+function startMatrix(){
+  if(matrixActive)return;matrixActive=true;
+  const c=document.getElementById('matrix');c.style.display='block';
+  const ctx=c.getContext('2d');c.width=window.innerWidth;c.height=window.innerHeight;
+  const cols=Math.floor(c.width/14);const drops=Array(cols).fill(1);
+  const chars='アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン01';
+  const iv=setInterval(()=>{
+    ctx.fillStyle='rgba(10,14,20,0.06)';ctx.fillRect(0,0,c.width,c.height);
+    ctx.fillStyle='#41d98c';ctx.font='13px JetBrains Mono';
+    for(let i=0;i<drops.length;i++){
+      const t=chars[Math.floor(Math.random()*chars.length)];
+      ctx.fillText(t,i*14,drops[i]*14);
+      if(drops[i]*14>c.height&&Math.random()>.975)drops[i]=0;
+      drops[i]++;
+    }
+  },33);
+  setTimeout(()=>{clearInterval(iv);c.style.display='none';matrixActive=false;
+    ctx.clearRect(0,0,c.width,c.height);},4000);
+}
+
+// ── Run ──
+function run(raw){
+  const cmd=raw.trim().toLowerCase();
+  if(!cmd)return;
+  hist.unshift(cmd);hi=-1;
+  addPrompt(cmd);
+
+  if(cmd==='clear'){O.innerHTML='';return}
+
+  if(cmd==='matrix'){startMatrix();addLine('<span style="color:var(--grn)">Entering the Matrix... 🟢</span>');addScore('matrix');return}
+
+  if(cmds[cmd]){addBlock(cmds[cmd]());addScore(cmd)}
+  else if(eggs[cmd]){addBlock(eggs[cmd]());addScore(cmd)}
+  else if(cmd.startsWith('echo ')){addLine(`<span style="color:var(--tx)">${cmd.slice(5)}</span>`)}
+  else{
+    let sug='';for(const c of Object.keys(cmds).concat(Object.keys(eggs))){if(c.startsWith(cmd.slice(0,3))){sug=c;break}}
+    addLine(`<span style="color:var(--red)">zsh: command not found: ${cmd}</span>`);
+    if(sug)addLine(`<span style="color:var(--dim)">Did you mean: <span style="color:var(--cyan)">${sug}</span>?</span>`);
+    addLine(`<span style="color:var(--dim)">Type <span style="color:var(--cyan)">help</span> for available commands.</span>`);
+  }
+}
+
+// ── Input ──
+const inp=document.getElementById('cmd');
+const allK=Object.keys(cmds).concat(Object.keys(eggs)).concat(['clear','matrix']);
+
+inp.addEventListener('keydown',function(e){
+  if(e.key==='Enter'){run(this.value);this.value=''}
+  else if(e.key==='ArrowUp'){e.preventDefault();if(hi<hist.length-1){hi++;this.value=hist[hi]}}
+  else if(e.key==='ArrowDown'){e.preventDefault();if(hi>0){hi--;this.value=hist[hi]}else{hi=-1;this.value=''}}
+  else if(e.key==='Tab'){e.preventDefault();const v=this.value.toLowerCase();if(v){const m=allK.find(c=>c.startsWith(v));if(m)this.value=m}}
+  else if(e.key==='l'&&e.ctrlKey){e.preventDefault();run('clear')}
+});
+
+document.getElementById('tbody').addEventListener('click',function(e){
+  if(!e.target.closest('a'))inp.focus();
+});
+
+// Konami code → unlock secret
+let kseq=[];const konami=[38,38,40,40,37,39,37,39,66,65];
+document.addEventListener('keydown',e=>{
+  kseq.push(e.keyCode);if(kseq.length>10)kseq.shift();
+  if(kseq.join(',')==konami.join(',')){
+    addPrompt('↑↑↓↓←→←→BA');
+    addBlock(`<div class="sec" style="font-size:.84rem">
+      <span style="color:var(--ylw)">🎮 KONAMI CODE ACTIVATED!</span><br>
+      <span style="color:var(--grn)">Achievement Unlocked: Old School Gamer</span><br>
+      <span style="color:var(--dim)">You know the classics. Respect. +30 bonus points. 🕹️</span>
+    </div>`);
+    score=Math.min(score+30,mx+30);
+    document.getElementById('scoreVal').textContent=score+'/'+mx;
+    document.getElementById('scoreBar').style.width='100%';
+    kseq=[];
+  }
+});
+
+let isEn=true;
+function toggleLang(){isEn=!isEn;document.getElementById('langLabel').textContent=isEn?'EN':'TR'}
+</script>
+</body>
+</html>
