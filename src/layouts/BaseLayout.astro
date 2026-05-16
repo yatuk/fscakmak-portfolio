@@ -65,21 +65,25 @@ const ogImageUrl = new URL(ogImage, site).toString();
       '@context': 'https://schema.org',
       '@type': 'Person',
       name: 'Fatih Serdar Çakmak',
-      jobTitle: 'SOC Analyst',
+      jobTitle: 'SOC Analyst Intern',
       url: site,
       email: 'mailto:fscakmak@proton.me',
-      alumniOf: {
-        '@type': 'CollegeOrUniversity',
-        name: 'Istanbul Technical University',
-      },
       worksFor: {
         '@type': 'Organization',
         name: 'Fibabanka',
       },
+      alumniOf: {
+        '@type': 'CollegeOrUniversity',
+        name: 'Istanbul Technical University',
+      },
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Istanbul',
+        addressCountry: 'TR',
+      },
       sameAs: [
         'https://github.com/yatuk',
         'https://linkedin.com/in/fatihserdar',
-        'https://x.com/fscakmak',
       ],
     })} />
   </head>

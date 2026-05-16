@@ -5,9 +5,9 @@ import { getProfile } from '@lib/profile';
 const profile = getProfile('tr');
 const { identity, about } = profile;
 
-const title = `${identity.name} — ${identity.role}`;
+const title = 'Fatih Serdar Çakmak — SOC Analist Stajyeri | İTÜ Bilgisayar Müh.';
 const description =
-  'Fibabanka SOC Analisti, İTÜ Bilgisayar Mühendisliği. Bankacılık SOC, SIEM/SOAR, MITRE ATT&CK. Başkalarının bağımlı olduğu sistemleri savun.';
+  "Fibabanka'da SOC Analist Stajyeri, İTÜ Bilgisayar Mühendisliği. SIEM, SOAR, EDR, MITRE ATT&CK. İstanbul, Türkiye.";
 ---
 
 <BaseLayout title={title} description={description} locale="tr">
@@ -24,9 +24,8 @@ const description =
     </section>
 
     <footer>
-      <p class="motto">"{identity.motto}"</p>
       <p class="hint">
-        Adım 1 ✓ — içerik artık tipli JSON'dan geliyor.
+        Adım 1 ✓ — içerik CV'ye birebir uyumlu, tipli JSON'dan geliyor.
         <a href="/">→ English</a>
       </p>
     </footer>
@@ -79,17 +78,10 @@ const description =
     border-left: 2px solid var(--color-link);
   }
 
-  .motto {
-    color: var(--color-text);
-    font-style: italic;
-    margin-top: var(--space-5);
-    margin-bottom: var(--space-2);
-  }
-
   .hint {
     color: var(--color-text-dim);
     font-size: var(--text-sm);
-    margin-top: var(--space-4);
+    margin-top: var(--space-5);
   }
 
   .hint a {

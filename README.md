@@ -4,11 +4,11 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Cloudflare Pages](https://img.shields.io/badge/Cloudflare-Pages-F38020?logo=cloudflare&logoColor=white)](https://pages.cloudflare.com)
 
-Terminal-themed, multi-language portfolio for **Fatih Serdar Çakmak** — SOC Analyst @ Fibabanka & ITU CS student.
+Terminal-themed, multi-language portfolio for **Fatih Serdar Çakmak** — Cyber Security Operations (SOC) Intern @ Fibabanka & ITU Computer Engineering student.
 
 ## Stack
 
-- **Astro 5** — static site generation, built-in i18n routing (`/`, `/tr/`)
+- **Astro 5** — static site generation, built-in i18n routing (`/`, `/tr`)
 - **TypeScript** (strict)
 - **Vanilla CSS** with design tokens (`src/styles/tokens.css`)
 - **Cloudflare Pages** — deploy target with `_headers` + `security.txt`
@@ -36,12 +36,14 @@ src/
 ├── styles/
 │   ├── tokens.css          # palette + themes (Tokyo Night default)
 │   └── globals.css         # reset, focus, scrollbar
-├── core/                   # terminal runner, i18n, theme, score (next steps)
-├── commands/               # one file per command (next steps)
-├── data/                   # profile.{tr,en}.json (next step)
+├── core/                   # terminal runner, i18n, theme, score (Step 2+)
+├── commands/               # one file per command (Step 3+)
+├── data/                   # profile.{tr,en}.json (CV-verbatim source of truth)
+├── lib/
+│   └── profile.ts          # getProfile(locale) loader
 ├── components/             # Astro components
 └── types/
-    └── profile.d.ts        # shape of profile JSON
+    └── profile.ts          # shape of profile JSON
 legacy/
 └── index.html              # v1 reference — preserved verbatim
 ```
@@ -49,9 +51,9 @@ legacy/
 ## Status
 
 - ✅ Step 0 — scaffold (Astro, TS, tokens, layout, locale routing, security headers)
-- ⏳ Step 1 — data-driven content (`profile.{tr,en}.json`)
-- ⏳ Step 2 — i18n runtime
-- ⏳ Step 3+ — terminal core, new commands, recruiter view…
+- ✅ Step 1 — data-driven content (`profile.{tr,en}.json`, CV-aligned)
+- ⏳ Step 2 — i18n runtime, language toggle, prerendered locale routes
+- ⏳ Step 3+ — terminal core, commands, recruiter view, MITRE matrix…
 
 ## Deploy
 

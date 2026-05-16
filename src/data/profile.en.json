@@ -1,101 +1,109 @@
 {
   "identity": {
     "name": "Fatih Serdar Çakmak",
-    "role": "SOC Analyst & ITU CS Student",
+    "role": "Cyber Security Operations (SOC) Intern",
     "location": "Istanbul, Turkey",
     "sector": "Financial Services / Banking Security",
     "current": "Defending production banking systems @ Fibabanka",
-    "motto": "Defend the systems others depend on.",
     "email": "fscakmak@proton.me",
-    "phone": "+90 538 482 8810",
+    "domain": "fscakmak.com",
     "social": {
       "github": "yatuk",
-      "linkedin": "fatihserdar",
-      "twitter": "fscakmak",
-      "reddit": "fscakmak",
-      "discord": "fscakmak"
+      "linkedin": "fatihserdar"
     }
   },
-  "about": "Computer Engineering student at Istanbul Technical University (class of 2027), with a background in Industrial Automation from Kocaeli ENKA Technical Schools. I got into cybersecurity through CTFs and never looked back. Did my first real SOC shift at Doğuş Teknoloji, where I went from filtering false positives to writing SOAR playbooks and tuning EDR alerts. Now I monitor live threats in a production banking environment at Fibabanka. I think in MITRE ATT&CK TTPs, dream in log queries, and believe the best defense is understanding the offense. When I'm not staring at SIEM dashboards, you'll find me exploring new attack vectors, contributing to open-source security tools, or doom-scrolling r/netsec.",
+  "about": "Computer Engineering student at Istanbul Technical University (class of 2027), with a background in Industrial Automation from Kocaeli ENKA Technical Schools. At Doğuş Teknoloji I worked across SIEM, SOAR, EDR and NDR platforms — L1 incident response, SOAR playbook writing (including phishing playbooks), EDR alert tuning, and IT/OT segmentation. I'm now a part-time SOC Analyst Intern at Fibabanka, supporting daily alert triage, CTI feed review and firewall log analysis in a BDDK-regulated banking environment. I think in MITRE ATT&CK and believe the best defense is understanding the offense.",
   "skills": {
-    "blue_team": [
+    "cybersecurity": [
       "SOC Operations",
-      "Incident Response",
+      "Incident Response (IR)",
       "Log Analysis",
-      "MITRE ATT&CK",
+      "CTI",
       "SIEM",
       "SOAR",
-      "EDR Tuning",
-      "Playbook Development",
-      "False-Positive Filtering"
+      "EDR Alert Tuning",
+      "SOAR Playbook Development",
+      "Log Source Configuration",
+      "False-Positive Filtering",
+      "MITRE ATT&CK",
+      "NDR"
     ],
     "infrastructure": [
       "Network Security",
-      "Firewall Analysis",
-      "Active Directory",
-      "Windows / Linux Admin",
       "Network Segmentation",
+      "Firewall Log Analysis",
+      "Active Directory",
+      "Windows/Linux Administration",
       "Vulnerability Assessment"
     ],
     "compliance": [
-      "BDDK Regulatory",
-      "Banking Standards",
-      "SLA / Incident Reporting"
+      "BDDK Regulatory Awareness",
+      "Banking Security Standards",
+      "Incident Reporting"
     ],
     "tools": [
       "Python",
-      "C / C++",
+      "Go",
+      "C/C++",
       "SQL",
+      "Cortex XSOAR",
       "Wireshark",
-      "Git",
-      "Bash"
+      "Git"
+    ],
+    "spoken_languages": [
+      { "name": "English", "level": "Professional" },
+      { "name": "Turkish", "level": "Native" }
     ]
   },
   "experience": [
     {
       "active": true,
+      "part_time": true,
       "start": "2026-03",
       "end": null,
-      "title": "SOC Intern",
+      "title": "Cyber Security Operations (SOC) Intern",
       "company": "Fibabanka",
-      "location": "Istanbul",
+      "location": "Istanbul, Turkey",
       "highlights": [
-        "Real-time alert monitoring and triage in a production banking environment",
-        "BDDK compliance workflows and SLA-driven incident reporting",
-        "Firewall log review, threat hunting, and incident response"
-      ],
-      "stack": ["SIEM", "EDR", "Firewall", "Splunk"]
+        "Monitored production security alerts, reviewed CTI feeds, handled daily triage under senior analyst supervision",
+        "Supported incident documentation and firewall log review in a BDDK-regulated environment"
+      ]
     },
     {
       "active": false,
       "start": "2025-07",
       "end": "2026-03",
-      "title": "Cybersecurity & IR Intern",
+      "title": "Cybersecurity and Incident Response Intern",
       "company": "Doğuş Teknoloji",
-      "location": "Istanbul",
+      "location": "Istanbul, Turkey",
       "highlights": [
-        "SIEM configuration and detection rule tuning",
-        "SOAR playbook development for automated triage",
-        "EDR tuning and L1 incident response",
-        "Root cause analysis, AD monitoring, and IT/OT segmentation"
-      ],
-      "stack": ["SIEM", "SOAR", "EDR", "Active Directory"]
+        "Worked across SIEM, SOAR, EDR, and NDR platforms: log correlation, alert triage, playbook writing, false-positive filtering across enterprise infrastructure",
+        "Helped senior analysts write and refine SOAR playbooks for recurring threats including phishing; assisted with EDR alert tuning to reduce detection noise",
+        "L1 incident response support, Root Cause Analysis (RCA), SLA-aligned case reports",
+        "Monitored Active Directory and Windows/Linux system logs; applied network segmentation for IT/OT boundaries"
+      ]
     }
   ],
   "education": [
     {
+      "school": "Istanbul Technical University (İTÜ)",
+      "degree": "B.Sc. in Computer Engineering",
       "start": "2023",
       "end": "2027",
-      "degree": "B.Sc. Computer Engineering",
-      "institution": "Istanbul Technical University (ITU)",
-      "notes": "Networks, Operating Systems, Databases, Algorithms. Where the journey got serious."
+      "expected": true
     },
     {
+      "school": "Kocaeli ENKA Technical Schools",
+      "degree": "Industrial Automation (Technical High School Diploma)",
       "start": "2019",
-      "end": "2023",
-      "degree": "Industrial Automation Diploma",
-      "institution": "Kocaeli ENKA Technical Schools",
-      "notes": "Control systems and technical foundations. Where it all started."
+      "end": "2023"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Nokia NRS1",
+      "full_name": "Nokia Network Routing Specialist I",
+      "issuer": "Nokia"
     }
   ],
   "projects": [
@@ -103,50 +111,20 @@
       "slug": "soc-case-study",
       "name": "SOC Case Study — SIEM/SOAR Simulation",
       "url": "https://github.com/yatuk/SOC-case-study-project",
+      "owner_type": "personal",
       "tags": ["Python", "SIEM", "SOAR", "MITRE ATT&CK"],
-      "summary": "Multi-stage attack simulation mapped to ATT&CK TTPs. Custom log datasets for SIEM correlation plus Python-based SOAR playbook flows for automated triage.",
-      "outcomes": [
-        "10K+ log events processed",
-        "12 ATT&CK techniques covered",
-        "End-to-end IR playbook from alert to closure"
-      ],
+      "summary": "Simulated multi-stage attacks mapped to MITRE ATT&CK TTPs; built log datasets to improve SIEM correlation rules and designed Python-based SOAR playbook flows for automated triage.",
       "featured": true
     },
     {
       "slug": "wdi-analytics",
-      "name": "WDI Analytics — Database Management System",
+      "name": "Database Management System (WDI Analytics)",
       "url": "https://github.com/s411hs/Database-Management-System",
+      "owner_type": "team",
+      "owner_note": "Team project — repo owned by teammate",
       "tags": ["SQL", "RBAC", "Full-Stack", "Security"],
-      "summary": "Full-stack data platform with role-based access control, parameterized SQL against injection, and data-integrity guarantees across 10K+ records.",
-      "outcomes": [
-        "RBAC across analyst / admin / viewer roles",
-        "Parameterized queries (no string-concat SQL)"
-      ],
-      "featured": false
+      "summary": "Full-stack data platform with RBAC, parameterized SQL to prevent injection attacks, and data integrity across 10,000+ records.",
+      "featured": true
     }
-  ],
-  "certs": [
-    {
-      "name": "CompTIA Security+",
-      "issuer": "CompTIA",
-      "in_progress": true
-    },
-    {
-      "name": "Blue Team Level 1 (BTL1)",
-      "issuer": "Security Blue Team",
-      "in_progress": true
-    },
-    {
-      "name": "CompTIA CySA+",
-      "issuer": "CompTIA",
-      "in_progress": true
-    },
-    {
-      "name": "TryHackMe — SOC Level 1 Path",
-      "issuer": "TryHackMe",
-      "in_progress": true,
-      "credential_url": "https://tryhackme.com/path/outline/soclevel1"
-    }
-  ],
-  "writeups": []
+  ]
 }
