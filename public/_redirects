@@ -1,0 +1,3 @@
+# Cloudflare Pages redirects
+# Browser language → locale (best-effort; SSG always serves /en by default)
+# /en/* /:splat 301

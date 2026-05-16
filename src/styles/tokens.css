@@ -1,0 +1,139 @@
+/* ============================================================
+   fscakmak.com — Design Tokens
+   Single source of truth for palette, spacing, type, motion.
+   Themes override these via [data-theme="..."] selectors.
+   ============================================================ */
+
+:root,
+[data-theme="tokyonight"] {
+  /* Palette — Tokyo Night (default, inherited from v1) */
+  --bg: #0a0e14;
+  --tbg: #0f1319;
+  --tbar: #151a22;
+  --tx: #b3b9c5;
+  --dim: #3d4455;
+  --grn: #41d98c;
+  --cyan: #53b8ff;
+  --mag: #c778dd;
+  --red: #e55561;
+  --ylw: #e2b93d;
+  --org: #e8804f;
+  --brd: #1e2533;
+  --acc: #3a86ff;
+
+  /* Semantic aliases — use these in components, not raw palette */
+  --color-bg: var(--bg);
+  --color-surface: var(--tbg);
+  --color-surface-raised: var(--tbar);
+  --color-text: var(--tx);
+  --color-text-dim: var(--dim);
+  --color-border: var(--brd);
+  --color-accent: var(--acc);
+  --color-prompt: var(--grn);
+  --color-cmd: var(--ylw);
+  --color-link: var(--cyan);
+  --color-link-hover: #7cc8ff;
+  --color-tag: var(--mag);
+  --color-danger: var(--red);
+
+  /* Type scale */
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --font-display: 'Press Start 2P', var(--font-mono);
+  --text-xs: 0.66rem;
+  --text-sm: 0.74rem;
+  --text-base: 0.82rem;
+  --text-md: 0.86rem;
+  --text-lg: 1rem;
+  --text-xl: 1.5rem;
+  --leading-tight: 1.4;
+  --leading-normal: 1.6;
+  --leading-relaxed: 1.75;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 22px;
+  --space-6: 30px;
+  --space-8: 48px;
+
+  /* Radii */
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 12px;
+  --radius-pill: 20px;
+
+  /* Motion */
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.3s ease;
+  --transition-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Shadows */
+  --shadow-window: 0 0 0 1px rgba(0, 0, 0, 0.3), 0 30px 80px rgba(0, 0, 0, 0.55),
+    0 0 140px rgba(58, 134, 255, 0.03);
+  --glow-accent: 0 0 30px rgba(83, 184, 255, 0.22);
+}
+
+/* Theme: Cyberpunk — magenta/cyan */
+[data-theme="cyberpunk"] {
+  --bg: #0d0221;
+  --tbg: #1a0b2e;
+  --tbar: #261447;
+  --tx: #f0e9ff;
+  --dim: #6b528a;
+  --grn: #00ff9f;
+  --cyan: #00d9ff;
+  --mag: #ff2e97;
+  --red: #ff3864;
+  --ylw: #ffd23f;
+  --org: #ff7b00;
+  --brd: #3d1c5e;
+  --acc: #ff2e97;
+}
+
+/* Theme: Matrix — pure green-on-black */
+[data-theme="matrix"] {
+  --bg: #000000;
+  --tbg: #050a05;
+  --tbar: #0a1410;
+  --tx: #00ff41;
+  --dim: #1d4d2c;
+  --grn: #00ff41;
+  --cyan: #39ff14;
+  --mag: #88ff88;
+  --red: #ff4444;
+  --ylw: #aaff44;
+  --org: #66ff66;
+  --brd: #1a3a1f;
+  --acc: #00ff41;
+}
+
+/* Theme: Catppuccin Mocha */
+[data-theme="catppuccin"] {
+  --bg: #1e1e2e;
+  --tbg: #181825;
+  --tbar: #11111b;
+  --tx: #cdd6f4;
+  --dim: #6c7086;
+  --grn: #a6e3a1;
+  --cyan: #89dceb;
+  --mag: #cba6f7;
+  --red: #f38ba8;
+  --ylw: #f9e2af;
+  --org: #fab387;
+  --brd: #313244;
+  --acc: #89b4fa;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

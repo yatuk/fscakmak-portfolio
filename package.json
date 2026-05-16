@@ -1,0 +1,26 @@
+{
+  "name": "fscakmak-portfolio",
+  "type": "module",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Fatih Serdar Çakmak — SOC Analyst & ITU CS Student portfolio (v2)",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "check": "astro check",
+    "typecheck": "astro check"
+  },
+  "dependencies": {
+    "astro": "^5.1.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

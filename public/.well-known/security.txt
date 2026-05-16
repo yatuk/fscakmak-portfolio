@@ -1,0 +1,4 @@
+Contact: mailto:fscakmak@proton.me
+Preferred-Languages: en, tr
+Canonical: https://fscakmak.com/.well-known/security.txt
+Expires: 2027-12-31T23:59:59.000Z
