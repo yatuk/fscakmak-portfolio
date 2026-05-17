@@ -1,8 +1,6 @@
-# Cloudflare Workers static assets + Pages output (Astro SSG).
-# Git CI runs: npm run build → npm run deploy
+# Cloudflare Pages output (Astro SSG).
 name = "fscakmak-portfolio"
 compatibility_date = "2025-01-15"
 pages_build_output_dir = "./dist"
 
-[assets]
-directory = "./dist"
+# [assets] ve altındaki satır TAMAMEN SİLİNDİ.
