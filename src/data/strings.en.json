@@ -45,7 +45,9 @@
     "hint": "tab to autocomplete • ↑↓ history",
     "footer": "fscakmak.com terminal v2.0.0 — built with ☕ & 🛡️",
     "score_label": "Score",
-    "output_aria": "Terminal output"
+    "output_aria": "Terminal output",
+    "boot_skip": "skip",
+    "boot_skip_aria": "Skip boot sequence"
   },
   "cmd": {
     "help": {

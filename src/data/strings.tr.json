@@ -45,7 +45,9 @@
     "hint": "tab ile otomatik tamamla • ↑↓ geçmiş",
     "footer": "fscakmak.com terminal v2.0.0 — ☕ & 🛡️ ile yapıldı",
     "score_label": "Skor",
-    "output_aria": "Terminal çıktısı"
+    "output_aria": "Terminal çıktısı",
+    "boot_skip": "atla",
+    "boot_skip_aria": "Boot sekansını atla"
   },
   "cmd": {
     "help": {

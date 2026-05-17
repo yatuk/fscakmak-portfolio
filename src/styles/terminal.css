@@ -3,6 +3,91 @@
    Ported from v1, refactored to consume tokens.css.
    ============================================================ */
 
+/* ── Boot overlay ────────────────────────────────────────── */
+.boot-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--color-bg);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: var(--space-6);
+  font-family: var(--font-mono);
+  font-size: var(--text-md);
+  color: var(--color-text-dim);
+  transition: opacity 0.6s ease;
+  opacity: 1;
+}
+
+.boot-overlay.boot-fade {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.boot-content {
+  max-width: 800px;
+  width: 100%;
+}
+
+.boot-line {
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  margin-bottom: 4px;
+  line-height: 1.65;
+}
+
+.boot-line.boot-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.boot-ok {
+  color: var(--color-prompt);
+  font-weight: 600;
+}
+
+.boot-welcome.boot-visible {
+  color: var(--color-link);
+}
+
+.boot-skip {
+  position: fixed;
+  bottom: var(--space-4);
+  right: var(--space-4);
+  min-height: 36px;
+  padding: 0 14px;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  color: var(--color-text-dim);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition:
+    border-color var(--transition-base),
+    color var(--transition-base);
+}
+
+.boot-skip:hover,
+.boot-skip:focus-visible {
+  border-color: var(--color-link);
+  color: var(--color-link);
+}
+
+@media (max-width: 640px) {
+  .boot-overlay {
+    padding: var(--space-4);
+    font-size: var(--text-sm);
+  }
+  .boot-skip {
+    bottom: var(--space-2);
+    right: var(--space-2);
+  }
+}
+
 /* ── Window chrome ───────────────────────────────────────── */
 .term-window {
   width: 100%;
