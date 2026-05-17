@@ -1,0 +1,13 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import RecruiterView from '@components/RecruiterView.astro';
+
+const locale = 'tr';
+const title = 'Fatih Serdar Çakmak — CV | SOC Analist Stajyeri @ Fibabanka';
+const description =
+  "CV görünümü: Fibabanka'da SOC Analist Stajyeri, İTÜ Bilgisayar Mühendisliği. SIEM, SOAR, EDR, MITRE ATT&CK. İstanbul, Türkiye.";
+---
+
+<BaseLayout title={title} description={description} locale={locale}>
+  <RecruiterView locale={locale} />
+</BaseLayout>

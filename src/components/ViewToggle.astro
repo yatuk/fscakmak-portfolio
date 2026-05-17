@@ -1,0 +1,86 @@
+---
+import { t } from '@core/i18n';
+import type { Locale } from '@ptypes/profile';
+
+export interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const isRecruiter = path === '/cv' || path === '/tr/cv';
+
+const localePrefix = locale === 'tr' ? '/tr' : '';
+const href = isRecruiter ? (localePrefix || '/') : `${localePrefix}/cv`;
+const label = isRecruiter
+  ? t(locale, 'view.terminal_label')
+  : t(locale, 'view.recruiter_label');
+const aria = isRecruiter
+  ? t(locale, 'view.terminal_aria')
+  : t(locale, 'view.recruiter_aria');
+const glyph = isRecruiter ? '⌨' : '👔';
+---
+
+<a class="view-toggle" href={href} aria-label={aria} data-view-target={isRecruiter ? 'terminal' : 'recruiter'}>
+  <span class="view-glyph" aria-hidden="true">{glyph}</span>
+  <span class="view-label">{label}</span>
+  <span class="view-arrow" aria-hidden="true">→</span>
+</a>
+
+<script is:inline>
+  /* Persist user's explicit view choice so the mobile auto-switch
+     on the terminal page respects "Force terminal mode" clicks. */
+  document.querySelectorAll('[data-view-target]').forEach((el) => {
+    el.addEventListener('click', () => {
+      const target = el.getAttribute('data-view-target');
+      if (!target) return;
+      try {
+        localStorage.setItem('fsc.view', target);
+      } catch {
+        /* private mode — no-op */
+      }
+    });
+  });
+</script>
+
+<style>
+  .view-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 44px;
+    padding: 0 var(--space-3);
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    text-decoration: none;
+    transition:
+      border-color var(--transition-base),
+      transform var(--transition-fast),
+      box-shadow var(--transition-base);
+  }
+
+  .view-toggle:hover,
+  .view-toggle:focus-visible {
+    border-color: var(--color-prompt);
+    box-shadow: 0 0 0 3px rgba(65, 217, 140, 0.08);
+  }
+
+  .view-toggle:active {
+    transform: scale(0.97);
+  }
+
+  .view-glyph { font-size: var(--text-lg); }
+  .view-label { color: var(--color-link); font-weight: 600; }
+  .view-arrow { color: var(--color-text-dim); }
+
+  @media (max-width: 640px) {
+    .view-toggle {
+      padding: 0 var(--space-2);
+      font-size: var(--text-xs);
+    }
+  }
+</style>

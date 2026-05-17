@@ -135,5 +135,28 @@
   "scaffold": {
     "step1_done": "Step 1 ✓ — content driven by typed JSON, CV-verbatim.",
     "step2_done": "Step 2 ✓ — i18n runtime online, locale toggle wired."
+  },
+  "view": {
+    "recruiter_label": "Recruiter View",
+    "recruiter_aria": "Switch to recruiter view",
+    "terminal_label": "Terminal",
+    "terminal_aria": "Switch to terminal view"
+  },
+  "recruiter": {
+    "metrics_months": "months in SOC",
+    "metrics_months_singular": "month in SOC",
+    "metrics_projects": "featured projects",
+    "metrics_projects_singular": "featured project",
+    "metrics_certs": "certifications",
+    "metrics_certs_singular": "certification",
+    "section_featured": "Featured projects",
+    "section_contact": "Get in touch",
+    "cta_email": "Email",
+    "cta_linkedin": "LinkedIn",
+    "cta_github": "GitHub",
+    "cta_download_cv": "Download CV",
+    "footer_note": "Source on GitHub · Built with Astro",
+    "force_terminal_label": "Force terminal mode",
+    "force_terminal_hint": "Best on tablet/desktop — the terminal is keyboard-driven."
   }
 }

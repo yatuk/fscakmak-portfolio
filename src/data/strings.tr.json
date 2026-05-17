@@ -135,5 +135,28 @@
   "scaffold": {
     "step1_done": "Adım 1 ✓ — içerik CV'ye birebir uyumlu, tipli JSON'dan geliyor.",
     "step2_done": "Adım 2 ✓ — i18n runtime aktif, dil değiştirici bağlı."
+  },
+  "view": {
+    "recruiter_label": "Recruiter Görünümü",
+    "recruiter_aria": "Recruiter görünümüne geç",
+    "terminal_label": "Terminal",
+    "terminal_aria": "Terminal görünümüne geç"
+  },
+  "recruiter": {
+    "metrics_months": "ay SOC deneyimi",
+    "metrics_months_singular": "ay SOC deneyimi",
+    "metrics_projects": "öne çıkan proje",
+    "metrics_projects_singular": "öne çıkan proje",
+    "metrics_certs": "sertifika",
+    "metrics_certs_singular": "sertifika",
+    "section_featured": "Öne çıkan projeler",
+    "section_contact": "İletişime geçin",
+    "cta_email": "E-posta",
+    "cta_linkedin": "LinkedIn",
+    "cta_github": "GitHub",
+    "cta_download_cv": "CV İndir",
+    "footer_note": "Kaynak GitHub'da · Astro ile yapıldı",
+    "force_terminal_label": "Terminal modunu zorla",
+    "force_terminal_hint": "Tablet/desktop'ta daha iyi — terminal klavye odaklıdır."
   }
 }
