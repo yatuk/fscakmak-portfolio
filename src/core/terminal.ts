@@ -73,7 +73,13 @@ export function initTerminal({ container, profile, locale }: InitOpts): void {
     hi: -1,
     score: 0,
     earned: new Set(),
-    ctx: { profile, locale, t: (key) => translate(locale, key) },
+    ctx: {
+      profile,
+      locale,
+      t: (key) => translate(locale, key),
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      getHistory: () => state.history,
+    },
   };
 
   input.addEventListener('keydown', (e) => onKey(state, e));
@@ -131,7 +137,13 @@ function run(s: State, raw: string): void {
 
   const handler = commandRegistry[cmd];
   if (handler) {
-    block(s, handler(s.ctx));
+    const result = handler(s.ctx);
+    if (typeof result === 'string') {
+      if (result) block(s, result);
+    } else {
+      if (result.html) block(s, result.html);
+      if (result.effect) result.effect(s.ctx);
+    }
     addScore(s, cmd);
     return;
   }

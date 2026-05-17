@@ -771,6 +771,27 @@
 
 .nf-v { color: var(--color-text); }
 
+/* ── Easter eggs ─────────────────────────────────────────── */
+.egg-mono {
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+}
+
+.egg-coffee {
+  color: var(--color-cmd);
+  font-size: 0.7rem;
+  line-height: 1.1;
+  white-space: pre;
+}
+
+.egg-train {
+  color: var(--color-prompt);
+  font-size: 0.6rem;
+  line-height: 1.1;
+  white-space: pre;
+  overflow: hidden;
+}
+
 /* ── Mobile ──────────────────────────────────────────────── */
 @media (max-width: 640px) {
   .term-body { padding: 14px; }
