@@ -82,6 +82,13 @@ const profile = getProfile(locale);
       />
     </div>
     <div class="term-hint">{t(locale, 'terminal.hint')}</div>
+
+    <nav class="term-mobile-chips" aria-label={t(locale, 'terminal.chips_aria')}>
+      <button type="button" class="term-chip" data-term-quick="whoami">whoami</button>
+      <button type="button" class="term-chip" data-term-quick="projects">projects</button>
+      <button type="button" class="term-chip" data-term-quick="contact">contact</button>
+      <button type="button" class="term-chip" data-term-quick="help">help</button>
+    </nav>
   </div>
 
   <div class="term-footer">{t(locale, 'terminal.footer')}</div>
@@ -158,18 +165,5 @@ const profile = getProfile(locale);
       locale: Locale;
     };
     initTerminal({ container: root, profile: state.profile, locale: state.locale });
-
-    // "help" quick-launch link in the nav
-    document.querySelectorAll<HTMLButtonElement>('[data-term-quick]').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const input = root.querySelector<HTMLInputElement>('[data-term-input]');
-        const cmd = btn.dataset.termQuick ?? 'help';
-        if (input) {
-          input.value = cmd;
-          input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
-          input.focus();
-        }
-      });
-    });
   }
 </script>

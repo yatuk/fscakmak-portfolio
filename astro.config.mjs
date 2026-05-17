@@ -1,3 +1,4 @@
+import sitemap from '@astrojs/sitemap';
 import { defineConfig } from 'astro/config';
 import { fileURLToPath } from 'node:url';
 
@@ -6,6 +7,17 @@ const r = (p) => fileURLToPath(new URL(p, import.meta.url));
 // https://astro.build/config
 export default defineConfig({
   site: 'https://fscakmak.com',
+  integrations: [
+    sitemap({
+      i18n: {
+        defaultLocale: 'en',
+        locales: {
+          en: 'en-US',
+          tr: 'tr-TR',
+        },
+      },
+    }),
+  ],
   output: 'static',
   trailingSlash: 'never',
   build: {

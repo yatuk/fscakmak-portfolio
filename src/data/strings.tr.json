@@ -47,7 +47,8 @@
     "score_label": "Skor",
     "output_aria": "Terminal çıktısı",
     "boot_skip": "atla",
-    "boot_skip_aria": "Boot sekansını atla"
+    "boot_skip_aria": "Boot sekansını atla",
+    "chips_aria": "Hızlı terminal komutları"
   },
   "cmd": {
     "help": {

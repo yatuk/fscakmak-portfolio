@@ -19,6 +19,8 @@ import { mitreCommands } from './mitre';
 import { treeCommands } from './tree';
 import { downloadCommands } from './download';
 import { eggs } from './easter-eggs';
+import { step10Eggs } from './step10-eggs';
+import { githubStatsCommands } from './github-stats';
 
 export interface CommandContext {
   profile: Profile;
@@ -43,7 +45,9 @@ export type CommandResult =
       effect?: (ctx: CommandContext) => void;
     };
 
-export type CommandHandler = (ctx: CommandContext) => CommandResult;
+export type CommandHandler = (
+  ctx: CommandContext
+) => CommandResult | Promise<CommandResult>;
 
 /**
  * Command name → handler. Names are intentionally English
@@ -75,4 +79,6 @@ export const commandRegistry: Record<string, CommandHandler> = {
   ...treeCommands,
   ...downloadCommands,
   ...eggs,
+  ...step10Eggs,
+  ...githubStatsCommands,
 };

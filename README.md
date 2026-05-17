@@ -21,9 +21,11 @@ Mobile (<768px) visitors land on `/cv` automatically; a one-click "Force termina
 
 Documented: `help` · `help -v` · `whoami` · `cat about.txt` · `skills` · `experience` · `git log` · `projects` · `education` · `certs` · `mitre` · `languages` · `contact` · `socials` · `neofetch` · `ls` · `theme [name]` · `tree` · `download resume` · `clear`
 
-Hidden (tab-autocomplete to find): `matrix` · `sl` · `coffee` · `ping` · `nmap` · `hack` · `pwd` · `history` · `date` · `42` · `cat /etc/passwd` · `cat .secret/flag.txt` · `sudo rm -rf /` · `rm -rf /` · `whoami --root` · `exit`
+Hidden (tab-autocomplete to find): `matrix` · `sl` · `coffee` · `ping` · `nmap` · `hack` · `tcpdump` · `siem` · `attack` · `ports` · `traceroute` · `htop` · `decode <b64>` · `hash <text>` · `stats` · `vim` · `cowsay` · `figlet` · `weather` · `pwd` · `history` · `date` · `42` · `cat /etc/passwd` · `cat .secret/flag.txt` · `sudo rm -rf /` · `rm -rf /` · `whoami --root` · `exit`
 
-Plus the Konami code for +30 bonus points.
+Konami code (↑↑↓↓←→←→BA) unlocks **developer mode** — full hidden-command list + 30 bonus points.
+
+Mobile force-terminal mode shows a chip toolbar (`whoami` · `projects` · `contact` · `help`).
 
 ## Stack
 
@@ -45,7 +47,7 @@ npm run check     # astro check (TS + content) — 0/0/0 expected
 ## Project structure
 
 ```
-public/                     # static assets, _headers, robots, security.txt, manifest
+public/                     # resume.pdf, og-image.png, _headers, robots, security.txt, manifest
 src/
 ├── pages/
 │   ├── index.astro         # / — terminal EN
@@ -90,4 +92,4 @@ Every `git push origin main` triggers a new production deploy; pushes to branche
 
 ## License
 
-MIT — see `LICENSE` (TODO).
+MIT — see [LICENSE](LICENSE).

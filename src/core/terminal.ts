@@ -1,5 +1,6 @@
 import type { Locale, Profile } from '@ptypes/profile';
-import { commandRegistry, type CommandContext } from '@commands/index';
+import { commandRegistry, type CommandContext, type CommandResult } from '@commands/index';
+import { prefixHandlers, developerModeHtml } from '@commands/step10-eggs';
 import { t as translate } from '@core/i18n';
 
 /**
@@ -29,6 +30,11 @@ const POINTS: Record<string, number> = {
   tree: 4,
   theme: 3,
   'download resume': 5,
+  stats: 5,
+  'github stats': 5,
+  tcpdump: 3,
+  siem: 3,
+  'siem alerts': 3,
 };
 const MAX_SCORE = 100;
 
@@ -83,7 +89,6 @@ export function initTerminal({ container, profile, locale }: InitOpts): void {
       profile,
       locale,
       t: (key) => translate(locale, key),
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       getHistory: () => state.history,
     },
   };
@@ -94,6 +99,23 @@ export function initTerminal({ container, profile, locale }: InitOpts): void {
   });
   input.focus();
   setupKonami(state);
+  wireQuickLaunch(container);
+}
+
+/** Mobile chip toolbar + nav quick buttons. */
+export function wireQuickLaunch(root: ParentNode): void {
+  root.querySelectorAll<HTMLButtonElement>('[data-term-quick]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const termRoot = btn.closest<HTMLElement>('[data-term-root]');
+      const input = termRoot?.querySelector<HTMLInputElement>('[data-term-input]');
+      const cmd = btn.dataset.termQuick ?? 'help';
+      if (input) {
+        input.value = cmd;
+        input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+        input.focus();
+      }
+    });
+  });
 }
 
 function onKey(s: State, e: KeyboardEvent): void {
@@ -129,7 +151,8 @@ function onKey(s: State, e: KeyboardEvent): void {
 }
 
 function run(s: State, raw: string): void {
-  const cmd = raw.trim().toLowerCase();
+  const trimmed = raw.trim();
+  const cmd = trimmed.toLowerCase();
   if (!cmd) return;
   s.history.unshift(cmd);
   s.hi = -1;
@@ -141,16 +164,18 @@ function run(s: State, raw: string): void {
     return;
   }
 
+  const lower = trimmed.toLowerCase();
+  for (const ph of prefixHandlers) {
+    if (lower.startsWith(ph.prefix)) {
+      const arg = trimmed.slice(ph.prefix.length);
+      void dispatch(s, ph.run(arg), cmd);
+      return;
+    }
+  }
+
   const handler = commandRegistry[cmd];
   if (handler) {
-    const result = handler(s.ctx);
-    if (typeof result === 'string') {
-      if (result) block(s, result);
-    } else {
-      if (result.html) block(s, result.html);
-      if (result.effect) result.effect(s.ctx);
-    }
-    addScore(s, cmd);
+    void dispatch(s, handler(s.ctx), cmd);
     return;
   }
 
@@ -172,6 +197,23 @@ function run(s: State, raw: string): void {
     line(s, `<span class="t-dim">${dym}: <span class="t-link">${suggestion}</span>?</span>`);
   }
   line(s, `<span class="t-dim">${typeHelpA} <span class="t-link">help</span> ${typeHelpB}</span>`);
+}
+
+async function dispatch(
+  s: State,
+  result: CommandResult | Promise<CommandResult>,
+  scoreKey: string
+): Promise<void> {
+  const resolved = await Promise.resolve(result);
+
+  if (typeof resolved === 'string') {
+    if (resolved) block(s, resolved);
+  } else {
+    if (resolved.html) block(s, resolved.html);
+    if (resolved.effect) resolved.effect(s.ctx);
+  }
+
+  addScore(s, scoreKey);
 }
 
 function prompt(s: State, cmd: string): void {
@@ -218,22 +260,37 @@ function flash(el: HTMLElement): void {
 
 function setupKonami(s: State): void {
   let seq: string[] = [];
+  let unlocked = false;
   document.addEventListener('keydown', (e) => {
     const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
     seq.push(k);
     if (seq.length > KONAMI.length) seq.shift();
-    if (seq.join(',') === KONAMI.join(',')) {
-      prompt(s, '↑↑↓↓←→←→BA');
-      block(s, `<div class="cmd-block">
+    if (seq.join(',') !== KONAMI.join(',')) return;
+
+    if (unlocked) {
+      seq = [];
+      return;
+    }
+    unlocked = true;
+
+    prompt(s, '↑↑↓↓←→←→BA');
+    block(s, `<div class="cmd-block">
         <div class="t-ylw">🎮 KONAMI CODE ACTIVATED!</div>
         <div class="t-grn">Achievement Unlocked: Old School Gamer</div>
-        <div class="t-dim">+30 bonus points.</div>
+        <div class="t-dim">Developer mode unlocked — hidden command list below. +30 bonus points.</div>
       </div>`);
-      s.score = Math.min(s.score + 30, MAX_SCORE + 30);
-      s.el.scoreValue.textContent = `${s.score}/${MAX_SCORE}`;
-      s.el.scoreFill.style.width = '100%';
-      seq = [];
+    block(s, developerModeHtml());
+
+    try {
+      sessionStorage.setItem('fsc.developer', '1');
+    } catch {
+      /* no-op */
     }
+
+    s.score = Math.min(s.score + 30, MAX_SCORE + 30);
+    s.el.scoreValue.textContent = `${s.score}/${MAX_SCORE}`;
+    s.el.scoreFill.style.width = '100%';
+    seq = [];
   });
 }
 

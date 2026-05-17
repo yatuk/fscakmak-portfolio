@@ -47,7 +47,8 @@
     "score_label": "Score",
     "output_aria": "Terminal output",
     "boot_skip": "skip",
-    "boot_skip_aria": "Skip boot sequence"
+    "boot_skip_aria": "Skip boot sequence",
+    "chips_aria": "Quick terminal commands"
   },
   "cmd": {
     "help": {

@@ -23,6 +23,7 @@ const {
 const site = Astro.site?.toString().replace(/\/$/, '') ?? 'https://fscakmak.com';
 const canonicalUrl = canonical ?? new URL(Astro.url.pathname, site).toString();
 const ogImageUrl = new URL(ogImage, site).toString();
+const cfBeaconToken = import.meta.env.PUBLIC_CF_WEB_ANALYTICS_TOKEN;
 ---
 
 <!doctype html>
@@ -119,6 +120,15 @@ const ogImageUrl = new URL(ogImage, site).toString();
         'https://linkedin.com/in/fatihserdar',
       ],
     })} />
+
+    {cfBeaconToken && (
+      <script
+        is:inline
+        defer
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon={JSON.stringify({ token: cfBeaconToken })}
+      />
+    )}
   </head>
   <body>
     <a href="#main" class="skip-link">{t(locale, 'site.skip_to_content')}</a>

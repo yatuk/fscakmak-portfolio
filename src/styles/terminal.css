@@ -990,6 +990,49 @@
   overflow: hidden;
 }
 
+/* ── Mobile quick-launch chips (force-terminal on small screens) ── */
+.term-mobile-chips {
+  display: none;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: var(--space-3);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--color-border);
+}
+
+.term-chip {
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-raised);
+  color: var(--color-link);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    border-color var(--transition-base),
+    background var(--transition-base),
+    transform var(--transition-fast);
+}
+
+.term-chip:hover,
+.term-chip:focus-visible {
+  border-color: var(--color-link);
+  background: #53b8ff12;
+}
+
+.term-chip:active {
+  transform: scale(0.97);
+}
+
+@media (max-width: 767px) {
+  .term-mobile-chips {
+    display: flex;
+  }
+}
+
 /* ── Mobile ──────────────────────────────────────────────── */
 @media (max-width: 640px) {
   .term-body { padding: 14px; }
