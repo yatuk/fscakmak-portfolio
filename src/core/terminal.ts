@@ -9,6 +9,7 @@ import { t as translate } from '@core/i18n';
  */
 const POINTS: Record<string, number> = {
   help: 3,
+  'help -v': 5,
   whoami: 7,
   skills: 10,
   contact: 5,
@@ -23,6 +24,11 @@ const POINTS: Record<string, number> = {
   certs: 8,
   certifications: 8,
   languages: 3,
+  mitre: 10,
+  'mitre attack': 10,
+  tree: 4,
+  theme: 3,
+  'download resume': 5,
 };
 const MAX_SCORE = 100;
 

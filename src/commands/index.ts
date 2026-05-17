@@ -1,6 +1,6 @@
 import type { Locale, Profile } from '@ptypes/profile';
 
-import { help } from './help';
+import { help, helpVerbose } from './help';
 import { whoami } from './whoami';
 import { aboutTxt } from './about';
 import { skills } from './skills';
@@ -14,6 +14,10 @@ import { socials } from './socials';
 import { neofetch } from './neofetch';
 import { languages } from './languages';
 import { ls } from './ls';
+import { themeCommands } from './theme';
+import { mitreCommands } from './mitre';
+import { treeCommands } from './tree';
+import { downloadCommands } from './download';
 import { eggs } from './easter-eggs';
 
 export interface CommandContext {
@@ -51,6 +55,7 @@ export type CommandHandler = (ctx: CommandContext) => CommandResult;
  */
 export const commandRegistry: Record<string, CommandHandler> = {
   help,
+  'help -v': helpVerbose,
   whoami,
   'cat about.txt': aboutTxt,
   skills,
@@ -65,5 +70,9 @@ export const commandRegistry: Record<string, CommandHandler> = {
   neofetch,
   languages,
   ls,
+  ...themeCommands,
+  ...mitreCommands,
+  ...treeCommands,
+  ...downloadCommands,
   ...eggs,
 };

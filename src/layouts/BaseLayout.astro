@@ -28,6 +28,19 @@ const ogImageUrl = new URL(ogImage, site).toString();
 <!doctype html>
 <html lang={locale} data-theme="tokyonight">
   <head>
+    <!-- No-flash theme init: apply stored theme before any style paints. -->
+    <script is:inline>
+      (() => {
+        try {
+          const t = localStorage.getItem('fsc.theme');
+          if (t && ['tokyonight', 'cyberpunk', 'matrix', 'catppuccin'].includes(t)) {
+            document.documentElement.dataset.theme = t;
+          }
+        } catch {
+          /* private mode — keep default */
+        }
+      })();
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="color-scheme" content="dark" />

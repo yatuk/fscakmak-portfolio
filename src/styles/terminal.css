@@ -298,6 +298,15 @@
   margin-top: 10px;
 }
 
+.cmd-help-cat { margin-bottom: 12px; }
+
+.cmd-help-cat-title {
+  color: var(--color-cmd);
+  font-size: var(--text-base);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
 /* ── Quote / file-content (cat about.txt) ────────────────── */
 .cmd-quote {
   border-left: 2px solid var(--color-link);
@@ -770,6 +779,110 @@
 }
 
 .nf-v { color: var(--color-text); }
+
+/* ── Theme switcher ──────────────────────────────────────── */
+.theme-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-left: 2px;
+}
+
+.theme-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--text-base);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: var(--transition-base);
+}
+
+.theme-row-active {
+  border-color: var(--color-prompt);
+  background: rgba(65, 217, 140, 0.05);
+}
+
+.theme-emoji { font-size: var(--text-lg); }
+.theme-name  { color: var(--color-link); font-weight: 600; min-width: 110px; }
+.theme-tag   { color: var(--color-text-dim); font-size: var(--text-sm); flex: 1; }
+
+.theme-current-pill {
+  color: var(--color-prompt);
+  font-size: var(--text-sm);
+  font-weight: 500;
+}
+
+/* ── MITRE matrix ────────────────────────────────────────── */
+.mitre-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--space-2);
+  margin-left: 2px;
+}
+
+.mitre-card {
+  padding: var(--space-3);
+  background: rgba(199, 120, 221, 0.05);
+  border: 1px solid rgba(199, 120, 221, 0.25);
+  border-radius: var(--radius-md);
+  transition: var(--transition-base);
+}
+
+.mitre-card:hover {
+  border-color: var(--color-tag);
+  background: rgba(199, 120, 221, 0.08);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(199, 120, 221, 0.12);
+}
+
+.mitre-id {
+  color: var(--color-tag);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.mitre-name {
+  color: var(--color-text);
+  font-size: var(--text-md);
+  font-weight: 500;
+  margin: 2px 0 6px;
+}
+
+.mitre-context {
+  color: var(--color-text-dim);
+  font-size: var(--text-sm);
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+.mitre-link {
+  color: var(--color-link);
+  font-size: var(--text-xs);
+  text-decoration: none;
+}
+
+.mitre-link:hover { text-decoration: underline; }
+
+/* ── Tree ────────────────────────────────────────────────── */
+.tree {
+  font-size: var(--text-base);
+  line-height: 1.55;
+  margin-left: 2px;
+}
+
+.tree pre {
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  white-space: pre;
+}
+
+.tree .tr-root { color: var(--color-link); font-weight: 600; }
+.tree .tr-dir  { color: var(--color-tag); }
+.tree .tr-file { color: var(--color-text); }
+.tree .tr-glyph { color: var(--color-text-dim); }
 
 /* ── Easter eggs ─────────────────────────────────────────── */
 .egg-mono {
