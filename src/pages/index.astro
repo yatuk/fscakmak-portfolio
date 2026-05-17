@@ -1,86 +1,13 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
-import { getProfile } from '@lib/profile';
-import { t } from '@core/i18n';
+import TerminalShell from '@components/TerminalShell.astro';
 
 const locale = 'en';
-const profile = getProfile(locale);
-const { identity, about } = profile;
-
 const title = 'Fatih Serdar Çakmak — SOC Analyst Intern | ITU CS';
 const description =
   'SOC Analyst intern at Fibabanka and Computer Engineering student at ITU. SIEM, SOAR, EDR, MITRE ATT&CK. Istanbul, Turkey.';
 ---
 
 <BaseLayout title={title} description={description} locale={locale}>
-  <div class="boot">
-    <header>
-      <h1>{identity.name}</h1>
-      <p class="role">{identity.role}</p>
-      <p class="location">{identity.location} · {identity.sector}</p>
-      <p class="current">{identity.current}</p>
-    </header>
-
-    <section class="about" aria-labelledby="about-heading">
-      <h2 id="about-heading" class="sr-only">{t(locale, 'sections.about')}</h2>
-      <p>{about}</p>
-    </section>
-
-    <footer>
-      <p class="hint">{t(locale, 'scaffold.step2_done')}</p>
-    </footer>
-  </div>
+  <TerminalShell locale={locale} />
 </BaseLayout>
-
-<style>
-  .boot {
-    max-width: 880px;
-    width: 100%;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: var(--space-6);
-    box-shadow: var(--shadow-window);
-    position: relative;
-    z-index: 1;
-  }
-
-  header h1 {
-    color: var(--color-link);
-    font-size: var(--text-xl);
-    text-shadow: var(--glow-accent);
-    margin-bottom: var(--space-2);
-  }
-
-  .role {
-    color: var(--color-text);
-    font-size: var(--text-md);
-    margin-bottom: var(--space-1);
-  }
-
-  .location {
-    color: var(--color-text-dim);
-    font-size: var(--text-sm);
-    margin-bottom: var(--space-3);
-  }
-
-  .current {
-    color: var(--color-prompt);
-    font-size: var(--text-base);
-    margin-bottom: var(--space-5);
-  }
-
-  .about p {
-    color: var(--color-text);
-    line-height: var(--leading-relaxed);
-    font-size: var(--text-base);
-    padding-left: var(--space-3);
-    border-left: 2px solid var(--color-link);
-  }
-
-  .hint {
-    color: var(--color-text-dim);
-    font-size: var(--text-sm);
-    margin-top: var(--space-5);
-  }
-</style>

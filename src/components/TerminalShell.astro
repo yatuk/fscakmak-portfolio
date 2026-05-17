@@ -1,0 +1,101 @@
+---
+import { getProfile } from '@lib/profile';
+import { t } from '@core/i18n';
+import type { Locale } from '@ptypes/profile';
+import '@styles/terminal.css';
+
+export interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const profile = getProfile(locale);
+---
+
+<div class="term-window" data-term-root data-locale={locale}>
+  <div class="term-titlebar">
+    <div class="term-dots" aria-hidden="true">
+      <div class="term-dot term-dot-r"></div>
+      <div class="term-dot term-dot-y"></div>
+      <div class="term-dot term-dot-g"></div>
+    </div>
+    <div class="term-title">fsc@kali ~ % zsh</div>
+    <div class="term-score">
+      <span class="term-score-label">{t(locale, 'terminal.score_label')}:</span>
+      <div class="term-score-bar" aria-hidden="true">
+        <div class="term-score-fill" data-term-score-fill style="width:0%"></div>
+      </div>
+      <span class="term-score-value" data-term-score-value>0/100</span>
+    </div>
+  </div>
+
+  <div class="term-body" data-term-body>
+    <div class="term-logo">FSCAKMAK</div>
+    <div class="term-sub">{t(locale, 'terminal.logo_sub')}</div>
+    <div class="term-nav">
+      <span class="term-nav-arrow">→</span>
+      {t(locale, 'terminal.nav_prefix')}
+      <button type="button" data-term-quick="help">help</button>
+      {t(locale, 'terminal.nav_suffix')}
+    </div>
+
+    <div
+      class="term-output"
+      data-term-output
+      role="log"
+      aria-live="polite"
+      aria-label={t(locale, 'terminal.output_aria')}
+    ></div>
+
+    <div class="term-input-line">
+      <span class="term-prompt" aria-hidden="true">$ </span>
+      <input
+        type="text"
+        class="term-input"
+        data-term-input
+        autocomplete="off"
+        spellcheck="false"
+        autofocus
+        aria-label={t(locale, 'terminal.input_aria')}
+      />
+    </div>
+    <div class="term-hint">{t(locale, 'terminal.hint')}</div>
+  </div>
+
+  <div class="term-footer">{t(locale, 'terminal.footer')}</div>
+</div>
+
+<script
+  type="application/json"
+  data-term-state
+  is:inline
+  set:html={JSON.stringify({ profile, locale })}
+/>
+
+<script>
+  import { initTerminal } from '@core/terminal';
+  import type { Locale, Profile } from '@ptypes/profile';
+
+  const root = document.querySelector<HTMLElement>('[data-term-root]');
+  const stateEl = document.querySelector<HTMLElement>('[data-term-state]');
+  if (root && stateEl?.textContent) {
+    const state = JSON.parse(stateEl.textContent) as {
+      profile: Profile;
+      locale: Locale;
+    };
+    initTerminal({ container: root, profile: state.profile, locale: state.locale });
+
+    // "help" quick-launch link in the nav
+    document.querySelectorAll<HTMLButtonElement>('[data-term-quick]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const input = root.querySelector<HTMLInputElement>('[data-term-input]');
+        const cmd = btn.dataset.termQuick ?? 'help';
+        if (input) {
+          input.value = cmd;
+          input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+          input.focus();
+        }
+      });
+    });
+  }
+</script>

@@ -37,6 +37,101 @@
     "owner_team": "Takım projesi",
     "view_repo": "Repo'yu görüntüle"
   },
+  "terminal": {
+    "logo_sub": "fscakmak.com — Fatih Serdar Çakmak'ın portföyü",
+    "nav_prefix": "yaz",
+    "nav_suffix": "ile başla",
+    "input_aria": "Terminal komut girişi",
+    "hint": "tab ile otomatik tamamla • ↑↓ geçmiş",
+    "footer": "fscakmak.com terminal v2.0.0 — ☕ & 🛡️ ile yapıldı",
+    "score_label": "Skor",
+    "output_aria": "Terminal çıktısı"
+  },
+  "cmd": {
+    "help": {
+      "title": "Komutlar",
+      "footer_hint": "Gizli komutlar var. Hepsini bul ve 100/100'e ulaş."
+    },
+    "whoami": {
+      "title": "whoami",
+      "name": "ad",
+      "role": "rol",
+      "location": "konum",
+      "sector": "sektör",
+      "currently": "şu anda"
+    },
+    "about": {
+      "filename": "~/about.txt"
+    },
+    "skills": {
+      "title": "Yetenekler"
+    },
+    "experience": {
+      "title": "Deneyim",
+      "active": "AKTİF",
+      "present": "bugün",
+      "part_time": "Yarı Zamanlı"
+    },
+    "git_log": {
+      "title": "git log --graph --all"
+    },
+    "projects": {
+      "title": "Projeler",
+      "personal": "Kişisel",
+      "team": "Takım projesi"
+    },
+    "education": {
+      "title": "Eğitim",
+      "expected": "beklenen"
+    },
+    "certs": {
+      "title": "Sertifikalar"
+    },
+    "contact": {
+      "title": "Bana ulaş",
+      "email": "e-posta",
+      "linkedin": "linkedin",
+      "github": "github"
+    },
+    "socials": {
+      "title": "İnternet Varlığı",
+      "github": "GitHub",
+      "linkedin": "LinkedIn"
+    },
+    "languages": {
+      "title": "Diller",
+      "spoken": "Konuşulan",
+      "programming": "Programlama"
+    },
+    "ls": {
+      "about": "hakkimda.txt",
+      "skills": "yetenekler/",
+      "experience": "deneyim/",
+      "projects": "projeler/",
+      "certifications": "sertifikalar/",
+      "education": "egitim/",
+      "languages": "diller.txt",
+      "secret": ".gizli/",
+      "readme": "README.md",
+      "resume": "ozgecmis.pdf"
+    },
+    "neofetch": {
+      "user_host": "user@host",
+      "os": "os",
+      "shell": "shell",
+      "editor": "editor",
+      "role": "rol",
+      "threat_model": "tehdit_modeli",
+      "uptime": "uptime",
+      "uptime_y": "y"
+    }
+  },
+  "errors": {
+    "not_found": "zsh: komut bulunamadı",
+    "did_you_mean": "Bunu mu demek istediniz",
+    "type_help_prefix": "Komut listesi için",
+    "type_help_suffix": "yazın."
+  },
   "scaffold": {
     "step1_done": "Adım 1 ✓ — içerik CV'ye birebir uyumlu, tipli JSON'dan geliyor.",
     "step2_done": "Adım 2 ✓ — i18n runtime aktif, dil değiştirici bağlı."

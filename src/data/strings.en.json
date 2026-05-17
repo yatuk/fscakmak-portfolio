@@ -37,6 +37,101 @@
     "owner_team": "Team project",
     "view_repo": "View repository"
   },
+  "terminal": {
+    "logo_sub": "fscakmak.com — Fatih Serdar Çakmak's portfolio",
+    "nav_prefix": "type",
+    "nav_suffix": "to get started",
+    "input_aria": "Terminal command input",
+    "hint": "tab to autocomplete • ↑↓ history",
+    "footer": "fscakmak.com terminal v2.0.0 — built with ☕ & 🛡️",
+    "score_label": "Score",
+    "output_aria": "Terminal output"
+  },
+  "cmd": {
+    "help": {
+      "title": "Available commands",
+      "footer_hint": "There are hidden commands. Try to find them and reach 100/100."
+    },
+    "whoami": {
+      "title": "whoami",
+      "name": "name",
+      "role": "role",
+      "location": "location",
+      "sector": "sector",
+      "currently": "currently"
+    },
+    "about": {
+      "filename": "~/about.txt"
+    },
+    "skills": {
+      "title": "Skills"
+    },
+    "experience": {
+      "title": "Experience",
+      "active": "ACTIVE",
+      "present": "present",
+      "part_time": "Part-time"
+    },
+    "git_log": {
+      "title": "git log --graph --all"
+    },
+    "projects": {
+      "title": "Projects",
+      "personal": "Personal",
+      "team": "Team project"
+    },
+    "education": {
+      "title": "Education",
+      "expected": "expected"
+    },
+    "certs": {
+      "title": "Certifications"
+    },
+    "contact": {
+      "title": "Reach me",
+      "email": "email",
+      "linkedin": "linkedin",
+      "github": "github"
+    },
+    "socials": {
+      "title": "Internet Presence",
+      "github": "GitHub",
+      "linkedin": "LinkedIn"
+    },
+    "languages": {
+      "title": "Languages",
+      "spoken": "Spoken",
+      "programming": "Programming"
+    },
+    "ls": {
+      "about": "about.txt",
+      "skills": "skills/",
+      "experience": "experience/",
+      "projects": "projects/",
+      "certifications": "certifications/",
+      "education": "education/",
+      "languages": "languages.txt",
+      "secret": ".secret/",
+      "readme": "README.md",
+      "resume": "resume.pdf"
+    },
+    "neofetch": {
+      "user_host": "user@host",
+      "os": "os",
+      "shell": "shell",
+      "editor": "editor",
+      "role": "role",
+      "threat_model": "threat_model",
+      "uptime": "uptime",
+      "uptime_y": "y"
+    }
+  },
+  "errors": {
+    "not_found": "zsh: command not found",
+    "did_you_mean": "Did you mean",
+    "type_help_prefix": "Type",
+    "type_help_suffix": "for available commands."
+  },
   "scaffold": {
     "step1_done": "Step 1 ✓ — content driven by typed JSON, CV-verbatim.",
     "step2_done": "Step 2 ✓ — i18n runtime online, locale toggle wired."
