@@ -8,6 +8,8 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
+    "deploy": "wrangler deploy",
+    "version:ci": "node -e \"console.log('static site — skip worker versions')\"",
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",
@@ -20,7 +22,8 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "wrangler": "^4.86.0"
   },
   "engines": {
     "node": ">=20.0.0"

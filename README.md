@@ -84,7 +84,9 @@ legacy/index.html           # v1 reference — preserved verbatim
    - **Framework preset:** Astro
    - **Build command:** `npm run build`
    - **Build output directory:** `dist`
-   - **Node version:** 20 (pinned via `.nvmrc`)
+   - **Deploy command** (if the UI requires it): `npm run deploy`
+   - **Version command** (if required): `npm run version:ci`
+   - **Node version:** 20 (`NODE_VERSION` env var)
 4. **Save and Deploy**. First build is ~30s.
 5. Add **Custom domain → `fscakmak.com`**. Since the apex is already on Cloudflare DNS, you get a one-click setup and automatic SSL.
 
