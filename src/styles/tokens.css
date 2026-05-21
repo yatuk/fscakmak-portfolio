@@ -38,6 +38,7 @@
 
   /* Type scale */
   --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --font-body: 'Manrope', system-ui, -apple-system, sans-serif;
   --font-display: 'Press Start 2P', var(--font-mono);
   --text-xs: 0.66rem;
   --text-sm: 0.74rem;
@@ -45,7 +46,10 @@
   --text-md: 0.86rem;
   --text-lg: 1rem;
   --text-xl: 1.5rem;
-  --leading-tight: 1.4;
+  /* Recruiter heading scale — 3-4× body text ratio */
+  --text-h1: clamp(2.8rem, 6vw, 4rem);
+  --text-h2: clamp(1.4rem, 3vw, 1.8rem);
+  --leading-tight: 1.15;
   --leading-normal: 1.6;
   --leading-relaxed: 1.75;
 
