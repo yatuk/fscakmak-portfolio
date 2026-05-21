@@ -3,6 +3,112 @@
    Ported from v1, refactored to consume tokens.css.
    ============================================================ */
 
+/* ── Entry screen ────────────────────────────────────────── */
+.entry-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--color-bg);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: entry-in 150ms ease-out both;
+}
+
+@keyframes entry-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.entry-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: min(480px, 90vw);
+  gap: var(--space-6);
+}
+
+.entry-name {
+  font-family: var(--font-mono);
+  font-size: var(--text-h1);
+  color: var(--color-text);
+  letter-spacing: 0.12em;
+  line-height: var(--leading-tight);
+}
+
+.entry-sep {
+  width: 100%;
+  height: 1px;
+  background: var(--color-border);
+}
+
+.entry-buttons {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.entry-btn {
+  min-width: 160px;
+  min-height: 48px;
+  padding: 0 var(--space-6);
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+/* TERMINAL — outlined, accent fill on hover */
+.entry-btn-terminal {
+  background: transparent;
+  border: 1px solid var(--color-accent);
+  color: var(--color-accent);
+}
+
+.entry-btn-terminal:hover,
+.entry-btn-terminal:focus-visible {
+  background: var(--color-accent);
+  color: #0d0d0d;
+  border-color: var(--color-accent);
+}
+
+/* RECRUITER VIEW — solid, "professional" look */
+.entry-btn-recruiter {
+  background: var(--color-text);
+  border: 1px solid var(--color-text);
+  color: var(--color-bg);
+}
+
+.entry-btn-recruiter:hover,
+.entry-btn-recruiter:focus-visible {
+  background: var(--color-link-hover);
+  border-color: var(--color-link-hover);
+  color: #0d0d0d;
+}
+
+@media (max-width: 640px) {
+  .entry-content {
+    gap: var(--space-5);
+  }
+  .entry-buttons {
+    flex-direction: column-reverse;
+    width: 100%;
+  }
+  .entry-btn {
+    width: 100%;
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
 /* ── Boot overlay ────────────────────────────────────────── */
 .boot-overlay {
   position: fixed;

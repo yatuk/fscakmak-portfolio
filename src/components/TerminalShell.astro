@@ -12,7 +12,24 @@ const { locale } = Astro.props;
 const profile = getProfile(locale);
 ---
 
-<!-- Boot overlay — shown on first visit per session, dismissible. -->
+<!-- Entry screen — shown on every page load, no persistence.
+     User picks a view; TERMINAL gates the boot sequence. -->
+<div class="entry-screen" data-entry-screen>
+  <div class="entry-content">
+    <div class="entry-name">FSCAKMAK</div>
+    <div class="entry-sep" aria-hidden="true"></div>
+    <div class="entry-buttons">
+      <button type="button" class="entry-btn entry-btn-terminal" data-entry-terminal>
+        TERMINAL
+      </button>
+      <button type="button" class="entry-btn entry-btn-recruiter" data-entry-recruiter>
+        RECRUITER VIEW
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Boot overlay — shown after terminal is chosen, first-visit-only per session. -->
 <div class="boot-overlay" data-boot-overlay aria-hidden="true">
   <div class="boot-content" data-boot-lines></div>
   <button
@@ -93,8 +110,45 @@ const profile = getProfile(locale);
 />
 
 <script is:inline>
-  /* Boot overlay — character-by-character typing sequence, first-visit-only.
-     Inline so it runs before the terminal bundle, preventing any flash. */
+  /* Entry screen — shown on every load, no session persistence.
+     Dispatches 'fsc:terminal-chosen' so the boot sequence knows to start. */
+  (() => {
+    const screen = document.querySelector('[data-entry-screen]');
+    if (!screen) return;
+
+    const locale = document.documentElement.lang;
+    const cvPath = locale === 'tr' ? '/tr/cv' : '/cv';
+
+    const dismiss = (then) => {
+      /* Clear the CSS animation forwards-fill before transitioning out,
+         then use inline styles to drive the fade so it's not blocked. */
+      screen.style.animation = 'none';
+      void screen.offsetHeight; /* force reflow */
+      screen.style.transition = 'opacity 100ms ease-out';
+      screen.style.opacity = '0';
+      screen.style.pointerEvents = 'none';
+      window.setTimeout(() => {
+        screen.remove();
+        if (then) then();
+      }, 100);
+    };
+
+    screen.querySelector('[data-entry-terminal]')?.addEventListener('click', () => {
+      dismiss(() => {
+        window.__entryChoice = 'terminal';
+        window.dispatchEvent(new CustomEvent('fsc:terminal-chosen'));
+      });
+    });
+
+    screen.querySelector('[data-entry-recruiter]')?.addEventListener('click', () => {
+      dismiss(() => { window.location.href = cvPath; });
+    });
+  })();
+</script>
+
+<script is:inline>
+  /* Boot overlay — character-by-character typing, gated on terminal choice.
+     Only starts after 'fsc:terminal-chosen' fires from the entry screen. */
   (() => {
     const overlay = document.querySelector('[data-boot-overlay]');
     if (!overlay) return;
@@ -103,68 +157,72 @@ const profile = getProfile(locale);
     let seen = false;
     try { seen = sessionStorage.getItem('fsc.boot.seen') === '1'; } catch {}
 
-    if (reduced || seen) { overlay.remove(); return; }
-    try { sessionStorage.setItem('fsc.boot.seen', '1'); } catch {}
+    const runBoot = () => {
+      if (reduced || seen) { overlay.remove(); return; }
+      try { sessionStorage.setItem('fsc.boot.seen', '1'); } catch {}
 
-    const container = overlay.querySelector('[data-boot-lines]');
-    if (!container) return;
+      const container = overlay.querySelector('[data-boot-lines]');
+      if (!container) return;
 
-    /* Each entry: text typed char-by-char, optional suffix span appended
-       instantly after text finishes, lineCls added to the line div,
-       pause (ms) before the next line starts. */
-    const LINES = [
-      { text: '> initializing fscakmak.com...', suffix: null,                                         lineCls: null,          pause: 150 },
-      { text: '> loading security context...    ', suffix: { cls: 'boot-bar',      str: '████████░░  80%' }, lineCls: null,          pause: 200 },
-      { text: '> mounting profile data...       ', suffix: { cls: 'boot-bar-done', str: '██████████ 100%' }, lineCls: null,          pause: 150 },
-      { text: '> establishing encrypted session ', suffix: { cls: 'boot-ok',       str: '[OK]' },      lineCls: null,          pause: 100 },
-      { text: '> threat intel feeds...          ', suffix: { cls: 'boot-ok',       str: '[OK]' },      lineCls: null,          pause: 200 },
-      { text: '> welcome, analyst.',              suffix: null,                                         lineCls: 'boot-welcome', pause: 300 },
-    ];
+      const LINES = [
+        { text: '> initializing fscakmak.com...', suffix: null,                                         lineCls: null,           pause: 150 },
+        { text: '> loading security context...    ', suffix: { cls: 'boot-bar',      str: '████████░░  80%' }, lineCls: null,           pause: 200 },
+        { text: '> mounting profile data...       ', suffix: { cls: 'boot-bar-done', str: '██████████ 100%' }, lineCls: null,           pause: 150 },
+        { text: '> establishing encrypted session ', suffix: { cls: 'boot-ok',       str: '[OK]' },      lineCls: null,           pause: 100 },
+        { text: '> threat intel feeds...          ', suffix: { cls: 'boot-ok',       str: '[OK]' },      lineCls: null,           pause: 200 },
+        { text: '> welcome, analyst.',              suffix: null,                                         lineCls: 'boot-welcome', pause: 300 },
+      ];
 
-    const CHAR_MS = 15;
-    let dismissed = false;
+      const CHAR_MS = 15;
+      let dismissed = false;
 
-    const dismiss = () => {
-      if (dismissed) return;
-      dismissed = true;
-      overlay.classList.add('boot-fade');
-      window.setTimeout(() => overlay.remove(), 300);
-    };
-
-    const typeLine = (cfg, onDone) => {
-      const div = document.createElement('div');
-      div.className = 'boot-line' + (cfg.lineCls ? ' ' + cfg.lineCls : '');
-      container.appendChild(div);
-
-      let i = 0;
-      const tick = () => {
+      const dismiss = () => {
         if (dismissed) return;
-        if (i < cfg.text.length) {
-          div.appendChild(document.createTextNode(cfg.text[i++]));
-          window.setTimeout(tick, CHAR_MS);
-        } else {
-          if (cfg.suffix) {
-            const span = document.createElement('span');
-            span.className = cfg.suffix.cls;
-            span.textContent = cfg.suffix.str;
-            div.appendChild(span);
-          }
-          window.setTimeout(onDone, cfg.pause);
-        }
+        dismissed = true;
+        overlay.classList.add('boot-fade');
+        window.setTimeout(() => overlay.remove(), 300);
       };
-      tick();
+
+      const typeLine = (cfg, onDone) => {
+        const div = document.createElement('div');
+        div.className = 'boot-line' + (cfg.lineCls ? ' ' + cfg.lineCls : '');
+        container.appendChild(div);
+
+        let i = 0;
+        const tick = () => {
+          if (dismissed) return;
+          if (i < cfg.text.length) {
+            div.appendChild(document.createTextNode(cfg.text[i++]));
+            window.setTimeout(tick, CHAR_MS);
+          } else {
+            if (cfg.suffix) {
+              const span = document.createElement('span');
+              span.className = cfg.suffix.cls;
+              span.textContent = cfg.suffix.str;
+              div.appendChild(span);
+            }
+            window.setTimeout(onDone, cfg.pause);
+          }
+        };
+        tick();
+      };
+
+      const run = (idx) => {
+        if (dismissed) return;
+        if (idx >= LINES.length) { dismiss(); return; }
+        typeLine(LINES[idx], () => run(idx + 1));
+      };
+
+      window.setTimeout(() => run(0), 200);
+      overlay.querySelector('[data-boot-skip]')?.addEventListener('click', dismiss);
     };
 
-    const run = (idx) => {
-      if (dismissed) return;
-      if (idx >= LINES.length) { dismiss(); return; }
-      typeLine(LINES[idx], () => run(idx + 1));
-    };
-
-    /* Small initial pause so the overlay doesn't start typing instantly. */
-    window.setTimeout(() => run(0), 200);
-
-    overlay.querySelector('[data-boot-skip]')?.addEventListener('click', dismiss);
+    /* Gate: wait for the entry screen to signal terminal choice. */
+    if (window.__entryChoice === 'terminal') {
+      runBoot();
+    } else {
+      window.addEventListener('fsc:terminal-chosen', runBoot, { once: true });
+    }
   })();
 </script>
 

@@ -41,22 +41,6 @@ const cfBeaconToken = import.meta.env.PUBLIC_CF_WEB_ANALYTICS_TOKEN;
         } catch {
           /* private mode — keep default */
         }
-
-        /* Mobile auto-switch to /cv. Skip on:
-             - /cv routes themselves (avoid loop)
-             - explicit "force terminal" preference
-             - viewports ≥ 768px (tablet/desktop) */
-        try {
-          const path = window.location.pathname.replace(/\/+$/, '') || '/';
-          if (path === '/cv' || path === '/tr/cv') return;
-          const force = localStorage.getItem('fsc.view') === 'terminal';
-          if (force) return;
-          if (window.innerWidth >= 768) return;
-          const target = path === '/tr' ? '/tr/cv' : '/cv';
-          window.location.replace(target);
-        } catch {
-          /* no-op */
-        }
       })();
     </script>
     <meta charset="UTF-8" />
