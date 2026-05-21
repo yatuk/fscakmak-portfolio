@@ -91,8 +91,10 @@
 /* ── Window chrome ───────────────────────────────────────── */
 .term-window {
   width: 90vw;
-  max-width: 90vw;
-  max-height: 85vh;
+  min-width: 88vw;
+  max-width: 96vw;
+  min-height: 82vh;
+  max-height: 92vh;
   display: flex;
   flex-direction: column;
   background: var(--color-surface);
