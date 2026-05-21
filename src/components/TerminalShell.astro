@@ -116,6 +116,21 @@ const profile = getProfile(locale);
     const screen = document.querySelector('[data-entry-screen]');
     if (!screen) return;
 
+    /* Bypass: coming back from recruiter view via the view toggle.
+       Flag is set by ViewToggle.astro and consumed here (one-shot). */
+    let bypass = false;
+    try {
+      bypass = sessionStorage.getItem('fsc.entry.bypass') === '1';
+      if (bypass) sessionStorage.removeItem('fsc.entry.bypass');
+    } catch {}
+
+    if (bypass) {
+      screen.remove();
+      window.__entryChoice = 'terminal';
+      window.dispatchEvent(new CustomEvent('fsc:terminal-chosen'));
+      return;
+    }
+
     const locale = document.documentElement.lang;
     const cvPath = locale === 'tr' ? '/tr/cv' : '/cv';
 

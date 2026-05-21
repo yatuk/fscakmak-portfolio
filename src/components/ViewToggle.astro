@@ -34,10 +34,10 @@ const glyph = isRecruiter ? '⌨' : '👔';
     el.addEventListener('click', () => {
       const target = el.getAttribute('data-view-target');
       if (!target) return;
-      try {
-        localStorage.setItem('fsc.view', target);
-      } catch {
-        /* private mode — no-op */
+      try { localStorage.setItem('fsc.view', target); } catch {}
+      /* Going back to terminal from recruiter view — bypass entry screen. */
+      if (target === 'terminal') {
+        try { sessionStorage.setItem('fsc.entry.bypass', '1'); } catch {}
       }
     });
   });
