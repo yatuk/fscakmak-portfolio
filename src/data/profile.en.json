@@ -12,7 +12,7 @@
       "linkedin": "fatihserdar"
     }
   },
-  "about": "Computer Engineering student at Istanbul Technical University (class of 2027), with a background in Industrial Automation from Kocaeli ENKA Technical Schools. At Doğuş Teknoloji I worked across SIEM, SOAR, EDR and NDR platforms — L1 incident response, SOAR playbook writing (including phishing playbooks), EDR alert tuning, and IT/OT segmentation. I'm now a part-time SOC Analyst Intern at Fibabanka, supporting daily alert triage, CTI feed review and firewall log analysis in a BDDK-regulated banking environment. I think in MITRE ATT&CK and believe the best defense is understanding the offense.",
+  "about": "Computer Engineering student at Istanbul Technical University (class of 2027), came up through Industrial Automation at Kocaeli ENKA — better prep for OT/IT security than it might sound. At Doğuş Teknoloji I worked across SIEM, SOAR, EDR and NDR platforms — L1 incident response, SOAR playbook writing (including phishing playbooks), EDR alert tuning, and IT/OT segmentation. Now part-time at Fibabanka doing daily alert triage, CTI feed review and firewall log analysis in a BDDK-regulated banking environment. MITRE ATT&CK is how I think about threats.",
   "skills": {
     "cybersecurity": [
       "SOC Operations",
@@ -65,8 +65,8 @@
       "company": "Fibabanka",
       "location": "Istanbul, Turkey",
       "highlights": [
-        "Monitored production security alerts, reviewed CTI feeds, handled daily triage under senior analyst supervision",
-        "Supported incident documentation and firewall log review in a BDDK-regulated environment"
+        "Daily alert triage and CTI feed review on live production traffic, under senior analyst supervision",
+        "Incident documentation and firewall log review; first real look at what BDDK-regulated reporting looks like in practice"
       ]
     },
     {
@@ -78,8 +78,8 @@
       "location": "Istanbul, Turkey",
       "highlights": [
         "Worked across SIEM, SOAR, EDR, and NDR platforms: log correlation, alert triage, playbook writing, false-positive filtering across enterprise infrastructure",
-        "Helped senior analysts write and refine SOAR playbooks for recurring threats including phishing; assisted with EDR alert tuning to reduce detection noise",
-        "L1 incident response support, Root Cause Analysis (RCA), SLA-aligned case reports",
+        "Wrote and iterated SOAR playbooks for recurring threats (phishing especially); tuned EDR alert rules to cut detection noise across enterprise infrastructure",
+        "L1 incident response, root cause analysis, and SLA case reports — learned how a mature SOC actually tracks and closes cases",
         "Monitored Active Directory and Windows/Linux system logs; applied network segmentation for IT/OT boundaries"
       ]
     }
