@@ -68,9 +68,9 @@
   --radius-lg: 12px;
   --radius-pill: 20px;
 
-  /* Motion */
-  --transition-fast: 0.15s ease;
-  --transition-base: 0.3s ease;
+  /* Motion — fast: hover/border changes (100ms), base: state reveals (150ms) */
+  --transition-fast: 0.1s ease-out;
+  --transition-base: 0.15s ease-out;
   --transition-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 
   /* Shadows — no ambient glow; depth through opacity only */

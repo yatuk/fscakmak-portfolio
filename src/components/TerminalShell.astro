@@ -12,18 +12,9 @@ const { locale } = Astro.props;
 const profile = getProfile(locale);
 ---
 
-<!-- Boot overlay — shown on first visit per session, dismissible.
-     Rendered server-side so it appears instantly without waiting
-     for the terminal bundle. -->
+<!-- Boot overlay — shown on first visit per session, dismissible. -->
 <div class="boot-overlay" data-boot-overlay aria-hidden="true">
-  <div class="boot-content">
-    <div class="boot-line" data-boot-delay="0">[ 0.000000] Booting fscakmak.com v2.0.0</div>
-    <div class="boot-line" data-boot-delay="450">[ 0.124301] Loading kernel modules... <span class="boot-ok">OK</span></div>
-    <div class="boot-line" data-boot-delay="850">[ 0.341209] Initializing SIEM... <span class="boot-ok">OK</span></div>
-    <div class="boot-line" data-boot-delay="1300">[ 0.502318] Mounting /home/fscakmak... <span class="boot-ok">OK</span></div>
-    <div class="boot-line" data-boot-delay="1800">[ 0.731450] Starting zsh shell... <span class="boot-ok">OK</span></div>
-    <div class="boot-line boot-welcome" data-boot-delay="2300">[ 0.892101] Welcome, fscakmak@kali</div>
-  </div>
+  <div class="boot-content" data-boot-lines></div>
   <button
     type="button"
     class="boot-skip"
@@ -41,7 +32,7 @@ const profile = getProfile(locale);
       <div class="term-dot term-dot-y"></div>
       <div class="term-dot term-dot-g"></div>
     </div>
-    <div class="term-title">fsc@kali ~ % zsh</div>
+    <div class="term-title">fscakmak@kali ~ % zsh</div>
     <div class="term-score">
       <span class="term-score-label">{t(locale, 'terminal.score_label')}:</span>
       <div class="term-score-bar" aria-hidden="true">
@@ -102,54 +93,78 @@ const profile = getProfile(locale);
 />
 
 <script is:inline>
-  /* Boot overlay driver — first-visit-only per session, with
-     skip button and prefers-reduced-motion respect.
-
-     Why inline + is:inline: needs to run before the terminal
-     bundle parses, so the overlay either fades in immediately
-     or removes itself before paint. */
+  /* Boot overlay — character-by-character typing sequence, first-visit-only.
+     Inline so it runs before the terminal bundle, preventing any flash. */
   (() => {
     const overlay = document.querySelector('[data-boot-overlay]');
     if (!overlay) return;
 
-    const reduced =
-      window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+    const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
     let seen = false;
-    try {
-      seen = sessionStorage.getItem('fsc.boot.seen') === '1';
-    } catch {
-      /* session storage unavailable — treat as not-seen */
-    }
+    try { seen = sessionStorage.getItem('fsc.boot.seen') === '1'; } catch {}
 
-    if (reduced || seen) {
-      overlay.remove();
-      return;
-    }
+    if (reduced || seen) { overlay.remove(); return; }
+    try { sessionStorage.setItem('fsc.boot.seen', '1'); } catch {}
 
-    try {
-      sessionStorage.setItem('fsc.boot.seen', '1');
-    } catch {
-      /* no-op */
-    }
+    const container = overlay.querySelector('[data-boot-lines]');
+    if (!container) return;
 
-    overlay.classList.add('boot-on');
-    overlay.querySelectorAll('[data-boot-delay]').forEach((el) => {
-      const delay = parseInt(el.getAttribute('data-boot-delay') || '0', 10);
-      window.setTimeout(() => el.classList.add('boot-visible'), delay);
-    });
+    /* Each entry: text typed char-by-char, optional suffix span appended
+       instantly after text finishes, lineCls added to the line div,
+       pause (ms) before the next line starts. */
+    const LINES = [
+      { text: '> initializing fscakmak.com...', suffix: null,                                         lineCls: null,          pause: 150 },
+      { text: '> loading security context...    ', suffix: { cls: 'boot-bar',      str: '████████░░  80%' }, lineCls: null,          pause: 200 },
+      { text: '> mounting profile data...       ', suffix: { cls: 'boot-bar-done', str: '██████████ 100%' }, lineCls: null,          pause: 150 },
+      { text: '> establishing encrypted session ', suffix: { cls: 'boot-ok',       str: '[OK]' },      lineCls: null,          pause: 100 },
+      { text: '> threat intel feeds...          ', suffix: { cls: 'boot-ok',       str: '[OK]' },      lineCls: null,          pause: 200 },
+      { text: '> welcome, analyst.',              suffix: null,                                         lineCls: 'boot-welcome', pause: 300 },
+    ];
+
+    const CHAR_MS = 15;
+    let dismissed = false;
 
     const dismiss = () => {
+      if (dismissed) return;
+      dismissed = true;
       overlay.classList.add('boot-fade');
-      window.setTimeout(() => overlay.remove(), 600);
+      window.setTimeout(() => overlay.remove(), 300);
     };
 
-    /* Auto-dismiss 2.8s in, leaving 0.6s for the fade-out. */
-    const autoTimer = window.setTimeout(dismiss, 2800);
+    const typeLine = (cfg, onDone) => {
+      const div = document.createElement('div');
+      div.className = 'boot-line' + (cfg.lineCls ? ' ' + cfg.lineCls : '');
+      container.appendChild(div);
 
-    overlay.querySelector('[data-boot-skip]')?.addEventListener('click', () => {
-      window.clearTimeout(autoTimer);
-      dismiss();
-    });
+      let i = 0;
+      const tick = () => {
+        if (dismissed) return;
+        if (i < cfg.text.length) {
+          div.appendChild(document.createTextNode(cfg.text[i++]));
+          window.setTimeout(tick, CHAR_MS);
+        } else {
+          if (cfg.suffix) {
+            const span = document.createElement('span');
+            span.className = cfg.suffix.cls;
+            span.textContent = cfg.suffix.str;
+            div.appendChild(span);
+          }
+          window.setTimeout(onDone, cfg.pause);
+        }
+      };
+      tick();
+    };
+
+    const run = (idx) => {
+      if (dismissed) return;
+      if (idx >= LINES.length) { dismiss(); return; }
+      typeLine(LINES[idx], () => run(idx + 1));
+    };
+
+    /* Small initial pause so the overlay doesn't start typing instantly. */
+    window.setTimeout(() => run(0), 200);
+
+    overlay.querySelector('[data-boot-skip]')?.addEventListener('click', dismiss);
   })();
 </script>
 
