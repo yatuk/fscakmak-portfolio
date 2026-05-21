@@ -30,7 +30,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Subtle background grid + accent glow, kept from v1 */
+/* Minimal grid texture — just enough to signal "built environment" */
 body::before {
   content: '';
   position: fixed;
@@ -38,11 +38,9 @@ body::before {
   pointer-events: none;
   z-index: 0;
   background:
-    radial-gradient(ellipse at 15% 50%, rgba(65, 217, 140, 0.04) 0%, transparent 50%),
-    radial-gradient(ellipse at 85% 30%, rgba(83, 184, 255, 0.03) 0%, transparent 50%),
-    linear-gradient(rgba(83, 184, 255, 0.012) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(83, 184, 255, 0.012) 1px, transparent 1px);
-  background-size: 100%, 100%, 22px 22px, 22px 22px;
+    linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+  background-size: 28px 28px;
 }
 
 /* Visually hidden — a11y */

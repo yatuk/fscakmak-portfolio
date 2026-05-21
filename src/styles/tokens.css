@@ -6,20 +6,20 @@
 
 :root,
 [data-theme="tokyonight"] {
-  /* Palette — Tokyo Night (default, inherited from v1) */
-  --bg: #0a0e14;
-  --tbg: #0f1319;
-  --tbar: #151a22;
-  --tx: #b3b9c5;
-  --dim: #3d4455;
-  --grn: #41d98c;
-  --cyan: #53b8ff;
-  --mag: #c778dd;
-  --red: #e55561;
-  --ylw: #e2b93d;
-  --org: #e8804f;
-  --brd: #1e2533;
-  --acc: #3a86ff;
+  /* Palette — restrained near-black/near-white with single cyan accent */
+  --bg: #0d0d0d;
+  --tbg: #111111;
+  --tbar: #171717;
+  --tx: #e4e4e7;
+  --dim: #71717a;
+  --grn: #4ade80;
+  --cyan: #22d3ee;
+  --mag: #c084fc;
+  --red: #f87171;
+  --ylw: #facc15;
+  --org: #fb923c;
+  --brd: #27272a;
+  --acc: #22d3ee;
 
   /* Semantic aliases — use these in components, not raw palette */
   --color-bg: var(--bg);
@@ -32,7 +32,7 @@
   --color-prompt: var(--grn);
   --color-cmd: var(--ylw);
   --color-link: var(--cyan);
-  --color-link-hover: #7cc8ff;
+  --color-link-hover: #67e8f9;
   --color-tag: var(--mag);
   --color-danger: var(--red);
 
@@ -73,10 +73,9 @@
   --transition-base: 0.3s ease;
   --transition-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 
-  /* Shadows */
-  --shadow-window: 0 0 0 1px rgba(0, 0, 0, 0.3), 0 30px 80px rgba(0, 0, 0, 0.55),
-    0 0 140px rgba(58, 134, 255, 0.03);
-  --glow-accent: 0 0 30px rgba(83, 184, 255, 0.22);
+  /* Shadows — no ambient glow; depth through opacity only */
+  --shadow-window: 0 0 0 1px rgba(255, 255, 255, 0.04), 0 24px 64px rgba(0, 0, 0, 0.7);
+  --glow-accent: none;
 }
 
 /* Theme: Cyberpunk — magenta/cyan */

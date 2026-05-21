@@ -42,12 +42,8 @@
 
 /* ── Hero ────────────────────────────────────────────────── */
 .cv-hero {
-  background: linear-gradient(
-    135deg,
-    rgba(83, 184, 255, 0.04) 0%,
-    rgba(65, 217, 140, 0.03) 100%
-  );
-  border-color: rgba(83, 184, 255, 0.18);
+  background: var(--color-surface);
+  border-color: var(--color-border);
   padding: var(--space-6);
 }
 
@@ -88,13 +84,14 @@
 }
 
 .cv-hero-pitch {
-  color: var(--color-text);
-  font-size: var(--text-md);
-  line-height: var(--leading-relaxed);
-  padding-left: var(--space-3);
-  border-left: 2px solid var(--color-prompt);
+  font-family: var(--font-body);
+  color: var(--color-text-dim);
+  font-size: 0.9rem;
+  line-height: 1.75;
+  padding-left: var(--space-4);
+  border-left: 2px solid var(--color-accent);
   margin-bottom: var(--space-5);
-  max-width: 720px;
+  max-width: 680px;
 }
 
 .cv-cta-row {
@@ -511,12 +508,8 @@
 /* ── Contact CTA ─────────────────────────────────────────── */
 .cv-contact {
   text-align: center;
-  background: linear-gradient(
-    135deg,
-    rgba(65, 217, 140, 0.04),
-    rgba(83, 184, 255, 0.04)
-  );
-  border-color: rgba(65, 217, 140, 0.18);
+  background: var(--color-surface);
+  border-color: var(--color-border);
 }
 
 .cv-contact-title {
