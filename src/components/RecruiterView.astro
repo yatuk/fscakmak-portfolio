@@ -56,6 +56,9 @@ const certsLabel = pluralize(
   <!-- ── HERO ─────────────────────────────────────────── -->
   <header class="cv-card cv-hero">
     <h1 class="cv-hero-name">{identity.name}</h1>
+    {identity.tagline && (
+      <p class="cv-hero-tagline">{identity.tagline}</p>
+    )}
     <p class="cv-hero-role">
       {identity.role} <span class="at">@</span> {experience[0]?.company ?? 'Fibabanka'}
     </p>

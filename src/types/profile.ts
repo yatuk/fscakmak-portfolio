@@ -19,6 +19,7 @@ export interface Identity {
   location: string;
   sector: string;
   current: string;
+  tagline?: string;
   email: string;
   domain: string;
   social: SocialHandles;
