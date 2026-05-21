@@ -100,6 +100,7 @@ export function initTerminal({ container, profile, locale }: InitOpts): void {
   input.focus();
   setupKonami(state);
   wireQuickLaunch(container);
+  scheduleAutoWhoami(state);
 }
 
 /** Mobile chip toolbar + nav quick buttons. */
@@ -292,6 +293,37 @@ function setupKonami(s: State): void {
     s.el.scoreFill.style.width = '100%';
     seq = [];
   });
+}
+
+/** Auto-run whoami once after the boot overlay is removed. */
+function scheduleAutoWhoami(s: State): void {
+  const overlay = document.querySelector('[data-boot-overlay]');
+  const fire = () => window.setTimeout(() => autoRun(s), 400);
+  if (!overlay) {
+    fire();
+    return;
+  }
+  new MutationObserver((_, obs) => {
+    if (!document.contains(overlay)) {
+      obs.disconnect();
+      fire();
+    }
+  }).observe(document.body, { childList: true, subtree: true });
+}
+
+function autoRun(s: State): void {
+  const { identity } = s.ctx.profile;
+  s.history.unshift('whoami');
+  s.hi = -1;
+  prompt(s, 'whoami');
+  line(
+    s,
+    `<span class="t-tx">${escapeHtml(identity.name)}</span>` +
+    `<span class="t-dim"> — </span>` +
+    `<span class="t-grn">${escapeHtml(identity.role)}</span>`,
+  );
+  addScore(s, 'whoami');
+  s.el.input.focus();
 }
 
 /** Escape user-input strings before injecting them into innerHTML. */
