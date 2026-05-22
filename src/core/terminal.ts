@@ -35,6 +35,17 @@ const POINTS: Record<string, number> = {
   tcpdump: 3,
   siem: 3,
   'siem alerts': 3,
+  logs: 8,
+  'logs --severity critical': 3,
+  'logs --severity high': 3,
+  'logs --severity medium': 3,
+  'logs --severity low': 3,
+  alerts: 10,
+  ioc: 8,
+  threat: 8,
+  scan: 5,
+  nmap: 5,
+  skillmatrix: 6,
 };
 const MAX_SCORE = 100;
 

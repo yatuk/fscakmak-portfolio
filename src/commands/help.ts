@@ -16,6 +16,11 @@ const QUICK_ROWS = (t: (k: string) => string): Row[] => [
   { cmd: 'education',      desc: t('cmd.education.title'),    pts: 5 },
   { cmd: 'certs',          desc: t('cmd.certs.title'),        pts: 8 },
   { cmd: 'mitre',          desc: 'defended ATT&CK techniques' },
+  { cmd: 'logs',           desc: 'SIEM log stream' },
+  { cmd: 'alerts',         desc: 'alert triage queue' },
+  { cmd: 'ioc',            desc: 'IOC feed' },
+  { cmd: 'threat',         desc: 'CTI brief' },
+  { cmd: 'skillmatrix',    desc: 'skill matrix' },
   { cmd: 'languages',      desc: t('cmd.languages.title'),    pts: 3 },
   { cmd: 'contact',        desc: t('cmd.contact.title'),      pts: 5 },
   { cmd: 'socials',        desc: t('cmd.socials.title'),      pts: 3 },
@@ -86,6 +91,16 @@ const verboseCategories = (t: (k: string) => string): Category[] => [
       { cmd: 'theme',  desc: 'switch palette (tokyonight · cyberpunk · matrix · catppuccin)' },
       { cmd: 'clear',  desc: 'clear screen (or Ctrl+L)' },
       { cmd: 'help',   desc: 'compact command list' },
+    ],
+  },
+  {
+    title: '▸ SOC tools',
+    rows: [
+      { cmd: 'logs',        desc: 'SIEM log stream  (--severity critical|high|medium|low)' },
+      { cmd: 'alerts',      desc: 'SOAR alert triage queue' },
+      { cmd: 'ioc',         desc: 'IOC / threat intel feed' },
+      { cmd: 'threat',      desc: 'CTI brief — active threat actors' },
+      { cmd: 'skillmatrix', desc: 'skill proficiency matrix' },
     ],
   },
   {

@@ -276,6 +276,42 @@ const profile = getProfile(locale);
   })();
 </script>
 
+<script is:inline>
+  /* Logo glitch — character corruption every 3-8s, reduced-motion aware. */
+  (() => {
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+
+    const fire = () => {
+      const logo = document.querySelector('.term-logo');
+      if (!logo || !document.body.contains(logo)) return;
+
+      const original = logo.textContent ?? '';
+      const CHARS = '!@#%^&*<>?/|[]{}ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      const txt = original.split('');
+
+      /* Corrupt 1-2 random characters */
+      const count = 1 + Math.floor(Math.random() * 2);
+      for (let c = 0; c < count; c++) {
+        const idx = Math.floor(Math.random() * txt.length);
+        txt[idx] = CHARS[Math.floor(Math.random() * CHARS.length)];
+      }
+      logo.textContent = txt.join('');
+
+      /* Restore after 60-120ms */
+      window.setTimeout(() => {
+        const l = document.querySelector('.term-logo');
+        if (l) l.textContent = original;
+      }, 60 + Math.random() * 60);
+
+      /* Schedule next glitch */
+      window.setTimeout(fire, 3000 + Math.random() * 5000);
+    };
+
+    /* First glitch after terminal is settled */
+    window.setTimeout(fire, 4000 + Math.random() * 2000);
+  })();
+</script>
+
 <script>
   import { initTerminal } from '@core/terminal';
   import type { Locale, Profile } from '@ptypes/profile';

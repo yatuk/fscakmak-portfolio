@@ -21,6 +21,12 @@ import { downloadCommands } from './download';
 import { eggs } from './easter-eggs';
 import { step10Eggs } from './step10-eggs';
 import { githubStatsCommands } from './github-stats';
+import { logsCommands } from './logs';
+import { alerts } from './alerts';
+import { ioc } from './ioc';
+import { threat } from './threat';
+import { scanCommands } from './scan';
+import { skillmatrix } from './skillmatrix';
 
 export interface CommandContext {
   profile: Profile;
@@ -81,4 +87,10 @@ export const commandRegistry: Record<string, CommandHandler> = {
   ...eggs,
   ...step10Eggs,
   ...githubStatsCommands,
+  ...logsCommands,
+  alerts,
+  ioc,
+  threat,
+  ...scanCommands,
+  skillmatrix,
 };

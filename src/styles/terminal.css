@@ -1306,6 +1306,321 @@
   50%       { opacity: 0; }
 }
 
+/* ── Shared severity colours ────────────────────────────── */
+.soc-crit { color: #f87171; }
+.soc-high { color: #fb923c; }
+.soc-med  { color: var(--color-cmd); }
+.soc-low  { color: var(--color-text-dim); }
+
+/* ── SIEM Log Stream (logs command) ─────────────────────── */
+.log-head,
+.log-stream { font-family: var(--font-mono); font-size: var(--text-sm); }
+
+.log-head {
+  display: flex;
+  gap: 8px;
+  color: var(--color-text-dim);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 3px;
+  margin-left: 2px;
+  overflow-x: auto;
+}
+
+.log-stream {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin-left: 2px;
+  overflow-x: auto;
+}
+
+.log-row {
+  display: flex;
+  gap: 8px;
+  line-height: 1.7;
+  padding: 1px 3px;
+  border-radius: 2px;
+  transition: background var(--transition-fast);
+  white-space: nowrap;
+}
+
+.log-row:hover { background: rgba(255,255,255,0.03); }
+
+.log-ts   { color: var(--color-text-dim); width: 22ch; flex-shrink: 0; }
+.log-sev  { width: 9ch;  flex-shrink: 0; font-weight: 700; }
+.log-src  { color: var(--color-text-dim); width: 16ch; flex-shrink: 0; }
+.log-ttp  { color: var(--color-tag); width: 11ch; flex-shrink: 0; font-weight: 600; }
+.log-msg  { color: var(--color-text); }
+
+/* ── Alert Queue (alerts command) ───────────────────────── */
+.alert-summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  margin-bottom: var(--space-3);
+  margin-left: 2px;
+}
+
+.alert-sum-sep { color: var(--color-border); }
+
+.alert-head,
+.alert-list { font-family: var(--font-mono); font-size: var(--text-sm); }
+
+.alert-head {
+  display: flex;
+  gap: 8px;
+  color: var(--color-text-dim);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 3px;
+  margin-left: 2px;
+  overflow-x: auto;
+}
+
+.alert-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-left: 2px;
+  overflow-x: auto;
+}
+
+.alert-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.65;
+  padding: 2px 3px;
+  border-radius: 2px;
+  white-space: nowrap;
+  transition: background var(--transition-fast);
+}
+
+.alert-row:hover { background: rgba(255,255,255,0.03); }
+
+.alert-id         { color: var(--color-text-dim); width: 6ch;  flex-shrink: 0; }
+.alert-title      { color: var(--color-text);     flex: 1;     min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.alert-ttp        { color: var(--color-tag);      width: 11ch; flex-shrink: 0; font-weight: 600; }
+.alert-age        { color: var(--color-text-dim); width: 8ch;  flex-shrink: 0; text-align: right; }
+
+.alert-sev-badge {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 2px;
+  width: 10ch;
+  flex-shrink: 0;
+  text-align: center;
+  background: rgba(255,255,255,0.04);
+}
+
+.alert-status-badge {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 2px;
+  width: 10ch;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.alert-open   { color: #f87171; background: rgba(248, 113, 113, 0.08); }
+.alert-review { color: #fb923c; background: rgba(251, 146, 60, 0.08); }
+.alert-closed { color: var(--color-text-dim); background: rgba(255,255,255,0.04); }
+
+/* ── IOC Table (ioc command) ────────────────────────────── */
+.ioc-head,
+.ioc-table { font-family: var(--font-mono); font-size: var(--text-sm); }
+
+.ioc-head {
+  display: flex;
+  gap: 10px;
+  color: var(--color-text-dim);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 3px;
+  margin-left: 2px;
+  overflow-x: auto;
+}
+
+.ioc-table {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin-left: 2px;
+  overflow-x: auto;
+}
+
+.ioc-row {
+  display: flex;
+  gap: 10px;
+  line-height: 1.7;
+  padding: 1px 3px;
+  border-radius: 2px;
+  white-space: nowrap;
+  transition: background var(--transition-fast);
+}
+
+.ioc-row:hover { background: rgba(255,255,255,0.03); }
+
+.ioc-type { color: var(--color-tag);      width: 7ch;  flex-shrink: 0; font-weight: 600; }
+.ioc-val  { color: var(--color-text);     width: 43ch; flex-shrink: 0; }
+.ioc-ttp  { color: var(--color-tag);      width: 11ch; flex-shrink: 0; }
+.ioc-src  { color: var(--color-text-dim); width: 16ch; flex-shrink: 0; }
+.ioc-conf { font-weight: 700; width: 4ch; flex-shrink: 0; }
+
+/* ── Threat intel cards (threat command) ────────────────── */
+.threat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-3);
+  margin-left: 2px;
+  margin-bottom: var(--space-2);
+}
+
+.threat-card {
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: border-color var(--transition-base);
+}
+
+.threat-card:hover { border-color: var(--color-tag); }
+
+.threat-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+}
+
+.threat-group {
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: var(--text-md);
+  font-weight: 700;
+}
+
+.threat-alias {
+  color: var(--color-text-dim);
+  font-size: var(--text-sm);
+}
+
+.threat-sev {
+  margin-left: auto;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 1px 6px;
+  border-radius: 2px;
+  background: rgba(255,255,255,0.04);
+}
+
+.threat-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+  font-size: var(--text-xs);
+  margin-bottom: 6px;
+}
+
+.threat-origin  { color: var(--color-link); font-weight: 600; }
+.threat-region  { color: var(--color-cmd); }
+.threat-targets { color: var(--color-text-dim); }
+.threat-dot     { color: var(--color-border); }
+
+.threat-campaign {
+  color: var(--color-text-dim);
+  font-size: var(--text-sm);
+  line-height: 1.45;
+  margin-bottom: 8px;
+}
+
+.threat-ttps { display: flex; flex-wrap: wrap; gap: 4px; }
+
+.threat-ttp-badge {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-tag);
+  background: rgba(192, 132, 252, 0.08);
+  border: 1px solid rgba(192, 132, 252, 0.18);
+  padding: 1px 6px;
+  border-radius: 2px;
+  letter-spacing: 0.02em;
+}
+
+/* ── nmap scan output ───────────────────────────────────── */
+.scan-output .scan-pre {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: 1.7;
+  white-space: pre;
+  margin-left: 2px;
+  overflow-x: auto;
+}
+
+.scan-dim    { color: var(--color-text-dim); }
+.scan-host   { color: var(--color-link); font-weight: 600; }
+.scan-head   { color: var(--color-cmd);  font-weight: 700; }
+.scan-open   { color: var(--color-prompt); }
+.scan-closed { color: var(--color-danger); }
+
+/* ── Skill matrix ───────────────────────────────────────── */
+.smat-wrap { margin-left: 2px; }
+
+.smat-head,
+.smat-row {
+  display: flex;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: 1.8;
+  align-items: baseline;
+}
+
+.smat-head {
+  color: var(--color-text-dim);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: var(--text-xs);
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 3px;
+}
+
+.smat-name  { width: 24ch; flex-shrink: 0; color: var(--color-text); }
+.smat-bar   { flex-shrink: 0; }
+.smat-pct   { width: 5ch;  flex-shrink: 0; color: var(--color-prompt); font-weight: 600; }
+.smat-group { color: var(--color-text-dim); font-size: var(--text-xs); }
+
+.smat-fill  { color: var(--color-accent); }
+.smat-empty { color: var(--color-border); }
+
+/* ── Logo glitch ────────────────────────────────────────── */
+@keyframes logo-glitch-clip {
+  0%, 100% { clip-path: inset(0 0 100% 0); }
+  20%       { clip-path: inset(20% 0 60% 0); }
+  40%       { clip-path: inset(50% 0 30% 0); }
+  60%       { clip-path: inset(70% 0 10% 0); }
+  80%       { clip-path: inset(10% 0 80% 0); }
+}
+
 /* ── Easter eggs ─────────────────────────────────────────── */
 .egg-mono {
   font-size: var(--text-base);
