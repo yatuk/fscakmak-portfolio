@@ -1,4 +1,17 @@
+# Security contact for fscakmak.com
+# RFC 9116 compliant — https://securitytxt.org
+#
+# This is a personal portfolio site.
+# If you find a vulnerability, please report it responsibly.
+# I will acknowledge all valid reports.
+
 Contact: mailto:fscakmak@proton.me
+Contact: https://linkedin.com/in/fatihserdar
+
+Encryption: https://keys.proton.me/api/pks/lookup?op=get&search=fscakmak%40proton.me
+
 Preferred-Languages: en, tr
+
 Canonical: https://fscakmak.com/.well-known/security.txt
-Expires: 2027-12-31T23:59:59.000Z
+
+Expires: 2027-05-22T00:00:00.000Z
