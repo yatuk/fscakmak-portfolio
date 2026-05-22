@@ -2,3 +2,8 @@ User-agent: *
 Allow: /
 
 Sitemap: https://fscakmak.com/sitemap-index.xml
+
+# Hey, you're reading robots.txt. That's a good sign.
+# If you're digging around: try the terminal at fscakmak.com
+# and run:  cat .secret/flag.txt
+# There's also something in the browser console if you look.

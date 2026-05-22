@@ -20,12 +20,20 @@ const profile = getProfile(locale);
     <div class="entry-sep" aria-hidden="true"></div>
     <div class="entry-buttons">
       <button type="button" class="entry-btn entry-btn-terminal" data-entry-terminal>
-        TERMINAL
+        <span class="entry-btn-label">TERMINAL</span>
+        <span class="entry-btn-hint" aria-hidden="true">&gt; access_shell</span>
       </button>
       <button type="button" class="entry-btn entry-btn-recruiter" data-entry-recruiter>
-        RECRUITER VIEW
+        <span class="entry-btn-label">RECRUITER VIEW</span>
+        <span class="entry-btn-hint" aria-hidden="true">&gt; load_report</span>
       </button>
     </div>
+  </div>
+
+  <div class="entry-status" data-entry-status aria-hidden="true">
+    <span class="entry-status-item entry-status-online">● STATUS: ONLINE</span>
+    <span class="entry-status-item">PROTOCOL: HTTPS</span>
+    <span class="entry-status-item">CONNECTION: SECURE</span>
   </div>
 </div>
 
@@ -136,6 +144,7 @@ const profile = getProfile(locale);
     const nameEl  = screen.querySelector('[data-entry-name]');
     const sepEl   = screen.querySelector('.entry-sep');
     const btns    = screen.querySelectorAll('.entry-btn');
+    const statusEl = screen.querySelector('[data-entry-status]');
     const NAME    = 'FSCAKMAK';
     const CHAR_MS = 55;
     /* CRT power-on takes ~420ms — start typing shortly after it peaks */
@@ -147,6 +156,12 @@ const profile = getProfile(locale);
       btns.forEach((btn, i) => {
         window.setTimeout(() => btn.classList.add('btn-reveal'), 60 + i * 140);
       });
+      if (statusEl) {
+        window.setTimeout(
+          () => statusEl.classList.add('status-reveal'),
+          reduced ? 0 : 420
+        );
+      }
     };
 
     if (nameEl) {

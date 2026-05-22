@@ -29,6 +29,23 @@ const cfBeaconToken = import.meta.env.PUBLIC_CF_WEB_ANALYTICS_TOKEN;
 <!doctype html>
 <html lang={locale} data-theme="tokyonight">
   <head>
+    <!-- Console flag for the technically curious -->
+    <script is:inline>
+      console.log(
+        '%c fscakmak.com %c',
+        'background:#22d3ee;color:#0d0d0d;font-weight:700;padding:4px 8px;border-radius:3px 0 0 3px;font-family:monospace;font-size:13px',
+        ''
+      );
+      console.log(
+        '%c SOC_FLAG{y0u_ch3ck3d_th3_c0ns0l3} ',
+        'color:#22d3ee;font-family:monospace;font-size:11px'
+      );
+      console.log(
+        '%c → try the terminal: run  cat .secret/flag.txt ',
+        'color:#6b7280;font-family:monospace;font-size:11px'
+      );
+    </script>
+
     <!-- No-flash theme init + mobile auto-switch. Runs before any
          CSS paints so neither theme nor route flickers. -->
     <script is:inline>

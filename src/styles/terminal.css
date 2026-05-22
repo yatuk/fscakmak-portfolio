@@ -121,6 +121,35 @@
   /* Start invisible; revealed by .btn-reveal */
   opacity: 0;
   transform: translateY(14px);
+  /* Hint text support */
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.entry-btn-hint {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: var(--color-text-dim);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 150ms ease-out;
+}
+
+.entry-btn:hover .entry-btn-hint,
+.entry-btn:focus-visible .entry-btn-hint {
+  opacity: 0.65;
+}
+
+.entry-btn.btn-chosen .entry-btn-hint {
+  opacity: 0 !important;
 }
 
 .entry-btn.btn-reveal {
@@ -202,6 +231,46 @@
     opacity: 1 !important;
     transform: none !important;
   }
+
+  .entry-btn-hint { transition: none !important; }
+
+  .entry-status { animation: none !important; }
+  .entry-status.status-reveal { opacity: 1 !important; }
+}
+
+/* ── System status bar — bottom-right of entry screen */
+.entry-status {
+  position: absolute;
+  bottom: var(--space-5);
+  right: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.entry-status.status-reveal {
+  animation: status-in 350ms ease-out forwards;
+}
+
+@keyframes status-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.entry-status-item {
+  color: var(--color-text-dim);
+  opacity: 0.5;
+}
+
+.entry-status-online {
+  color: var(--color-prompt);
+  opacity: 0.8;
 }
 
 /* ── Mobile */
@@ -218,6 +287,7 @@
     align-items: center;
     justify-content: center;
   }
+  .entry-status { display: none; }
 }
 
 /* ── Boot overlay ────────────────────────────────────────── */
