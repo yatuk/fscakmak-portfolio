@@ -1,0 +1,132 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="404 — fscakmak.com"
+  description="Page not found."
+  locale="en"
+>
+  <div class="not-found">
+    <div class="nf-window">
+      <div class="nf-titlebar">
+        <div class="nf-dots" aria-hidden="true">
+          <div class="nf-dot nf-dot-r"></div>
+          <div class="nf-dot nf-dot-y"></div>
+          <div class="nf-dot nf-dot-g"></div>
+        </div>
+        <div class="nf-title">fscakmak@kali ~ % zsh</div>
+      </div>
+      <div class="nf-body">
+        <p class="nf-line"><span class="nf-prompt">$ </span><span class="nf-cmd">cd {Astro.url.pathname}</span></p>
+        <p class="nf-line nf-err">bash: cd: {Astro.url.pathname}: No such file or directory</p>
+        <p class="nf-line nf-dim">exit code 1</p>
+        <div class="nf-sep" aria-hidden="true"></div>
+        <p class="nf-line"><span class="nf-prompt">$ </span><span class="nf-cmd">ls /</span></p>
+        <p class="nf-line nf-dim">
+          <span class="nf-link-item"><a href="/">~/terminal</a></span>
+          <span class="nf-link-item"><a href="/cv">~/cv</a></span>
+        </p>
+        <div class="nf-sep" aria-hidden="true"></div>
+        <p class="nf-line nf-hint">
+          <a href="/" class="nf-cta">← back to terminal</a>
+        </p>
+      </div>
+    </div>
+    <p class="nf-code">404</p>
+  </div>
+</BaseLayout>
+
+<style>
+  .not-found {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 540px;
+  }
+
+  .nf-window {
+    width: 100%;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+  }
+
+  .nf-titlebar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: 0 var(--space-4);
+    height: 36px;
+    background: var(--color-surface-raised);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .nf-dots { display: flex; gap: 6px; }
+  .nf-dot  { width: 10px; height: 10px; border-radius: 50%; }
+  .nf-dot-r { background: #ff5f57; }
+  .nf-dot-y { background: #febc2e; }
+  .nf-dot-g { background: #28c840; }
+
+  .nf-title {
+    font-size: var(--text-xs);
+    color: var(--color-text-dim);
+    letter-spacing: 0.02em;
+  }
+
+  .nf-body {
+    padding: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .nf-sep {
+    height: 1px;
+    background: var(--color-border);
+    margin: var(--space-3) 0;
+    opacity: 0.4;
+  }
+
+  .nf-line { line-height: 1.6; }
+
+  .nf-prompt { color: var(--color-prompt); }
+  .nf-cmd    { color: var(--color-cmd); }
+  .nf-err    { color: var(--color-error); }
+  .nf-dim    { color: var(--color-text-dim); }
+
+  .nf-hint { margin-top: var(--space-2); }
+
+  .nf-link-item {
+    margin-right: var(--space-4);
+  }
+
+  .nf-link-item a,
+  .nf-cta {
+    color: var(--color-link);
+    text-decoration: none;
+    border-bottom: 1px dashed currentColor;
+    padding-bottom: 1px;
+    transition: color var(--transition-fast);
+  }
+
+  .nf-link-item a:hover,
+  .nf-cta:hover {
+    color: var(--color-link-hover);
+  }
+
+  .nf-code {
+    font-family: var(--font-mono);
+    font-size: clamp(4rem, 16vw, 7rem);
+    font-weight: 700;
+    color: var(--color-border);
+    letter-spacing: -0.04em;
+    line-height: 1;
+    user-select: none;
+  }
+</style>

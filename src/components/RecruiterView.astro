@@ -72,6 +72,7 @@ const certsLabel = pluralize(
     {identity.tagline && (
       <p class="cv-hero-tagline">{identity.tagline}</p>
     )}
+    <p class="cv-hero-pitch">{identity.current}</p>
     <div class="cv-cta-row">
       <a class="cv-cta cv-cta-primary" href={`mailto:${identity.email}`}>
         📧 {t(locale, 'recruiter.cta_email')}

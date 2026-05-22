@@ -312,10 +312,22 @@ function addScore(s: State, cmd: string): void {
   const pts = POINTS[cmd];
   if (!pts || s.earned.has(cmd)) return;
   s.earned.add(cmd);
+  const prev = s.score;
   s.score = Math.min(s.score + pts, MAX_SCORE);
   s.el.scoreValue.textContent = `${s.score}/${MAX_SCORE}`;
   s.el.scoreFill.style.width = `${(s.score / MAX_SCORE) * 100}%`;
   flash(s.el.scoreValue);
+  if (prev < MAX_SCORE && s.score >= MAX_SCORE) triggerMaxScore(s);
+}
+
+function triggerMaxScore(s: State): void {
+  s.el.scoreFill.style.background = 'var(--color-prompt)';
+  block(s, `<div class="cmd-block">
+    <div class="t-grn">██████████████████████ 100/100</div>
+    <div class="t-ylw">achievement unlocked: thorough investigator</div>
+    <div class="t-dim">You read everything. Most people don't get this far.</div>
+    <div class="t-dim">There's one more thing — try: <span class="t-link">sudo</span></div>
+  </div>`);
 }
 
 function flash(el: HTMLElement): void {

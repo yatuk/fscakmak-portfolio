@@ -139,6 +139,15 @@ __/ =| o |=-~~\\  /~~\\  /~~\\  /~~\\ ____Y___________|__
   },
 
   date: () => `<div class="cmd-block t-tx">${escape(new Date().toString())}</div>`,
+
+  sudo: () => `
+<div class="cmd-block">
+  <span class="t-dim">[sudo] password for fscakmak: </span><span class="t-grn">**************</span><br><br>
+  <span class="t-grn">root access granted.</span><br>
+  <span class="t-dim">just kidding — there's no root here.</span><br><br>
+  <span class="t-tx">but since you made it to 100: thanks for actually reading everything.</span><br>
+  <span class="t-dim">most people just tab through. you didn't. that means something.</span>
+</div>`,
 };
 
 function escape(s: string): string {
