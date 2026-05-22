@@ -50,6 +50,7 @@ interface Elements {
   input: HTMLInputElement;
   scoreFill: HTMLElement;
   scoreValue: HTMLElement;
+  suggestions: HTMLElement;
 }
 
 interface State {
@@ -59,6 +60,7 @@ interface State {
   score: number;
   earned: Set<string>;
   ctx: CommandContext;
+  suggestIdx: number;
 }
 
 export interface InitOpts {
@@ -73,14 +75,15 @@ export function initTerminal({ container, profile, locale }: InitOpts): void {
   const input = container.querySelector<HTMLInputElement>('[data-term-input]');
   const scoreFill = container.querySelector<HTMLElement>('[data-term-score-fill]');
   const scoreValue = container.querySelector<HTMLElement>('[data-term-score-value]');
+  const suggestions = container.querySelector<HTMLElement>('[data-term-suggestions]');
 
-  if (!body || !output || !input || !scoreFill || !scoreValue) {
+  if (!body || !output || !input || !scoreFill || !scoreValue || !suggestions) {
     console.warn('[terminal] required elements missing — skipping init');
     return;
   }
 
   const state: State = {
-    el: { body, output, input, scoreFill, scoreValue },
+    el: { body, output, input, scoreFill, scoreValue, suggestions },
     history: [],
     hi: -1,
     score: 0,
@@ -91,9 +94,11 @@ export function initTerminal({ container, profile, locale }: InitOpts): void {
       t: (key) => translate(locale, key),
       getHistory: () => state.history,
     },
+    suggestIdx: -1,
   };
 
   input.addEventListener('keydown', (e) => onKey(state, e));
+  input.addEventListener('input', () => updateSuggestions(state));
   body.addEventListener('click', (e) => {
     if (!(e.target as Element).closest('a')) input.focus();
   });
@@ -121,6 +126,8 @@ export function wireQuickLaunch(root: ParentNode): void {
 
 function onKey(s: State, e: KeyboardEvent): void {
   if (e.key === 'Enter') {
+    hideSuggestions(s);
+    s.suggestIdx = -1;
     run(s, s.el.input.value);
     s.el.input.value = '';
   } else if (e.key === 'ArrowUp') {
@@ -141,14 +148,62 @@ function onKey(s: State, e: KeyboardEvent): void {
   } else if (e.key === 'Tab') {
     e.preventDefault();
     const v = s.el.input.value.toLowerCase();
-    if (v) {
-      const m = Object.keys(commandRegistry).find((c) => c.startsWith(v));
-      if (m) s.el.input.value = m;
+    if (!v) return;
+    const matches = Object.keys(commandRegistry).filter((c) => c.startsWith(v));
+    if (matches.length === 0) return;
+    if (matches.length === 1) {
+      s.el.input.value = matches[0];
+      hideSuggestions(s);
+    } else {
+      s.suggestIdx = (s.suggestIdx + 1) % matches.length;
+      s.el.input.value = matches[s.suggestIdx];
+      renderSuggestions(s, matches, s.suggestIdx);
     }
+  } else if (e.key === 'Escape') {
+    hideSuggestions(s);
+    s.suggestIdx = -1;
   } else if (e.key === 'l' && e.ctrlKey) {
     e.preventDefault();
     run(s, 'clear');
   }
+}
+
+const MAX_SUGGESTIONS = 6;
+
+function updateSuggestions(s: State): void {
+  const v = s.el.input.value.toLowerCase();
+  s.suggestIdx = -1;
+  if (!v) { hideSuggestions(s); return; }
+  const matches = Object.keys(commandRegistry).filter((c) => c.startsWith(v));
+  if (matches.length === 0 || matches.length === 1 && matches[0] === v) {
+    hideSuggestions(s);
+    return;
+  }
+  renderSuggestions(s, matches, -1);
+}
+
+function renderSuggestions(s: State, matches: string[], activeIdx: number): void {
+  const visible = matches.slice(0, MAX_SUGGESTIONS);
+  s.el.suggestions.innerHTML = visible
+    .map((cmd, i) => {
+      const cls = i === activeIdx ? 'term-sug term-sug-active' : 'term-sug';
+      return `<span class="${cls}" data-cmd="${cmd}">${cmd}</span>`;
+    })
+    .join('');
+  s.el.suggestions.classList.add('term-suggestions-open');
+
+  s.el.suggestions.querySelectorAll<HTMLElement>('[data-cmd]').forEach((el) => {
+    el.addEventListener('click', () => {
+      s.el.input.value = el.dataset.cmd ?? '';
+      hideSuggestions(s);
+      s.el.input.focus();
+    });
+  });
+}
+
+function hideSuggestions(s: State): void {
+  s.el.suggestions.innerHTML = '';
+  s.el.suggestions.classList.remove('term-suggestions-open');
 }
 
 function run(s: State, raw: string): void {

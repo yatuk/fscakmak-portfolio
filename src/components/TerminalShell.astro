@@ -16,7 +16,7 @@ const profile = getProfile(locale);
      User picks a view; TERMINAL gates the boot sequence. -->
 <div class="entry-screen" data-entry-screen>
   <div class="entry-content">
-    <div class="entry-name">FSCAKMAK</div>
+    <div class="entry-name" data-entry-name></div>
     <div class="entry-sep" aria-hidden="true"></div>
     <div class="entry-buttons">
       <button type="button" class="entry-btn entry-btn-terminal" data-entry-terminal>
@@ -89,6 +89,7 @@ const profile = getProfile(locale);
         aria-label={t(locale, 'terminal.input_aria')}
       />
     </div>
+    <div class="term-suggestions" data-term-suggestions role="listbox" aria-label="suggestions"></div>
     <div class="term-hint">{t(locale, 'terminal.hint')}</div>
 
     <nav class="term-mobile-chips" aria-label={t(locale, 'terminal.chips_aria')}>
@@ -110,14 +111,13 @@ const profile = getProfile(locale);
 />
 
 <script is:inline>
-  /* Entry screen — shown on every load, no session persistence.
-     Dispatches 'fsc:terminal-chosen' so the boot sequence knows to start. */
   (() => {
     const screen = document.querySelector('[data-entry-screen]');
     if (!screen) return;
 
-    /* Bypass: coming back from recruiter view via the view toggle.
-       Flag is set by ViewToggle.astro and consumed here (one-shot). */
+    const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+
+    /* Bypass: returning from recruiter view via the view toggle. */
     let bypass = false;
     try {
       bypass = sessionStorage.getItem('fsc.entry.bypass') === '1';
@@ -131,32 +131,67 @@ const profile = getProfile(locale);
       return;
     }
 
-    const locale = document.documentElement.lang;
-    const cvPath = locale === 'tr' ? '/tr/cv' : '/cv';
+    const locale  = document.documentElement.lang;
+    const cvPath  = locale === 'tr' ? '/tr/cv' : '/cv';
+    const nameEl  = screen.querySelector('[data-entry-name]');
+    const sepEl   = screen.querySelector('.entry-sep');
+    const btns    = screen.querySelectorAll('.entry-btn');
+    const NAME    = 'FSCAKMAK';
+    const CHAR_MS = 55;
+    /* CRT power-on takes ~420ms — start typing shortly after it peaks */
+    const START   = reduced ? 0 : 360;
 
-    const dismiss = (then) => {
-      /* Clear the CSS animation forwards-fill before transitioning out,
-         then use inline styles to drive the fade so it's not blocked. */
-      screen.style.animation = 'none';
-      void screen.offsetHeight; /* force reflow */
-      screen.style.transition = 'opacity 100ms ease-out';
-      screen.style.opacity = '0';
-      screen.style.pointerEvents = 'none';
+    /* Reveal separator + buttons after name is done */
+    const revealBelow = () => {
+      if (sepEl) sepEl.classList.add('sep-draw');
+      btns.forEach((btn, i) => {
+        window.setTimeout(() => btn.classList.add('btn-reveal'), 60 + i * 140);
+      });
+    };
+
+    if (nameEl) {
+      if (reduced) {
+        nameEl.textContent = NAME;
+        nameEl.classList.add('entry-name-done');
+        revealBelow();
+      } else {
+        let i = 0;
+        const tick = () => {
+          if (i < NAME.length) {
+            nameEl.textContent = NAME.slice(0, ++i);
+            window.setTimeout(tick, CHAR_MS);
+          } else {
+            /* Hold cursor for one extra blink cycle, then dismiss it */
+            window.setTimeout(() => {
+              nameEl.classList.add('entry-name-done');
+              revealBelow();
+            }, 320);
+          }
+        };
+        window.setTimeout(tick, START);
+      }
+    }
+
+    /* Dismiss — mode 'terminal' zooms into the terminal behind the screen.
+       Mode 'recruiter' slides the screen upward toward the new page. */
+    const dismiss = (mode, then) => {
+      btns.forEach((b) => b.classList.add('btn-chosen'));
       window.setTimeout(() => {
-        screen.remove();
-        if (then) then();
-      }, 100);
+        screen.classList.add('exit-' + mode);
+        const dur = mode === 'terminal' ? 320 : 260;
+        window.setTimeout(() => { screen.remove(); if (then) then(); }, dur);
+      }, 90);
     };
 
     screen.querySelector('[data-entry-terminal]')?.addEventListener('click', () => {
-      dismiss(() => {
+      dismiss('terminal', () => {
         window.__entryChoice = 'terminal';
         window.dispatchEvent(new CustomEvent('fsc:terminal-chosen'));
       });
     });
 
     screen.querySelector('[data-entry-recruiter]')?.addEventListener('click', () => {
-      dismiss(() => { window.location.href = cvPath; });
+      dismiss('recruiter', () => { window.location.href = cvPath; });
     });
   })();
 </script>
@@ -195,7 +230,7 @@ const profile = getProfile(locale);
         if (dismissed) return;
         dismissed = true;
         overlay.classList.add('boot-fade');
-        window.setTimeout(() => overlay.remove(), 300);
+        window.setTimeout(() => overlay.remove(), 320);
       };
 
       const typeLine = (cfg, onDone) => {

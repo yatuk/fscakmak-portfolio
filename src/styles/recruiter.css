@@ -617,6 +617,63 @@
   .cv-force-terminal { display: block; }
 }
 
+/* ── Sticky bar ──────────────────────────────────────────── */
+.cv-sticky-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-5);
+  height: 52px;
+  background: rgba(17, 17, 17, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border);
+  opacity: 0;
+  transform: translateY(-100%);
+  transition:
+    opacity 200ms ease-out,
+    transform 200ms ease-out;
+  pointer-events: none;
+}
+
+.cv-sticky-bar-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.cv-sticky-name {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text);
+  letter-spacing: 0.04em;
+}
+
+.cv-sticky-links {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.cv-sticky-links a {
+  font-size: var(--text-lg);
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity var(--transition-fast);
+  line-height: 1;
+}
+
+.cv-sticky-links a:hover { opacity: 1; }
+
+@media print {
+  .cv-sticky-bar { display: none !important; }
+}
+
 /* ── Footer ──────────────────────────────────────────────── */
 .cv-footer {
   text-align: center;
@@ -628,6 +685,12 @@
 }
 
 /* ── Responsive ──────────────────────────────────────────── */
+
+/* Narrow the right column at mid breakpoints before it gets too tight */
+@media (max-width: 900px) and (min-width: 768px) {
+  .cv-row { grid-template-columns: 58fr 42fr; }
+}
+
 @media (max-width: 767px) {
   .cv-root { padding: var(--space-2); gap: var(--space-2); }
   .cv-card { padding: var(--space-4); }
@@ -651,4 +714,108 @@ body.cv-body {
     padding-left: var(--space-2);
     padding-right: var(--space-2);
   }
+}
+
+/* ── Print ───────────────────────────────────────────────── */
+@media print {
+  /* Reset page chrome */
+  body, body.cv-body {
+    background: #fff !important;
+    color: #111 !important;
+    padding: 0 !important;
+    align-items: flex-start !important;
+    font-family: Georgia, 'Times New Roman', serif;
+  }
+
+  /* Hide interactive / decorative elements */
+  .header-controls,
+  .cv-force-terminal,
+  .cv-footer,
+  .cv-cta-row,
+  .cv-contact { display: none !important; }
+
+  /* Remove background texture */
+  body::before { display: none !important; }
+
+  /* Grid canvas */
+  .cv-root {
+    max-width: 100%;
+    gap: 18pt;
+    padding: 0;
+  }
+
+  /* Cards: flat borders only */
+  .cv-card {
+    background: transparent !important;
+    border: 1px solid #ccc !important;
+    border-radius: 4pt;
+    padding: 12pt;
+    break-inside: avoid;
+  }
+
+  /* Transparent cards in cv-row stay flat */
+  .cv-row > .cv-card {
+    border: none !important;
+    padding: 0 !important;
+  }
+
+  /* Hero */
+  .cv-hero { border: none !important; padding: 0 0 12pt !important; }
+  .cv-hero-name { color: #111 !important; font-size: 28pt; }
+  .cv-hero-role { color: #333 !important; }
+  .cv-hero-tagline { color: #444 !important; }
+  .cv-hero-pitch {
+    border-left-color: #888 !important;
+    color: #444 !important;
+  }
+
+  /* Metrics */
+  .cv-metrics { grid-template-columns: repeat(3, 1fr); }
+  .cv-metric-value { color: #111 !important; }
+  .cv-metric-label { color: #555 !important; }
+
+  /* Skill chips */
+  .cv-chip { color: #222 !important; }
+  .cv-chip::before,
+  .cv-chip::after { color: #888 !important; }
+  .cv-chip-emph { color: #000 !important; font-weight: 700; }
+
+  /* Experience */
+  .cv-exp { border-left-color: #888 !important; }
+  .cv-exp.cv-exp-active { border-left-color: #333 !important; }
+  .cv-exp::before { background: #fff !important; border-color: #888 !important; }
+  .cv-exp.cv-exp-active::before { background: #333 !important; border-color: #333 !important; }
+  .cv-exp-title { color: #111 !important; }
+  .cv-exp-company { color: #222 !important; }
+  .cv-exp-date { color: #555 !important; }
+  .cv-exp-bullets li { color: #333 !important; }
+  .cv-exp-bullets li::before { color: #888 !important; }
+  .cv-exp-pill { border-color: #ccc !important; color: #555 !important; }
+
+  /* Education */
+  .cv-edu-degree { color: #111 !important; }
+  .cv-edu-school,
+  .cv-edu-date { color: #555 !important; }
+
+  /* Projects */
+  .cv-project { border-color: #ccc !important; }
+  .cv-project-name { color: #111 !important; }
+  .cv-project-summary { color: #444 !important; }
+  .cv-project-tag { border-color: #ccc !important; color: #555 !important; }
+
+  /* Certs */
+  .cv-cert { border-color: #ccc !important; border-left-color: #555 !important; }
+  .cv-cert-name { color: #111 !important; }
+  .cv-cert-full { color: #333 !important; }
+  .cv-cert-issuer { color: #555 !important; }
+
+  /* Card titles */
+  .cv-card-title { color: #111 !important; }
+  .cv-about-text { color: #333 !important; }
+
+  /* Page breaks */
+  .cv-metrics,
+  .cv-row,
+  .cv-project,
+  .cv-cert { break-inside: avoid; }
 }

@@ -52,6 +52,15 @@ const certsLabel = pluralize(
 );
 ---
 
+<div class="cv-sticky-bar" data-cv-sticky aria-hidden="true">
+  <span class="cv-sticky-name">{identity.name}</span>
+  <div class="cv-sticky-links">
+    <a href={`mailto:${identity.email}`}>📧</a>
+    <a href={`https://linkedin.com/in/${identity.social.linkedin}`} target="_blank" rel="noopener noreferrer">💼</a>
+    <a href={`https://github.com/${identity.social.github}`} target="_blank" rel="noopener noreferrer">🐙</a>
+  </div>
+</div>
+
 <article class="cv-root" id="cv">
   <!-- ── HERO ─────────────────────────────────────────── -->
   <header class="cv-card cv-hero">
@@ -297,5 +306,19 @@ const certsLabel = pluralize(
         /* private mode — no-op */
       }
     });
+  }
+
+  /* Sticky bar — appears after hero scrolls out of view. */
+  const stickyBar = document.querySelector('[data-cv-sticky]');
+  const hero = document.querySelector('.cv-hero');
+  if (stickyBar && hero) {
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        stickyBar.classList.toggle('cv-sticky-bar-visible', !entry.isIntersecting);
+        stickyBar.setAttribute('aria-hidden', entry.isIntersecting ? 'true' : 'false');
+      },
+      { threshold: 0, rootMargin: '-72px 0px 0px 0px' }
+    );
+    obs.observe(hero);
   }
 </script>

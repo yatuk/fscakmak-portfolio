@@ -82,23 +82,42 @@ async function fetchUser(username: string): Promise<GithubUser> {
   return res.json() as Promise<GithubUser>;
 }
 
-const statsHandler: CommandHandler = async ({ profile }) => {
+const LOADING_ID = 'gh-stats-loading';
+
+function loadingHtml(username: string): string {
+  return `<div class="cmd-block" id="${LOADING_ID}">
+  <span class="t-dim">fetching github.com/${esc(username)}</span>
+  <span class="gh-spinner">▋</span>
+</div>`;
+}
+
+const statsHandler: CommandHandler = ({ profile }) => {
   const username = profile.identity.social.github;
   const cached = readCache(username);
   if (cached) {
     return formatStats(cached, true);
   }
 
-  try {
-    const user = await fetchUser(username);
-    writeCache(user);
-    return formatStats(user, false);
-  } catch {
-    return `<div class="cmd-block t-err">
-      stats: could not reach GitHub API for @${esc(username)}.<br>
-      <span class="t-dim">Try again later — rate limits happen.</span>
-    </div>`;
-  }
+  return {
+    html: loadingHtml(username),
+    effect: () => {
+      fetchUser(username)
+        .then((user) => {
+          writeCache(user);
+          const placeholder = document.getElementById(LOADING_ID);
+          if (placeholder) placeholder.outerHTML = formatStats(user, false);
+        })
+        .catch(() => {
+          const placeholder = document.getElementById(LOADING_ID);
+          if (placeholder) {
+            placeholder.outerHTML = `<div class="cmd-block t-err">
+              stats: could not reach GitHub API for @${esc(username)}.<br>
+              <span class="t-dim">Try again later — rate limits happen.</span>
+            </div>`;
+          }
+        });
+    },
+  };
 };
 
 export const githubStatsCommands: Record<string, CommandHandler> = {

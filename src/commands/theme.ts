@@ -17,12 +17,15 @@ function currentTheme(): ThemeName {
 }
 
 function applyTheme(name: ThemeName): void {
-  document.documentElement.dataset.theme = name;
+  const html = document.documentElement;
+  html.classList.add('theme-switching');
+  html.dataset.theme = name;
   try {
     localStorage.setItem(STORAGE_KEY, name);
   } catch {
     /* private mode — no-op */
   }
+  window.setTimeout(() => html.classList.remove('theme-switching'), 300);
 }
 
 /**

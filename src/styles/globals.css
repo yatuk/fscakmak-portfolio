@@ -14,6 +14,17 @@ html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
   text-rendering: optimizeLegibility;
+  transition:
+    background-color 250ms ease-out,
+    color 250ms ease-out;
+}
+
+html.theme-switching,
+html.theme-switching * {
+  transition:
+    background-color 250ms ease-out,
+    color 250ms ease-out,
+    border-color 250ms ease-out !important;
 }
 
 body {
