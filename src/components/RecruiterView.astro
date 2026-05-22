@@ -12,8 +12,6 @@ const { locale } = Astro.props;
 const profile = getProfile(locale);
 const { identity, about, skills, experience, education, projects, certifications } = profile;
 
-/* Metrics — calculated, never hardcoded.
-   monthsInSoc: full calendar months from 2025-07 (Doğuş start) to now. */
 const SOC_START = new Date('2025-07-01T00:00:00Z');
 const now = new Date();
 const monthsInSoc = Math.max(
@@ -30,9 +28,6 @@ const expected = t(locale, 'cmd.education.expected');
 const localePrefix = locale === 'tr' ? '/tr' : '';
 const terminalHref = localePrefix || '/';
 
-/* Plurals — Turkish doesn't differentiate singular/plural the same
-   way English does, but we keep parity by routing through the same
-   strings (TR singular === TR plural in our JSON). */
 const pluralize = (n: number, plural: string, singular: string) =>
   n === 1 ? singular : plural;
 const monthsLabel = pluralize(
@@ -62,12 +57,10 @@ const certsLabel = pluralize(
 </div>
 
 <article class="cv-root" id="cv">
-  <!-- ── HERO ─────────────────────────────────────────── -->
+
+  <!-- ── HERO ──────────────────────────────────────────────── -->
   <header class="cv-card cv-hero">
     <h1 class="cv-hero-name">{identity.name}</h1>
-    {identity.tagline && (
-      <p class="cv-hero-tagline">{identity.tagline}</p>
-    )}
     <p class="cv-hero-role">
       {identity.role} <span class="at">@</span> {experience[0]?.company ?? 'Fibabanka'}
     </p>
@@ -76,7 +69,9 @@ const certsLabel = pluralize(
       <span class="dot" aria-hidden="true">·</span>
       {identity.sector}
     </p>
-    <p class="cv-hero-pitch">{identity.current}</p>
+    {identity.tagline && (
+      <p class="cv-hero-tagline">{identity.tagline}</p>
+    )}
     <div class="cv-cta-row">
       <a class="cv-cta cv-cta-primary" href={`mailto:${identity.email}`}>
         📧 {t(locale, 'recruiter.cta_email')}
@@ -103,7 +98,7 @@ const certsLabel = pluralize(
     </div>
   </header>
 
-  <!-- ── METRICS ──────────────────────────────────────── -->
+  <!-- ── METRICS ────────────────────────────────────────────── -->
   <section class="cv-metrics" aria-label="metrics">
     <div class="cv-card cv-metric">
       <div class="cv-metric-value">{monthsInSoc}</div>
@@ -119,7 +114,34 @@ const certsLabel = pluralize(
     </div>
   </section>
 
-  <!-- ── ABOUT + SKILLS ───────────────────────────────── -->
+  <!-- ── EXPERIENCE (full width) ───────────────────────────── -->
+  <section class="cv-card">
+    <h2 class="cv-card-title">{t(locale, 'sections.experience')}</h2>
+    <div class="cv-exp-list">
+      {experience.map((e) => (
+        <div class={`cv-exp${e.active ? ' cv-exp-active' : ''}`}>
+          <div class="cv-exp-meta">
+            {e.active && (
+              <span class="cv-exp-pill cv-exp-pill-active">● {t(locale, 'cmd.experience.active')}</span>
+            )}
+            {e.part_time && (
+              <span class="cv-exp-pill cv-exp-pill-pt">{partTime}</span>
+            )}
+            <span class="cv-exp-date">{e.start} – {e.end ?? present}</span>
+          </div>
+          <div class="cv-exp-title">
+            {e.title} <span class="at">@</span> <span class="cv-exp-company">{e.company}</span>
+          </div>
+          <div class="cv-exp-location">{e.location}</div>
+          <ul class="cv-exp-bullets">
+            {e.highlights.map((h) => <li>{h}</li>)}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ── ABOUT + SKILLS ─────────────────────────────────────── -->
   <section class="cv-row">
     <div class="cv-card">
       <h2 class="cv-card-title">{t(locale, 'sections.about')}</h2>
@@ -155,58 +177,14 @@ const certsLabel = pluralize(
         {skills.spoken_languages.map((l) => (
           <div class="cv-spoken-row">
             <span class="cv-spoken-name">{l.name}</span>
-            <span class="cv-spoken-level">— {l.level}</span>
+            <span class="cv-spoken-level">{l.level}</span>
           </div>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- ── EXPERIENCE + EDUCATION ───────────────────────── -->
-  <section class="cv-row">
-    <div class="cv-card">
-      <h2 class="cv-card-title">{t(locale, 'sections.experience')}</h2>
-      <div class="cv-exp-list">
-        {experience.map((e) => (
-          <div class={`cv-exp${e.active ? ' cv-exp-active' : ''}`}>
-            <div class="cv-exp-meta">
-              {e.active && (
-                <span class="cv-exp-pill cv-exp-pill-active">● {t(locale, 'cmd.experience.active')}</span>
-              )}
-              {e.part_time && (
-                <span class="cv-exp-pill cv-exp-pill-pt">{partTime}</span>
-              )}
-              <span class="cv-exp-date">{e.start} – {e.end ?? present}</span>
-            </div>
-            <div class="cv-exp-title">
-              {e.title} — <span class="cv-exp-company">{e.company}</span>
-            </div>
-            <div class="cv-exp-location">{e.location}</div>
-            <ul class="cv-exp-bullets">
-              {e.highlights.map((h) => <li>{h}</li>)}
-            </ul>
-          </div>
-        ))}
-      </div>
-    </div>
-
-    <div class="cv-card">
-      <h2 class="cv-card-title">{t(locale, 'sections.education')}</h2>
-      <div class="cv-edu-list">
-        {education.map((edu) => (
-          <div>
-            <div class="cv-edu-degree">{edu.degree}</div>
-            <div class="cv-edu-school">{edu.school}</div>
-            <div class="cv-edu-date">
-              {edu.start} – {edu.end}{edu.expected ? ` (${expected})` : ''}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- ── FEATURED PROJECTS ────────────────────────────── -->
+  <!-- ── FEATURED PROJECTS ──────────────────────────────────── -->
   <section class="cv-card">
     <h2 class="cv-card-title">{t(locale, 'recruiter.section_featured')}</h2>
     <div class="cv-projects">
@@ -237,24 +215,40 @@ const certsLabel = pluralize(
     </div>
   </section>
 
-  <!-- ── CERTIFICATIONS ───────────────────────────────── -->
-  <section class="cv-card">
-    <h2 class="cv-card-title">{t(locale, 'sections.certifications')}</h2>
-    <div class="cv-certs">
-      {certifications.map((c) => (
-        <div class="cv-cert">
-          <div class="cv-cert-badge" aria-hidden="true">🎖️</div>
+  <!-- ── EDUCATION + CERTIFICATIONS ────────────────────────── -->
+  <section class="cv-row">
+    <div class="cv-card">
+      <h2 class="cv-card-title">{t(locale, 'sections.education')}</h2>
+      <div class="cv-edu-list">
+        {education.map((edu) => (
           <div>
-            <div class="cv-cert-name">{c.name}</div>
-            {c.full_name && <div class="cv-cert-full">{c.full_name}</div>}
-            <div class="cv-cert-issuer">{c.issuer}{c.date ? ` · ${c.date}` : ''}</div>
+            <div class="cv-edu-degree">{edu.degree}</div>
+            <div class="cv-edu-school">{edu.school}</div>
+            <div class="cv-edu-date">
+              {edu.start} – {edu.end}{edu.expected ? ` (${expected})` : ''}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
+    </div>
+    <div class="cv-card">
+      <h2 class="cv-card-title">{t(locale, 'sections.certifications')}</h2>
+      <div class="cv-certs">
+        {certifications.map((c) => (
+          <div class="cv-cert">
+            <div class="cv-cert-badge" aria-hidden="true">🎖️</div>
+            <div>
+              <div class="cv-cert-name">{c.name}</div>
+              {c.full_name && <div class="cv-cert-full">{c.full_name}</div>}
+              <div class="cv-cert-issuer">{c.issuer}{c.date ? ` · ${c.date}` : ''}</div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   </section>
 
-  <!-- ── CONTACT ──────────────────────────────────────── -->
+  <!-- ── CONTACT ────────────────────────────────────────────── -->
   <section class="cv-card cv-contact">
     <h2 class="cv-contact-title">{t(locale, 'recruiter.section_contact')}</h2>
     <div class="cv-contact-row">
@@ -280,7 +274,7 @@ const certsLabel = pluralize(
     </div>
   </section>
 
-  <!-- ── Mobile force-terminal escape hatch ──────────── -->
+  <!-- ── Mobile: force-terminal escape hatch ───────────────── -->
   <p class="cv-force-terminal">
     <a href={terminalHref} data-force-terminal>
       ⌨ {t(locale, 'recruiter.force_terminal_label')}
@@ -293,22 +287,14 @@ const certsLabel = pluralize(
 </article>
 
 <script is:inline>
-  /* Tag <body> so the recruiter-specific layout rules apply, and
-     remember an explicit "force terminal" click so the auto-switch
-     on terminal pages doesn't bounce mobile users back here. */
   document.body.classList.add('cv-body');
   const force = document.querySelector('[data-force-terminal]');
   if (force) {
     force.addEventListener('click', () => {
-      try {
-        localStorage.setItem('fsc.view', 'terminal');
-      } catch {
-        /* private mode — no-op */
-      }
+      try { localStorage.setItem('fsc.view', 'terminal'); } catch {}
     });
   }
 
-  /* Sticky bar — appears after hero scrolls out of view. */
   const stickyBar = document.querySelector('[data-cv-sticky]');
   const hero = document.querySelector('.cv-hero');
   if (stickyBar && hero) {

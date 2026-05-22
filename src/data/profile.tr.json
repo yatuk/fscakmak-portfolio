@@ -13,7 +13,7 @@
       "linkedin": "fatihserdar"
     }
   },
-  "about": "İstanbul Teknik Üniversitesi Bilgisayar Mühendisliği öğrencisiyim (2027 mezuniyeti beklenir), Kocaeli ENKA Teknik Liseleri'nde Endüstriyel Otomasyon okudum — kulağa uzak gelse de OT/IT güvenliği için fena bir temel değil. Doğuş Teknoloji'de SIEM, SOAR, EDR ve NDR platformlarında çalıştım — L1 incident response, SOAR playbook yazımı (phishing playbook'ları dahil), EDR alert tuning ve IT/OT segmentation. Şu an Fibabanka'da yarı-zamanlı SOC Analist Stajyeri olarak BDDK düzenlemesi altındaki bir bankacılık ortamında günlük alert triyajı, CTI feed incelemesi ve firewall log analizini yürütüyorum. Tehditleri MITRE ATT&CK çerçevesiyle okumayı tercih ederim.",
+  "about": "İstanbul Teknik Üniversitesi Bilgisayar Mühendisliği öğrencisiyim (2027 mezuniyeti beklenir). Kocaeli ENKA Teknik Liseleri'nde Endüstriyel Otomasyon okudum; OT/IT güvenliği için fena bir temel sayılır. Doğuş Teknoloji'de SIEM, SOAR, EDR ve NDR platformlarında çalıştım: L1 incident response, SOAR playbook yazımı (phishing playbook'ları dahil), EDR alert tuning ve IT/OT segmentation. Şu an Fibabanka'da yarı-zamanlı SOC Analist Stajyeri olarak BDDK düzenlemesi altındaki bir bankacılık ortamında günlük alert triyajı, CTI feed incelemesi ve firewall log analizini yürütüyorum. Tehditleri MITRE ATT&CK çerçevesiyle okumayı tercih ederim.",
   "skills": {
     "cybersecurity": [
       "SOC Operasyonları",
@@ -80,7 +80,7 @@
       "highlights": [
         "SIEM, SOAR, EDR ve NDR platformlarında çalıştım: kurumsal altyapı genelinde log correlation, alert triyajı, playbook yazımı ve false-positive filtreleme",
         "Tekrarlayan tehditler için (özellikle phishing) SOAR playbook yazdım ve iterasyon yaptım; kurumsal altyapıda detection noise'u azaltmak için EDR alert tuning",
-        "L1 incident response, Root Cause Analysis (RCA) ve SLA uyumlu vaka raporları — olgun bir SOC'ta vakaların nasıl takip edilip kapatıldığını öğrendim",
+        "L1 incident response, Root Cause Analysis (RCA) ve SLA uyumlu vaka raporları. Olgun bir SOC'ta vakaların nasıl takip edilip kapatıldığını yerinde gördüm.",
         "Active Directory ve Windows/Linux sistem loglarını izledim; IT/OT sınırları için ağ segmentasyonu uyguladım"
       ]
     }
@@ -110,7 +110,7 @@
   "projects": [
     {
       "slug": "soc-case-study",
-      "name": "SOC Case Study — SIEM/SOAR Simülasyonu",
+      "name": "SOC Case Study: SIEM/SOAR Simülasyonu",
       "url": "https://github.com/yatuk/SOC-case-study-project",
       "owner_type": "personal",
       "tags": ["Python", "SIEM", "SOAR", "MITRE ATT&CK"],

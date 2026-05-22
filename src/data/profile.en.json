@@ -13,7 +13,7 @@
       "linkedin": "fatihserdar"
     }
   },
-  "about": "Computer Engineering student at Istanbul Technical University (class of 2027), came up through Industrial Automation at Kocaeli ENKA — better prep for OT/IT security than it might sound. At Doğuş Teknoloji I worked across SIEM, SOAR, EDR and NDR platforms — L1 incident response, SOAR playbook writing (including phishing playbooks), EDR alert tuning, and IT/OT segmentation. Now part-time at Fibabanka doing daily alert triage, CTI feed review and firewall log analysis in a BDDK-regulated banking environment. MITRE ATT&CK is how I think about threats.",
+  "about": "Computer Engineering student at Istanbul Technical University (class of 2027). Started in Industrial Automation at Kocaeli ENKA, which turned out to be solid prep for OT/IT security. At Doğuş Teknoloji I worked across SIEM, SOAR, EDR and NDR platforms: L1 incident response, SOAR playbook writing (phishing playbooks especially), EDR alert tuning, and IT/OT segmentation. Now part-time at Fibabanka doing daily alert triage, CTI feed review and firewall log analysis in a BDDK-regulated banking environment. MITRE ATT&CK is how I think about threats.",
   "skills": {
     "cybersecurity": [
       "SOC Operations",
@@ -80,7 +80,7 @@
       "highlights": [
         "Worked across SIEM, SOAR, EDR, and NDR platforms: log correlation, alert triage, playbook writing, false-positive filtering across enterprise infrastructure",
         "Wrote and iterated SOAR playbooks for recurring threats (phishing especially); tuned EDR alert rules to cut detection noise across enterprise infrastructure",
-        "L1 incident response, root cause analysis, and SLA case reports — learned how a mature SOC actually tracks and closes cases",
+        "L1 incident response, root cause analysis, and SLA case reports. Got a clear picture of how a mature SOC actually tracks and closes cases.",
         "Monitored Active Directory and Windows/Linux system logs; applied network segmentation for IT/OT boundaries"
       ]
     }
@@ -110,7 +110,7 @@
   "projects": [
     {
       "slug": "soc-case-study",
-      "name": "SOC Case Study — SIEM/SOAR Simulation",
+      "name": "SOC Case Study: SIEM/SOAR Simulation",
       "url": "https://github.com/yatuk/SOC-case-study-project",
       "owner_type": "personal",
       "tags": ["Python", "SIEM", "SOAR", "MITRE ATT&CK"],
