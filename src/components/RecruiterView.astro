@@ -28,23 +28,18 @@ const expected = t(locale, 'cmd.education.expected');
 const localePrefix = locale === 'tr' ? '/tr' : '';
 const terminalHref = localePrefix || '/';
 
-const pluralize = (n: number, plural: string, singular: string) =>
-  n === 1 ? singular : plural;
-const monthsLabel = pluralize(
-  monthsInSoc,
-  t(locale, 'recruiter.metrics_months'),
-  t(locale, 'recruiter.metrics_months_singular')
-);
-const projectsLabel = pluralize(
-  featured.length,
-  t(locale, 'recruiter.metrics_projects'),
-  t(locale, 'recruiter.metrics_projects_singular')
-);
-const certsLabel = pluralize(
-  certifications.length,
-  t(locale, 'recruiter.metrics_certs'),
-  t(locale, 'recruiter.metrics_certs_singular')
-);
+/* ── Header computed values ─────────────────────────────── */
+const nameParts = identity.name.split(' ');
+const firstName = nameParts[0];
+const restName = nameParts.slice(1).join(' ');
+const parenMatch = identity.role.match(/\(([^)]+)\)/);
+const shortRole = parenMatch ? `${parenMatch[1]} Intern` : identity.role;
+
+/* University abbreviation: İTÜ → ITU, degree → CS, year → '27 */
+const edu0 = education[0];
+const uniShort = edu0.school.includes('İTÜ') ? 'ITU' : edu0.school.substring(0, 3).toUpperCase();
+const degreeAbbr = edu0.degree.toLowerCase().includes('computer') ? 'CS' : '';
+const gradYear = edu0.end ? `'${edu0.end.slice(2)}` : '';
 ---
 
 <div class="cv-sticky-bar" data-cv-sticky aria-hidden="true">
@@ -59,59 +54,92 @@ const certsLabel = pluralize(
 <article class="cv-root" id="cv">
 
   <!-- ── HERO ──────────────────────────────────────────────── -->
-  <header class="cv-card cv-hero">
-    <h1 class="cv-hero-name">{identity.name}</h1>
-    <p class="cv-hero-role">
-      {identity.role} <span class="at">@</span> {experience[0]?.company ?? 'Fibabanka'}
-    </p>
-    <p class="cv-hero-meta">
-      {identity.location}
-      <span class="dot" aria-hidden="true">·</span>
-      {identity.sector}
-    </p>
-    {identity.tagline && (
-      <p class="cv-hero-tagline">{identity.tagline}</p>
-    )}
-    <p class="cv-hero-pitch">{identity.current}</p>
-    <div class="cv-cta-row">
-      <a class="cv-cta cv-cta-primary" href={`mailto:${identity.email}`}>
-        📧 {t(locale, 'recruiter.cta_email')}
-      </a>
-      <a
-        class="cv-cta"
-        href={`https://linkedin.com/in/${identity.social.linkedin}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        💼 {t(locale, 'recruiter.cta_linkedin')}
-      </a>
-      <a
-        class="cv-cta"
-        href={`https://github.com/${identity.social.github}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        🐙 {t(locale, 'recruiter.cta_github')}
-      </a>
-      <a class="cv-cta" href="/resume.pdf" download>
-        📄 {t(locale, 'recruiter.cta_download_cv')}
-      </a>
+  <header class="cv-hero">
+    <div class="cv-hero-left">
+      <div class="cv-hero-label">[ ANALYST PROFILE ]</div>
+      <h1 class="cv-hero-name">
+        <span class="cv-hero-name-accent">{firstName}</span> {restName}
+      </h1>
+      <p class="cv-hero-meta-line">
+        {shortRole} @ {experience[0]?.company ?? 'Fibabanka'}
+        <span class="cv-hero-sep" aria-hidden="true">|</span>
+        {uniShort} {degreeAbbr} {gradYear}
+        <span class="cv-hero-sep" aria-hidden="true">|</span>
+        {identity.location}
+      </p>
+      {identity.tagline && (
+        <p class="cv-hero-tagline">&gt; {identity.tagline}</p>
+      )}
+      <blockquote class="cv-hero-pitch">{identity.current}</blockquote>
+      <div class="cv-cta-row">
+        <a class="cv-cta cv-cta-primary" href={`mailto:${identity.email}`}>
+          {t(locale, 'recruiter.cta_email')}
+        </a>
+        <a
+          class="cv-cta"
+          href={`https://linkedin.com/in/${identity.social.linkedin}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {t(locale, 'recruiter.cta_linkedin')}
+        </a>
+        <a
+          class="cv-cta"
+          href={`https://github.com/${identity.social.github}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {t(locale, 'recruiter.cta_github')}
+        </a>
+        <a class="cv-cta" href="/resume.pdf" download>
+          {t(locale, 'recruiter.cta_download_cv')}
+        </a>
+      </div>
+    </div>
+    <div class="cv-hero-right">
+      <div class="cv-status-panel">
+        <div class="cv-status-header">CURRENT STATUS</div>
+        <div class="cv-status-rows">
+          <div class="cv-status-row">
+            <span class="cv-status-key">ROLE</span>
+            <span class="cv-status-val">SOC Analyst Intern</span>
+          </div>
+          <div class="cv-status-row">
+            <span class="cv-status-key">ENV</span>
+            <span class="cv-status-val">Banking / BDDK</span>
+          </div>
+          <div class="cv-status-row">
+            <span class="cv-status-key">STACK</span>
+            <span class="cv-status-val">SIEM · EDR · SOAR</span>
+          </div>
+          <div class="cv-status-row">
+            <span class="cv-status-key">STATUS</span>
+            <span class="cv-status-val"><span class="cv-status-dot" aria-hidden="true">●</span> ACTIVE</span>
+          </div>
+        </div>
+      </div>
     </div>
   </header>
 
   <!-- ── METRICS ────────────────────────────────────────────── -->
-  <section class="cv-metrics" aria-label="metrics">
-    <div class="cv-card cv-metric">
-      <div class="cv-metric-value">{monthsInSoc}</div>
-      <div class="cv-metric-label">{monthsLabel}</div>
+  <section class="cv-metrics-bar" aria-label="metrics">
+    <div class="cv-metric-item">
+      <span class="cv-metric-value">{monthsInSoc} mo</span>
+      <span class="cv-metric-label">SOC</span>
     </div>
-    <div class="cv-card cv-metric">
-      <div class="cv-metric-value">{featured.length}</div>
-      <div class="cv-metric-label">{projectsLabel}</div>
+    <div class="cv-metric-divider" aria-hidden="true"></div>
+    <div class="cv-metric-item">
+      <span class="cv-metric-value">{featured.length}</span>
+      <span class="cv-metric-label">{t(locale, 'recruiter.metrics_projects_singular')}</span>
     </div>
-    <div class="cv-card cv-metric">
-      <div class="cv-metric-value">{certifications.length}</div>
-      <div class="cv-metric-label">{certsLabel}</div>
+    <div class="cv-metric-divider" aria-hidden="true"></div>
+    <div class="cv-metric-item">
+      <span class="cv-metric-value">{certifications.length}</span>
+      <span class="cv-metric-label">{t(locale, 'recruiter.metrics_certs_singular')}</span>
+    </div>
+    <div class="cv-metric-divider" aria-hidden="true"></div>
+    <div class="cv-metric-item cv-metric-badge">
+      <span class="cv-metric-badge-tag">[ BDDK REGULATED ]</span>
     </div>
   </section>
 
