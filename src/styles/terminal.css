@@ -268,14 +268,14 @@
 
 /* ── Boot overlay ────────────────────────────────────────── */
 .boot-overlay {
-  position: fixed;
+  position: absolute;
   inset: 0;
   background: var(--color-bg);
   z-index: 1000;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   padding: var(--space-6);
   font-family: var(--font-mono);
   font-size: var(--text-md);
@@ -343,7 +343,7 @@
 }
 
 .boot-skip {
-  position: fixed;
+  position: absolute;
   bottom: var(--space-4);
   right: var(--space-4);
   min-height: 36px;
@@ -571,6 +571,7 @@
   min-height: 0;
   overflow-y: auto;
   scroll-behavior: smooth;
+  position: relative;
 }
 
 .term-logo {

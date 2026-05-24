@@ -35,19 +35,6 @@ const recruiterLabel = t(locale, 'view.recruiter_label');
   </div>
 </div>
 
-<!-- Boot overlay — shown after terminal is chosen, once per page load. -->
-<div class="boot-overlay" data-boot-overlay aria-hidden="true">
-  <div class="boot-content" data-boot-lines></div>
-  <button
-    type="button"
-    class="boot-skip"
-    data-boot-skip
-    aria-label={t(locale, 'terminal.boot_skip_aria')}
-  >
-    {t(locale, 'terminal.boot_skip')} ⏵
-  </button>
-</div>
-
 <div class="term-window" data-term-root data-locale={locale}>
   <div class="term-titlebar">
     <div class="term-dots" aria-hidden="true">
@@ -79,6 +66,19 @@ const recruiterLabel = t(locale, 'view.recruiter_label');
   </div>
 
   <div class="term-body" data-term-body>
+    <!-- Boot overlay — covers terminal body during boot, leaves titlebar visible -->
+    <div class="boot-overlay" data-boot-overlay aria-hidden="true">
+      <div class="boot-content" data-boot-lines></div>
+      <button
+        type="button"
+        class="boot-skip"
+        data-boot-skip
+        aria-label={t(locale, 'terminal.boot_skip_aria')}
+      >
+        {t(locale, 'terminal.boot_skip')} ⏵
+      </button>
+    </div>
+
     <div class="term-logo">FSCAKMAK</div>
     <div class="term-sub">{t(locale, 'terminal.logo_sub')}</div>
     <div class="term-nav">
@@ -163,19 +163,20 @@ const recruiterLabel = t(locale, 'view.recruiter_label');
       window.setTimeout(() => titleEl.classList.add('title-in'), 100);
     }
 
-    /* Reveal buttons with stagger */
+    /* Reveal buttons with stagger — called immediately so buttons are
+       always clickable. The typing animation runs as a cosmetic layer only. */
     const revealButtons = () => {
       btns.forEach((btn, i) => {
         window.setTimeout(() => btn.classList.add('btn-reveal'), i * 120);
       });
     };
+    revealButtons();
 
     if (reduced) {
       if (titleEl) titleEl.classList.add('title-in');
       if (typeEl) typeEl.textContent = TEXT;
-      revealButtons();
     } else if (typeEl) {
-      /* Start typing at 400ms, 35ms/char */
+      /* Start typing at 400ms, 35ms/char — cosmetic only, buttons already visible */
       window.setTimeout(() => {
         let i = 0;
         const tick = () => {
@@ -184,13 +185,10 @@ const recruiterLabel = t(locale, 'view.recruiter_label');
             window.setTimeout(tick, CHAR_MS);
           } else {
             typeEl.classList.add('typing-done');
-            revealButtons();
           }
         };
         tick();
       }, 400);
-    } else {
-      revealButtons();
     }
 
     /* Dismiss — mode 'terminal' zooms into the terminal behind the screen.
@@ -204,14 +202,21 @@ const recruiterLabel = t(locale, 'view.recruiter_label');
       }, 90);
     };
 
-    screen.querySelector('[data-entry-terminal]')?.addEventListener('click', () => {
+    const termBtn = screen.querySelector('[data-entry-terminal]');
+    const recBtn = screen.querySelector('[data-entry-recruiter]');
+    if (!termBtn || !recBtn) {
+      console.warn('[entry] button elements missing from DOM — cannot attach handlers');
+      return;
+    }
+
+    termBtn.addEventListener('click', () => {
       dismiss('terminal', () => {
         window.__entryChoice = 'terminal';
         window.dispatchEvent(new CustomEvent('fsc:terminal-chosen'));
       });
     });
 
-    screen.querySelector('[data-entry-recruiter]')?.addEventListener('click', () => {
+    recBtn.addEventListener('click', () => {
       dismiss('recruiter', () => { window.location.href = cvPath; });
     });
   })();
