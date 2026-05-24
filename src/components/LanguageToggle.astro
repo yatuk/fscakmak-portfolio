@@ -26,7 +26,7 @@ const ariaLabel = t(locale, `language.switch_to_${target}_aria`);
   <span class="lang-target">{targetLabel}</span>
 </a>
 
-<script is:inline nonce="NONCE_PLACEHOLDER">
+<script is:inline>
   (() => {
     const html = document.documentElement;
     const current = html.getAttribute('lang') === 'tr' ? 'tr' : 'en';

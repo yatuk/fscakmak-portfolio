@@ -129,7 +129,7 @@ const recruiterLabel = t(locale, 'view.recruiter_label');
   set:html={JSON.stringify({ profile, locale })}
 />
 
-<script is:inline nonce="NONCE_PLACEHOLDER">
+<script is:inline>
   (() => {
     const screen = document.querySelector('[data-entry-screen]');
     if (!screen) return;
@@ -222,7 +222,7 @@ const recruiterLabel = t(locale, 'view.recruiter_label');
   })();
 </script>
 
-<script is:inline nonce="NONCE_PLACEHOLDER">
+<script is:inline>
   /* Boot overlay — character-by-character typing, once per page load.
      [OK] aligns at column 42 in monospace. */
   (() => {
@@ -362,7 +362,7 @@ const recruiterLabel = t(locale, 'view.recruiter_label');
   })();
 </script>
 
-<script is:inline nonce="NONCE_PLACEHOLDER">
+<script is:inline>
   /* Logo glitch — character corruption every 3-8s, reduced-motion aware. */
   (() => {
     if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
@@ -398,7 +398,7 @@ const recruiterLabel = t(locale, 'view.recruiter_label');
   })();
 </script>
 
-<script is:inline nonce="NONCE_PLACEHOLDER">
+<script is:inline>
   /* Persist view choice and locale for in-titlebar toggles */
   (() => {
     document.querySelectorAll('[data-view-target]').forEach((el) => {

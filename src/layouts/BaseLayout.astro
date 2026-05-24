@@ -34,7 +34,7 @@ const cfBeaconToken = import.meta.env.PUBLIC_CF_WEB_ANALYTICS_TOKEN;
 <html lang={locale} data-theme="tokyonight">
   <head>
     <!-- Console flag for the technically curious -->
-    <script is:inline nonce="NONCE_PLACEHOLDER">
+    <script is:inline>
       console.log(
         '%c fscakmak.com %c',
         'background:#22d3ee;color:#0d0d0d;font-weight:700;padding:4px 8px;border-radius:3px 0 0 3px;font-family:monospace;font-size:13px',
@@ -52,7 +52,7 @@ const cfBeaconToken = import.meta.env.PUBLIC_CF_WEB_ANALYTICS_TOKEN;
 
     <!-- No-flash theme init + mobile auto-switch. Runs before any
          CSS paints so neither theme nor route flickers. -->
-    <script is:inline nonce="NONCE_PLACEHOLDER">
+    <script is:inline>
       (() => {
         try {
           const t = localStorage.getItem('fsc.theme');
@@ -103,7 +103,7 @@ const cfBeaconToken = import.meta.env.PUBLIC_CF_WEB_ANALYTICS_TOKEN;
     <link rel="manifest" href="/manifest.webmanifest" />
 
     <!-- JSON-LD Person schema -->
-    <script type="application/ld+json" is:inline nonce="NONCE_PLACEHOLDER" set:html={JSON.stringify({
+    <script type="application/ld+json" is:inline set:html={JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'Person',
       name: 'Fatih Serdar Çakmak',
