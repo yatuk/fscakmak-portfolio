@@ -2,6 +2,8 @@
 import { getProfile } from '@lib/profile';
 import { t } from '@core/i18n';
 import type { Locale } from '@ptypes/profile';
+import writeups from '@data/writeups.json';
+import '@styles/fonts-body.css';
 import '@styles/recruiter.css';
 
 export interface Props {
@@ -170,6 +172,37 @@ const gradYear = edu0.end ? `'${edu0.end.slice(2)}` : '';
     </div>
   </section>
 
+  <!-- ── WRITEUPS ────────────────────────────────────────────── -->
+  <section class="cv-card">
+    <h2 class="cv-card-title">{t(locale, 'sections.writeups')}</h2>
+    <div class="cv-writeups">
+      {writeups.map((w) => (
+        <article class="cv-writeup">
+          <span class="cv-writeup-date">{w.date}</span>
+          <a
+            class="cv-writeup-title"
+            href={w.url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {w.title} →
+          </a>
+          <div class="cv-writeup-tags">
+            {w.tags.map((tg) => <span class="cv-writeup-tag">{tg}</span>)}
+          </div>
+        </article>
+      ))}
+    </div>
+    <a
+      class="cv-writeup-more"
+      href="https://medium.com/@fscakmak"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Medium →
+    </a>
+  </section>
+
   <!-- ── ABOUT + SKILLS ─────────────────────────────────────── -->
   <section class="cv-row">
     <div class="cv-card">
@@ -315,7 +348,7 @@ const gradYear = edu0.end ? `'${edu0.end.slice(2)}` : '';
   <footer class="cv-footer">{t(locale, 'recruiter.footer_note')}</footer>
 </article>
 
-<script is:inline>
+<script is:inline nonce="NONCE_PLACEHOLDER">
   document.body.classList.add('cv-body');
   const force = document.querySelector('[data-force-terminal]');
   if (force) {

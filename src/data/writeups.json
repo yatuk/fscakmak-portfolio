@@ -1,0 +1,23 @@
+[
+  {
+    "title": "EDR RULES #1",
+    "url": "https://medium.com/@fscakmak/edr-rules-1-2096b425df09",
+    "date": "2026-02",
+    "lang": "tr",
+    "tags": ["EDR", "KQL", "detection"]
+  },
+  {
+    "title": "Trojan:Win32/ClickFix.ZG",
+    "url": "https://medium.com/@fscakmak/trojan-win32-clickfix-zg-d4ef97d993e3",
+    "date": "2025-09",
+    "lang": "tr",
+    "tags": ["malware", "trojan", "analysis"]
+  },
+  {
+    "title": "ESP32 ile Google Login Sayfası Klonlama",
+    "url": "https://medium.com/@fscakmak/birka%C3%A7-dolarl%C4%B1k-bir-esp32-ile-google-login-sayfas%C4%B1n%C4%B1-nas%C4%B1l-kopyalad%C4%B1m-a684a601d6d6",
+    "date": "2025",
+    "lang": "tr",
+    "tags": ["ESP32", "phishing", "hardware"]
+  }
+]

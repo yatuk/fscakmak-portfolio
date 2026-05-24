@@ -1,4 +1,5 @@
 import type { CommandHandler } from './index';
+import { SEV_CLS } from '@config/index';
 
 type Sev = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
 
@@ -26,13 +27,6 @@ const LOGS: LogEntry[] = [
   { time: '14:39:30', sev: 'MEDIUM',   src: '10.0.4.7',        ttp: 'T1053.005', msg: 'Scheduled task created by non-admin — WORKSTATION-19' },
   { time: '14:40:11', sev: 'CRITICAL', src: '10.0.5.200',      ttp: 'T1486',     msg: 'Rapid file rename events — possible ransomware precursor' },
 ];
-
-const SEV_CLS: Record<Sev, string> = {
-  CRITICAL: 'soc-crit',
-  HIGH:     'soc-high',
-  MEDIUM:   'soc-med',
-  LOW:      'soc-low',
-};
 
 function row(e: LogEntry): string {
   return `<div class="log-row">

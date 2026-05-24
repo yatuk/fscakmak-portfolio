@@ -10,6 +10,9 @@ export interface Props {
 
 const { locale } = Astro.props;
 const profile = getProfile(locale);
+
+const cvHref = locale === 'tr' ? '/tr/cv' : '/cv';
+const recruiterLabel = t(locale, 'view.recruiter_label');
 ---
 
 <!-- Entry screen — shown on every page load, no persistence.
@@ -32,7 +35,7 @@ const profile = getProfile(locale);
   </div>
 </div>
 
-<!-- Boot overlay — shown after terminal is chosen, first-visit-only per session. -->
+<!-- Boot overlay — shown after terminal is chosen, once per page load. -->
 <div class="boot-overlay" data-boot-overlay aria-hidden="true">
   <div class="boot-content" data-boot-lines></div>
   <button
@@ -53,12 +56,25 @@ const profile = getProfile(locale);
       <div class="term-dot term-dot-g"></div>
     </div>
     <div class="term-title">fscakmak@kali ~ % zsh</div>
-    <div class="term-score">
+    <div class="term-titlebar-right">
       <span class="term-score-label">{t(locale, 'terminal.score_label')}:</span>
-      <div class="term-score-bar" aria-hidden="true">
-        <div class="term-score-fill" data-term-score-fill style="width:0%"></div>
-      </div>
       <span class="term-score-value" data-term-score-value>0/100</span>
+      <span class="term-tbar-sep" aria-hidden="true"></span>
+      <span class="term-lang-wrap">
+        {locale === 'en' ? (
+          <><span class="term-lang-active">EN</span><span class="term-lang-sep">/</span><a class="term-lang-alt" href="/tr" data-locale-link="tr">TR</a></>
+        ) : (
+          <><a class="term-lang-alt" href="/" data-locale-link="en">EN</a><span class="term-lang-sep">/</span><span class="term-lang-active">TR</span></>
+        )}
+      </span>
+      <span class="term-tbar-sep" aria-hidden="true"></span>
+      <a class="term-view-toggle" href={cvHref} data-view-target="recruiter">
+        {recruiterLabel} <span class="term-view-arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
+    <!-- Hidden score bar — kept for scoring module compatibility -->
+    <div class="term-score-bar" aria-hidden="true" style="display:none">
+      <div class="term-score-fill" data-term-score-fill style="width:0%"></div>
     </div>
   </div>
 
@@ -113,7 +129,7 @@ const profile = getProfile(locale);
   set:html={JSON.stringify({ profile, locale })}
 />
 
-<script is:inline>
+<script is:inline nonce="NONCE_PLACEHOLDER">
   (() => {
     const screen = document.querySelector('[data-entry-screen]');
     if (!screen) return;
@@ -201,61 +217,101 @@ const profile = getProfile(locale);
   })();
 </script>
 
-<script is:inline>
-  /* Boot overlay — character-by-character typing, gated on terminal choice.
-     Only starts after 'fsc:terminal-chosen' fires from the entry screen. */
+<script is:inline nonce="NONCE_PLACEHOLDER">
+  /* Boot overlay — character-by-character typing, once per page load.
+     [OK] aligns at column 42 in monospace. */
   (() => {
     const overlay = document.querySelector('[data-boot-overlay]');
     if (!overlay) return;
 
     const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
-    let seen = false;
-    try { seen = sessionStorage.getItem('fsc.boot.seen') === '1'; } catch {}
+    const OK_COL = 42;
+    const CHAR_MS = 18;
+    const BOOT_LINES = [
+      { text: '> initializing kernel',          pause: 120 },
+      { text: '> mounting security context',    pause: 100 },
+      { text: '> loading profile data',         pause: 120 },
+      { text: '> establishing encrypted session', pause: 80 },
+      { text: '> threat intel feeds',           pause: 150 },
+      { text: '> loading defense matrix',       pause: 100 },
+    ];
+    const BOOT_WELCOME = '> welcome, analyst.';
+
+    let dismissed = false;
+
+    const dismiss = () => {
+      if (dismissed) return;
+      dismissed = true;
+      overlay.classList.add('boot-fade');
+      window.setTimeout(() => overlay.remove(), 220);
+    };
 
     const runBoot = () => {
-      if (reduced || seen) { overlay.remove(); return; }
-      try { sessionStorage.setItem('fsc.boot.seen', '1'); } catch {}
+      overlay.setAttribute('aria-hidden', 'false');
+      /* Block terminal input during boot */
+      const termInput = document.querySelector('[data-term-input]');
+      if (termInput) termInput.disabled = true;
+
+      if (reduced) {
+        /* Show everything instantly */
+        const container = overlay.querySelector('[data-boot-lines]');
+        if (!container) return;
+        for (const line of BOOT_LINES) {
+          const div = document.createElement('div');
+          div.className = 'boot-line';
+          const pad = OK_COL - 1 - line.text.length;
+          div.innerHTML =
+            `<span class="boot-prefix">> </span>` +
+            `<span class="boot-text">${line.text.slice(2)}</span>` +
+            `<span class="boot-dots">${'.'.repeat(Math.max(0, pad))}</span>` +
+            `<span class="boot-ok">[OK]</span>`;
+          container.appendChild(div);
+        }
+        const wdiv = document.createElement('div');
+        wdiv.className = 'boot-line boot-welcome';
+        wdiv.textContent = BOOT_WELCOME;
+        container.appendChild(wdiv);
+        window.setTimeout(dismiss, 400);
+        return;
+      }
 
       const container = overlay.querySelector('[data-boot-lines]');
       if (!container) return;
 
-      const LINES = [
-        { text: '> initializing fscakmak.com...', suffix: null,                                         lineCls: null,           pause: 150 },
-        { text: '> loading security context...    ', suffix: { cls: 'boot-bar',      str: '████████░░  80%' }, lineCls: null,           pause: 200 },
-        { text: '> mounting profile data...       ', suffix: { cls: 'boot-bar-done', str: '██████████ 100%' }, lineCls: null,           pause: 150 },
-        { text: '> establishing encrypted session ', suffix: { cls: 'boot-ok',       str: '[OK]' },      lineCls: null,           pause: 100 },
-        { text: '> threat intel feeds...          ', suffix: { cls: 'boot-ok',       str: '[OK]' },      lineCls: null,           pause: 200 },
-        { text: '> welcome, analyst.',              suffix: null,                                         lineCls: 'boot-welcome', pause: 300 },
-      ];
-
-      const CHAR_MS = 15;
-      let dismissed = false;
-
-      const dismiss = () => {
-        if (dismissed) return;
-        dismissed = true;
-        overlay.classList.add('boot-fade');
-        window.setTimeout(() => overlay.remove(), 320);
-      };
-
       const typeLine = (cfg, onDone) => {
         const div = document.createElement('div');
-        div.className = 'boot-line' + (cfg.lineCls ? ' ' + cfg.lineCls : '');
+        div.className = 'boot-line';
         container.appendChild(div);
 
+        const prefix = document.createElement('span');
+        prefix.className = 'boot-prefix';
+        prefix.textContent = '> ';
+        div.appendChild(prefix);
+
+        const textSpan = document.createElement('span');
+        textSpan.className = 'boot-text';
+        div.appendChild(textSpan);
+
+        const msg = cfg.text.slice(2);
         let i = 0;
         const tick = () => {
           if (dismissed) return;
-          if (i < cfg.text.length) {
-            div.appendChild(document.createTextNode(cfg.text[i++]));
+          if (i < msg.length) {
+            textSpan.appendChild(document.createTextNode(msg[i++]));
             window.setTimeout(tick, CHAR_MS);
           } else {
-            if (cfg.suffix) {
-              const span = document.createElement('span');
-              span.className = cfg.suffix.cls;
-              span.textContent = cfg.suffix.str;
-              div.appendChild(span);
+            /* Pad dots to align [OK] at column 42 */
+            const pad = OK_COL - 1 - cfg.text.length;
+            if (pad > 0) {
+              const dots = document.createElement('span');
+              dots.className = 'boot-dots';
+              dots.textContent = '.'.repeat(pad);
+              div.appendChild(dots);
             }
+            const ok = document.createElement('span');
+            ok.className = 'boot-ok';
+            ok.textContent = '[OK]';
+            div.appendChild(ok);
             window.setTimeout(onDone, cfg.pause);
           }
         };
@@ -264,11 +320,28 @@ const profile = getProfile(locale);
 
       const run = (idx) => {
         if (dismissed) return;
-        if (idx >= LINES.length) { dismiss(); return; }
-        typeLine(LINES[idx], () => run(idx + 1));
+        if (idx >= BOOT_LINES.length) {
+          /* Welcome line */
+          const wdiv = document.createElement('div');
+          wdiv.className = 'boot-line boot-welcome';
+          let j = 0;
+          const wtick = () => {
+            if (dismissed) return;
+            if (j < BOOT_WELCOME.length) {
+              wdiv.appendChild(document.createTextNode(BOOT_WELCOME[j++]));
+              window.setTimeout(wtick, CHAR_MS);
+            } else {
+              container.appendChild(wdiv);
+              window.setTimeout(dismiss, 350);
+            }
+          };
+          wtick();
+          return;
+        }
+        typeLine(BOOT_LINES[idx], () => run(idx + 1));
       };
 
-      window.setTimeout(() => run(0), 200);
+      window.setTimeout(() => run(0), 250);
       overlay.querySelector('[data-boot-skip]')?.addEventListener('click', dismiss);
     };
 
@@ -281,7 +354,7 @@ const profile = getProfile(locale);
   })();
 </script>
 
-<script is:inline>
+<script is:inline nonce="NONCE_PLACEHOLDER">
   /* Logo glitch — character corruption every 3-8s, reduced-motion aware. */
   (() => {
     if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
@@ -314,6 +387,30 @@ const profile = getProfile(locale);
 
     /* First glitch after terminal is settled */
     window.setTimeout(fire, 4000 + Math.random() * 2000);
+  })();
+</script>
+
+<script is:inline nonce="NONCE_PLACEHOLDER">
+  /* Persist view choice and locale for in-titlebar toggles */
+  (() => {
+    document.querySelectorAll('[data-view-target]').forEach((el) => {
+      el.addEventListener('click', () => {
+        const target = el.getAttribute('data-view-target');
+        if (!target) return;
+        try { localStorage.setItem('fsc.view', target); } catch {}
+        if (target === 'terminal') {
+          try { sessionStorage.setItem('fsc.entry.bypass', '1'); } catch {}
+        }
+      });
+    });
+    document.querySelectorAll('[data-locale-link]').forEach((el) => {
+      el.addEventListener('click', () => {
+        const target = el.getAttribute('data-locale-link');
+        if (target) {
+          try { localStorage.setItem('fsc.lang', target); } catch {}
+        }
+      });
+    });
   })();
 </script>
 

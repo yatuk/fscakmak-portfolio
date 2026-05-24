@@ -189,7 +189,7 @@ a:hover {
   }
 
   .cv-hero-name { font-size: 18pt; color: black; }
-  .cv-hero-role { font-size: 12pt; color: #333; }
+  .cv-hero-meta-line { font-size: 10pt; color: #333; }
   .cv-card-title { font-size: 13pt; color: black; border-bottom: 1px solid #ccc; padding-bottom: 4px; margin-bottom: 8px; }
 
   a { color: #0055cc; text-decoration: underline; }

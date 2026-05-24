@@ -1,14 +1,8 @@
-/* Self-hosted JetBrains Mono — weights used across terminal + CV UI */
+/* Self-hosted JetBrains Mono — terminal + UI labels on all pages */
 @import '@fontsource/jetbrains-mono/400.css';
 @import '@fontsource/jetbrains-mono/500.css';
 @import '@fontsource/jetbrains-mono/600.css';
 @import '@fontsource/jetbrains-mono/700.css';
-
-/* Self-hosted Manrope — body text in recruiter view */
-@import '@fontsource/manrope/400.css';
-@import '@fontsource/manrope/500.css';
-@import '@fontsource/manrope/600.css';
-@import '@fontsource/manrope/700.css';
 
 /* Ensure all @fontsource declarations use swap to avoid FOIT */
 @layer base {

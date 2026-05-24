@@ -1,6 +1,7 @@
 import type { CommandHandler } from './index';
+import { THEME_STORAGE_KEY, THEME_VALID } from '@config/index';
 
-export type ThemeName = 'tokyonight' | 'cyberpunk' | 'matrix' | 'catppuccin';
+export type ThemeName = (typeof THEME_VALID)[number];
 
 export const THEMES: ReadonlyArray<{ name: ThemeName; emoji: string; tag: string }> = [
   { name: 'tokyonight', emoji: '🌃', tag: 'default · cyan + green' },
@@ -8,8 +9,6 @@ export const THEMES: ReadonlyArray<{ name: ThemeName; emoji: string; tag: string
   { name: 'matrix',     emoji: '🟢', tag: 'green on black' },
   { name: 'catppuccin', emoji: '🐱', tag: 'mocha pastel' },
 ];
-
-const STORAGE_KEY = 'fsc.theme';
 
 function currentTheme(): ThemeName {
   const set = document.documentElement.dataset.theme;
@@ -21,7 +20,7 @@ function applyTheme(name: ThemeName): void {
   html.classList.add('theme-switching');
   html.dataset.theme = name;
   try {
-    localStorage.setItem(STORAGE_KEY, name);
+    localStorage.setItem(THEME_STORAGE_KEY, name);
   } catch {
     /* private mode — no-op */
   }

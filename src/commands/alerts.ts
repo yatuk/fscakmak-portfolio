@@ -1,4 +1,5 @@
 import type { CommandHandler } from './index';
+import { SEV_CLS, STATUS_CLS } from '@config/index';
 
 type Sev    = 'CRITICAL' | 'HIGH' | 'MEDIUM';
 type Status = 'OPEN' | 'IN-REVIEW' | 'CLOSED';
@@ -22,18 +23,6 @@ const QUEUE: Alert[] = [
   { id: '#2236', sev: 'MEDIUM',   status: 'CLOSED',    title: 'Phishing attachment — quarantined by GW',    src: '185.220.101.47', ttp: 'T1566.001', age: '34m ago' },
   { id: '#2235', sev: 'MEDIUM',   status: 'CLOSED',    title: 'SMB lateral movement — blocked at firewall', src: '172.16.0.44',    ttp: 'T1021.002', age: '49m ago' },
 ];
-
-const SEV_CLS: Record<Sev, string> = {
-  CRITICAL: 'soc-crit',
-  HIGH:     'soc-high',
-  MEDIUM:   'soc-med',
-};
-
-const STATUS_CLS: Record<Status, string> = {
-  'OPEN':      'alert-open',
-  'IN-REVIEW': 'alert-review',
-  'CLOSED':    'alert-closed',
-};
 
 function alertRow(a: Alert): string {
   const sevBadge    = `<span class="alert-sev-badge ${SEV_CLS[a.sev]}">${a.sev}</span>`;

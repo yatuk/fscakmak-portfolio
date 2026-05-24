@@ -3,11 +3,9 @@ import { commandRegistry, type CommandContext, type CommandResult } from '@comma
 import { prefixHandlers, developerModeHtml } from '@commands/step10-eggs';
 import { t as translate } from '@core/i18n';
 import { escapeHtml } from '@lib/sanitize';
-import { addScore, maxScoreHtml, maxScoreEffect, setupKonami, type ScoreState, type ScoreDisplay } from './scoring';
-import { scheduleAutoWhoami, type BootContext } from './boot';
-
-const HIST_KEY = 'terminal_history';
-const HIST_MAX = 50;
+import { addScore, maxScoreHtml, maxScoreEffect, setupKonami, type ScoreState, type ScoreDisplay } from '@core/scoring';
+import { scheduleAutoWhoami, type BootContext } from '@core/boot';
+import { HIST_KEY, HIST_MAX, MAX_SUGGESTIONS } from '@config/index';
 
 function loadHistory(): string[] {
   try {
@@ -150,8 +148,6 @@ function onKey(s: State, e: KeyboardEvent): void {
 }
 
 /* ── Autocomplete ────────────────────────────────────── */
-
-const MAX_SUGGESTIONS = 6;
 
 function updateSuggestions(s: State): void {
   const v = s.el.input.value.toLowerCase();

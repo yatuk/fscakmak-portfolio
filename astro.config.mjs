@@ -47,6 +47,7 @@ export default defineConfig({
         '@components': r('./src/components'),
         '@layouts': r('./src/layouts'),
         '@lib': r('./src/lib'),
+        '@config': r('./src/config'),
       },
     },
   },

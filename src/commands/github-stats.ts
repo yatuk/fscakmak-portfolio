@@ -1,8 +1,6 @@
 import type { CommandHandler } from './index';
 import { escapeHtml } from '@lib/sanitize';
-
-const CACHE_KEY = 'fsc.github.stats';
-const CACHE_TTL_MS = 60 * 60 * 1000;
+import { GH_CACHE_KEY, GH_CACHE_TTL_MS } from '@config/index';
 
 interface GithubUser {
   login: string;
@@ -31,11 +29,11 @@ interface CacheEntry {
 
 function readCache(username: string): CachedUser | null {
   try {
-    const raw = localStorage.getItem(CACHE_KEY);
+    const raw = localStorage.getItem(GH_CACHE_KEY);
     if (!raw) return null;
     const entry = JSON.parse(raw) as CacheEntry;
     if (entry.user.login !== username) return null;
-    if (Date.now() - entry.at > CACHE_TTL_MS) return null;
+    if (Date.now() - entry.at > GH_CACHE_TTL_MS) return null;
     return entry.user;
   } catch {
     return null;
@@ -52,7 +50,7 @@ function writeCache(user: GithubUser): void {
       created_at: user.created_at,
     };
     const entry: CacheEntry = { at: Date.now(), user: slim };
-    localStorage.setItem(CACHE_KEY, JSON.stringify(entry));
+    localStorage.setItem(GH_CACHE_KEY, JSON.stringify(entry));
   } catch {
     /* private mode */
   }

@@ -1,9 +1,8 @@
 import type { Profile } from '@ptypes/profile';
-import { escapeHtml } from '@lib/sanitize';
 
 /**
- * Boot coordination — schedules and runs the auto-whoami
- * command after the boot overlay is dismissed.
+ * Boot coordination — after the boot overlay is dismissed, types
+ * "whoami" character-by-character into the terminal and submits it.
  */
 
 export interface BootContext {
@@ -16,10 +15,9 @@ export interface BootContext {
   onScore: (cmd: string) => void;
 }
 
-/** Auto-run whoami once after the boot overlay is removed. */
 export function scheduleAutoWhoami(ctx: BootContext): void {
   const overlay = document.querySelector('[data-boot-overlay]');
-  const fire = () => window.setTimeout(() => autoRun(ctx), 400);
+  const fire = () => window.setTimeout(() => typeWhoami(ctx), 350);
   if (!overlay) {
     fire();
     return;
@@ -32,16 +30,20 @@ export function scheduleAutoWhoami(ctx: BootContext): void {
   }).observe(document.body, { childList: true, subtree: true });
 }
 
-function autoRun(ctx: BootContext): void {
-  const { identity } = ctx.profile;
-  ctx.history.unshift('whoami');
-  ctx.hi = -1;
-  ctx.onPrompt('whoami');
-  ctx.onLine(
-    `<span class="t-tx">${escapeHtml(identity.name)}</span>` +
-    `<span class="t-dim"> — </span>` +
-    `<span class="t-grn">${escapeHtml(identity.role)}</span>`,
-  );
-  ctx.onScore('whoami');
-  ctx.input.focus();
+function typeWhoami(ctx: BootContext): void {
+  const cmd = 'whoami';
+  const CHAR_MS = 40;
+  let i = 0;
+
+  const tick = () => {
+    if (i < cmd.length) {
+      ctx.input.value += cmd[i++];
+      window.setTimeout(tick, CHAR_MS);
+    } else {
+      ctx.input.disabled = false;
+      ctx.input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+      ctx.input.focus();
+    }
+  };
+  tick();
 }

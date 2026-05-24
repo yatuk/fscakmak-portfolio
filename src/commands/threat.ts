@@ -1,4 +1,5 @@
 import type { CommandHandler } from './index';
+import { SEV_CLS } from '@config/index';
 
 interface ThreatActor {
   group:    string;
@@ -55,12 +56,6 @@ const ACTORS: ThreatActor[] = [
     region:   'EU (especially TR-adjacent)',
   },
 ];
-
-const SEV_CLS = {
-  CRITICAL: 'soc-crit',
-  HIGH:     'soc-high',
-  MEDIUM:   'soc-med',
-} as const;
 
 function actorCard(a: ThreatActor): string {
   const ttpBadges = a.ttps

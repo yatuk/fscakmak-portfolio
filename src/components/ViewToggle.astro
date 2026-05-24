@@ -27,7 +27,7 @@ const glyph = isRecruiter ? '⌨' : '👔';
   <span class="view-arrow" aria-hidden="true">→</span>
 </a>
 
-<script is:inline>
+<script is:inline nonce="NONCE_PLACEHOLDER">
   /* Persist user's explicit view choice so the mobile auto-switch
      on the terminal page respects "Force terminal mode" clicks. */
   document.querySelectorAll('[data-view-target]').forEach((el) => {

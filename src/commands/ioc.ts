@@ -1,4 +1,5 @@
 import type { CommandHandler } from './index';
+import { CONF_CLS } from '@config/index';
 
 interface IOC {
   type:       string;
@@ -18,8 +19,6 @@ const IOCS: IOC[] = [
   { type: 'URL',    indicator: 'hxxps://dl[.]evil-cdn[.]net/loader[.]exe',    ttp: 'T1204.002', source: 'PhishTank',      confidence: 'HIGH' },
   { type: 'URL',    indicator: 'hxxp://185.220.101.47/c2/beacon',             ttp: 'TA0011',    source: 'Abuse.ch',       confidence: 'HIGH' },
 ];
-
-const CONF_CLS = { HIGH: 'soc-high', MED: 'soc-med', LOW: 'soc-low' } as const;
 
 function iocRow(ioc: IOC): string {
   return `<div class="ioc-row">
