@@ -2,6 +2,7 @@ import type { Locale, Profile } from '@ptypes/profile';
 import { commandRegistry, type CommandContext, type CommandResult } from '@commands/index';
 import { prefixHandlers, developerModeHtml } from '@commands/step10-eggs';
 import { t as translate } from '@core/i18n';
+import { escapeHtml } from '@lib/sanitize';
 
 /**
  * Points per command (only awarded once per unique command).
@@ -404,16 +405,3 @@ function autoRun(s: State): void {
   s.el.input.focus();
 }
 
-/** Escape user-input strings before injecting them into innerHTML. */
-function escapeHtml(input: string): string {
-  return input.replace(/[&<>"']/g, (c) => {
-    switch (c) {
-      case '&': return '&amp;';
-      case '<': return '&lt;';
-      case '>': return '&gt;';
-      case '"': return '&quot;';
-      case "'": return '&#39;';
-      default: return c;
-    }
-  });
-}

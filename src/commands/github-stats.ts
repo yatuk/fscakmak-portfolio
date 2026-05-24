@@ -1,4 +1,5 @@
 import type { CommandHandler } from './index';
+import { escapeHtml } from '@lib/sanitize';
 
 const CACHE_KEY = 'fsc.github.stats';
 const CACHE_TTL_MS = 60 * 60 * 1000;
@@ -11,14 +12,24 @@ interface GithubUser {
   created_at: string;
   bio: string | null;
   html_url: string;
+  name?: string;
+}
+
+/** Safe subset for localStorage — no free-text fields. */
+interface CachedUser {
+  login: string;
+  public_repos: number;
+  followers: number;
+  following: number;
+  created_at: string;
 }
 
 interface CacheEntry {
   at: number;
-  user: GithubUser;
+  user: CachedUser;
 }
 
-function readCache(username: string): GithubUser | null {
+function readCache(username: string): CachedUser | null {
   try {
     const raw = localStorage.getItem(CACHE_KEY);
     if (!raw) return null;
@@ -33,32 +44,29 @@ function readCache(username: string): GithubUser | null {
 
 function writeCache(user: GithubUser): void {
   try {
-    const entry: CacheEntry = { at: Date.now(), user };
+    const slim: CachedUser = {
+      login: user.login,
+      public_repos: user.public_repos,
+      followers: user.followers,
+      following: user.following,
+      created_at: user.created_at,
+    };
+    const entry: CacheEntry = { at: Date.now(), user: slim };
     localStorage.setItem(CACHE_KEY, JSON.stringify(entry));
   } catch {
     /* private mode */
   }
 }
 
-function esc(s: string): string {
-  return s.replace(/[&<>"']/g, (c) => {
-    switch (c) {
-      case '&': return '&amp;';
-      case '<': return '&lt;';
-      case '>': return '&gt;';
-      case '"': return '&quot;';
-      case "'": return '&#39;';
-      default: return c;
-    }
-  });
-}
-
-function formatStats(user: GithubUser, cached: boolean): string {
+function formatStats(user: GithubUser | CachedUser, cached: boolean): string {
   const since = new Date(user.created_at).getFullYear();
-  const bio = user.bio ? `<div class="t-dim" style="margin-top:6px">${esc(user.bio)}</div>` : '';
+  const bio = 'bio' in user && user.bio
+    ? `<div class="t-dim" style="margin-top:6px">${escapeHtml(user.bio)}</div>`
+    : '';
+  const url = 'html_url' in user ? user.html_url : `https://github.com/${user.login}`;
   return `
 <div class="cmd-block">
-  <div class="cmd-title">📊 GitHub @${esc(user.login)}${cached ? ' <span class="t-dim">(cached)</span>' : ''}</div>
+  <div class="cmd-title">📊 GitHub @${escapeHtml(user.login)}${cached ? ' <span class="t-dim">(cached)</span>' : ''}</div>
   <div class="kv" style="margin-top:8px">
     <div class="kv-row"><span class="kv-k">repos</span><span class="kv-v kv-v-emph">${user.public_repos}</span></div>
     <div class="kv-row"><span class="kv-k">followers</span><span class="kv-v">${user.followers}</span></div>
@@ -67,7 +75,7 @@ function formatStats(user: GithubUser, cached: boolean): string {
   </div>
   ${bio}
   <div class="cmd-help-hint" style="margin-top:10px">
-    <a href="${esc(user.html_url)}" target="_blank" rel="noopener noreferrer">${esc(user.html_url)}</a>
+    <a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(url)}</a>
   </div>
 </div>`;
 }
@@ -86,7 +94,7 @@ const LOADING_ID = 'gh-stats-loading';
 
 function loadingHtml(username: string): string {
   return `<div class="cmd-block" id="${LOADING_ID}">
-  <span class="t-dim">fetching github.com/${esc(username)}</span>
+  <span class="t-dim">fetching github.com/${escapeHtml(username)}</span>
   <span class="gh-spinner">▋</span>
 </div>`;
 }
@@ -111,7 +119,7 @@ const statsHandler: CommandHandler = ({ profile }) => {
           const placeholder = document.getElementById(LOADING_ID);
           if (placeholder) {
             placeholder.outerHTML = `<div class="cmd-block t-err">
-              stats: could not reach GitHub API for @${esc(username)}.<br>
+              stats: could not reach GitHub API for @${escapeHtml(username)}.<br>
               <span class="t-dim">Try again later — rate limits happen.</span>
             </div>`;
           }

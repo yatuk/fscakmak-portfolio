@@ -1,4 +1,5 @@
 import type { CommandHandler } from './index';
+import { escapeHtml } from '@lib/sanitize';
 
 const FSC_ASCII = `
   ███████╗███████╗ ██████╗
@@ -37,7 +38,7 @@ export const neofetch: CommandHandler = ({ profile, t }) => {
       ${kv(t('cmd.neofetch.os'), 'Kali Linux / Windows 11')}
       ${kv(t('cmd.neofetch.shell'), 'zsh 5.9')}
       ${kv(t('cmd.neofetch.editor'), 'VS Code / Vim')}
-      ${kv(t('cmd.neofetch.role'), profile.identity.role)}
+      ${kv(t('cmd.neofetch.role'), escapeHtml(profile.identity.role))}
       ${kv(t('cmd.neofetch.threat_model'), 'Financial APTs')}
       ${kv(t('cmd.neofetch.uptime'), `${techYears}${t('cmd.neofetch.uptime_y')} in tech · ${socYears}${t('cmd.neofetch.uptime_y')}+ in SOC`)}
     </div>

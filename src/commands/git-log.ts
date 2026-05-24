@@ -1,4 +1,5 @@
 import type { CommandHandler } from './index';
+import { escapeHtml } from '@lib/sanitize';
 
 /**
  * `git log` — combined timeline of experience + education,
@@ -19,16 +20,16 @@ export const gitLog: CommandHandler = ({ profile, t }) => {
   const items: Item[] = [
     ...profile.experience.map((e) => ({
       sortKey: e.end ?? '9999-12',
-      range: `${e.start} — ${e.end ?? present}`,
-      title: e.title,
-      org: `@ ${e.company} — ${e.location}`,
-      detail: e.highlights[0] ?? '',
+      range: `${escapeHtml(e.start)} — ${escapeHtml(e.end ?? present)}`,
+      title: escapeHtml(e.title),
+      org: `@ ${escapeHtml(e.company)} — ${escapeHtml(e.location)}`,
+      detail: escapeHtml(e.highlights[0] ?? ''),
     })),
     ...profile.education.map((edu) => ({
       sortKey: edu.end,
-      range: `${edu.start} — ${edu.end}${edu.expected ? ` (${expected})` : ''}`,
-      title: edu.degree,
-      org: `@ ${edu.school}`,
+      range: `${escapeHtml(edu.start)} — ${escapeHtml(edu.end)}${edu.expected ? ` (${escapeHtml(expected)})` : ''}`,
+      title: escapeHtml(edu.degree),
+      org: `@ ${escapeHtml(edu.school)}`,
       detail: '',
     })),
   ];
@@ -50,7 +51,7 @@ export const gitLog: CommandHandler = ({ profile, t }) => {
 
   return `
 <div class="cmd-block">
-  <div class="cmd-title">📦 ${t('cmd.git_log.title')}</div>
+  <div class="cmd-title">📦 ${escapeHtml(t('cmd.git_log.title'))}</div>
   <div class="tl">${html}</div>
 </div>`;
 };

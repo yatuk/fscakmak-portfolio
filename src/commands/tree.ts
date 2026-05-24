@@ -1,4 +1,5 @@
 import type { CommandHandler } from './index';
+import { escapeHtml } from '@lib/sanitize';
 
 /**
  * ASCII site map. Re-built each call so it reflects the profile
@@ -10,7 +11,7 @@ const renderer: CommandHandler = ({ profile, t }) => {
   const certs = profile.certifications.map((c) => c.name);
 
   const lines: Array<{ depth: number; glyph: string; label: string; cls: string }> = [
-    { depth: 0, glyph: '',     label: profile.identity.domain, cls: 'tr-root' },
+    { depth: 0, glyph: '',     label: escapeHtml(profile.identity.domain), cls: 'tr-root' },
     { depth: 1, glyph: '├──',  label: 'about',                 cls: 'tr-file' },
     { depth: 1, glyph: '├──',  label: 'skills/',               cls: 'tr-dir' },
     { depth: 2, glyph: '│   ├──', label: t('skill_groups.cybersecurity'),   cls: 'tr-file' },
@@ -21,28 +22,28 @@ const renderer: CommandHandler = ({ profile, t }) => {
     ...profile.experience.map((e, i, arr) => ({
       depth: 2,
       glyph: i === arr.length - 1 ? '│   └──' : '│   ├──',
-      label: e.company,
+      label: escapeHtml(e.company),
       cls: 'tr-file',
     })),
     { depth: 1, glyph: '├──',  label: 'education/', cls: 'tr-dir' },
     ...profile.education.map((e, i, arr) => ({
       depth: 2,
       glyph: i === arr.length - 1 ? '│   └──' : '│   ├──',
-      label: e.school,
+      label: escapeHtml(e.school),
       cls: 'tr-file',
     })),
     { depth: 1, glyph: '├──', label: 'projects/', cls: 'tr-dir' },
     ...projects.map((slug, i, arr) => ({
       depth: 2,
       glyph: i === arr.length - 1 ? '│   └──' : '│   ├──',
-      label: slug,
+      label: escapeHtml(slug),
       cls: 'tr-file',
     })),
     { depth: 1, glyph: '├──', label: 'certifications/', cls: 'tr-dir' },
     ...certs.map((name, i, arr) => ({
       depth: 2,
       glyph: i === arr.length - 1 ? '│   └──' : '│   ├──',
-      label: name,
+      label: escapeHtml(name),
       cls: 'tr-file',
     })),
     { depth: 1, glyph: '└──', label: 'languages.txt', cls: 'tr-file' },

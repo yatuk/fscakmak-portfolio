@@ -1,4 +1,5 @@
 import type { CommandHandler } from './index';
+import { escapeHtml } from '@lib/sanitize';
 import type { Locale } from '@ptypes/profile';
 
 /**
@@ -63,10 +64,10 @@ const renderer: CommandHandler = ({ locale }) => {
   const cards = ENTRIES.map(
     (e) => `
     <article class="mitre-card">
-      <div class="mitre-id">${e.id}</div>
-      <div class="mitre-name">${e.name}</div>
-      <p class="mitre-context">${e.context[locale]}</p>
-      <a class="mitre-link" href="${e.url}" target="_blank" rel="noopener noreferrer">attack.mitre.org →</a>
+      <div class="mitre-id">${escapeHtml(e.id)}</div>
+      <div class="mitre-name">${escapeHtml(e.name)}</div>
+      <p class="mitre-context">${escapeHtml(e.context[locale])}</p>
+      <a class="mitre-link" href="${escapeHtml(e.url)}" target="_blank" rel="noopener noreferrer">attack.mitre.org →</a>
     </article>`
   ).join('');
 
@@ -78,7 +79,7 @@ const renderer: CommandHandler = ({ locale }) => {
   return `
 <div class="cmd-block">
   <div class="cmd-title">🎯 Defended ATT&CK</div>
-  <div class="cmd-help-hint" style="margin-bottom:10px">${subtitle}</div>
+  <div class="cmd-help-hint" style="margin-bottom:10px">${escapeHtml(subtitle)}</div>
   <div class="mitre-grid">${cards}</div>
 </div>`;
 };

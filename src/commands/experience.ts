@@ -1,4 +1,5 @@
 import type { CommandHandler } from './index';
+import { escapeHtml } from '@lib/sanitize';
 
 export const experience: CommandHandler = ({ profile, t }) => {
   const present = t('cmd.experience.present');
@@ -7,14 +8,14 @@ export const experience: CommandHandler = ({ profile, t }) => {
 
   const entries = profile.experience
     .map((e) => {
-      const dateRange = `${e.start} – ${e.end ?? present}`;
+      const dateRange = `${escapeHtml(e.start)} – ${escapeHtml(e.end ?? present)}`;
       const activePill = e.active
-        ? `<span class="exp-pill exp-pill-active">● ${activeLabel}</span>`
+        ? `<span class="exp-pill exp-pill-active">● ${escapeHtml(activeLabel)}</span>`
         : '';
       const partTimePill = e.part_time
-        ? `<span class="exp-pill exp-pill-pt">${partTime}</span>`
+        ? `<span class="exp-pill exp-pill-pt">${escapeHtml(partTime)}</span>`
         : '';
-      const bullets = e.highlights.map((h) => `<li>${h}</li>`).join('');
+      const bullets = e.highlights.map((h) => `<li>${escapeHtml(h)}</li>`).join('');
 
       return `
       <div class="exp-entry">
@@ -24,9 +25,9 @@ export const experience: CommandHandler = ({ profile, t }) => {
           <span class="exp-date">${dateRange}</span>
         </div>
         <div class="exp-title">
-          ${e.title} — <span class="exp-company">${e.company}</span>
+          ${escapeHtml(e.title)} — <span class="exp-company">${escapeHtml(e.company)}</span>
         </div>
-        <div class="exp-location">${e.location}</div>
+        <div class="exp-location">${escapeHtml(e.location)}</div>
         <ul class="exp-highlights">${bullets}</ul>
       </div>`;
     })
@@ -34,7 +35,7 @@ export const experience: CommandHandler = ({ profile, t }) => {
 
   return `
 <div class="cmd-block">
-  <div class="cmd-title">💼 ${t('cmd.experience.title')}</div>
+  <div class="cmd-title">💼 ${escapeHtml(t('cmd.experience.title'))}</div>
   <div class="exp-list">${entries}</div>
 </div>`;
 };

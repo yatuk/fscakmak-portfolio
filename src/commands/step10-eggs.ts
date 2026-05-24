@@ -1,17 +1,5 @@
 import type { CommandHandler } from './index';
-
-function esc(s: string): string {
-  return s.replace(/[&<>"']/g, (c) => {
-    switch (c) {
-      case '&': return '&amp;';
-      case '<': return '&lt;';
-      case '>': return '&gt;';
-      case '"': return '&quot;';
-      case "'": return '&#39;';
-      default: return c;
-    }
-  });
-}
+import { escapeHtml } from '@lib/sanitize';
 
 /** Prefix handlers — matched in terminal.ts before the registry. */
 export const prefixHandlers: Array<{
@@ -29,7 +17,7 @@ export const prefixHandlers: Array<{
         const decoded = atob(payload.replace(/\s/g, ''));
         return `<div class="cmd-block egg-mono">
   <span class="t-dim">$ decode …</span><br>
-  <span class="t-grn">${esc(decoded)}</span>
+  <span class="t-grn">${escapeHtml(decoded)}</span>
 </div>`;
       } catch {
         return `<div class="cmd-block t-err">decode: invalid base64 input</div>`;
@@ -49,7 +37,7 @@ export const prefixHandlers: Array<{
         .map((b) => b.toString(16).padStart(2, '0'))
         .join('');
       return `<div class="cmd-block egg-mono">
-  <span class="t-dim">SHA-256("${esc(text.slice(0, 40))}${text.length > 40 ? '…' : ''}")</span><br>
+  <span class="t-dim">SHA-256("${escapeHtml(text.slice(0, 40))}${text.length > 40 ? '…' : ''}")</span><br>
   <span class="t-grn">${hex}</span>
 </div>`;
     },
@@ -65,7 +53,7 @@ export const prefixHandlers: Array<{
 ];
 
 export function cowsayHtml(message: string): string {
-  const msg = esc(message.slice(0, 60));
+  const msg = escapeHtml(message.slice(0, 60));
   const pad = Math.min(message.length + 2, 62);
   return `<div class="cmd-block">
   <pre class="egg-mono t-grn">
@@ -82,7 +70,7 @@ export function cowsayHtml(message: string): string {
 }
 
 export function figletHtml(text: string): string {
-  const t = esc(text.slice(0, 12).toUpperCase());
+  const t = escapeHtml(text.slice(0, 12).toUpperCase());
   return `<div class="cmd-block">
   <pre class="egg-mono t-link" aria-label="${t}">
  ███████╗ ██████╗  ██████╗
@@ -212,8 +200,8 @@ export function developerModeHtml(): string {
   const rows = DEVELOPER_COMMANDS.map(
     (r) => `
     <div class="cmd-help-row">
-      <span class="cmd-help-cmd">${esc(r.cmd)}</span>
-      <span class="cmd-help-desc">${esc(r.note)}</span>
+      <span class="cmd-help-cmd">${escapeHtml(r.cmd)}</span>
+      <span class="cmd-help-desc">${escapeHtml(r.note)}</span>
     </div>`
   ).join('');
 

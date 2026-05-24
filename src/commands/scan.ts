@@ -22,8 +22,9 @@ const SCAN_OUTPUT = `<div class="cmd-block scan-output">
 export const scanHandler: CommandHandler = () => SCAN_OUTPUT;
 
 export const scanCommands: Record<string, CommandHandler> = {
-  scan:           scanHandler,
-  nmap:           scanHandler,
+  scan:               scanHandler,
+  nmap:               scanHandler,
+  'nmap localhost':   scanHandler,
   'nmap fscakmak.com': scanHandler,
   'scan fscakmak.com': scanHandler,
 };

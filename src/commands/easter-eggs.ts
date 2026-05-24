@@ -1,5 +1,6 @@
 import type { CommandHandler } from './index';
 import { matrix } from './matrix';
+import { escapeHtml } from '@lib/sanitize';
 
 /**
  * Easter eggs — not listed in `help`, but tab-autocomplete reveals
@@ -10,20 +11,6 @@ import { matrix } from './matrix';
  * compact since output is hand-crafted ASCII art / mock terminal
  * chatter.
  */
-
-const nmapOutput = (): string => `
-<div class="cmd-block egg-mono">
-  Starting Nmap 7.94 ( https://nmap.org )<br>
-  Scanning fscakmak.com (127.0.0.1)...<br><br>
-  PORT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STATE&nbsp;&nbsp;&nbsp;&nbsp;SERVICE<br>
-  <span class="t-grn">22/tcp&nbsp;&nbsp;&nbsp;open&nbsp;&nbsp;&nbsp;&nbsp;ssh</span><br>
-  <span class="t-grn">80/tcp&nbsp;&nbsp;&nbsp;open&nbsp;&nbsp;&nbsp;&nbsp;http</span><br>
-  <span class="t-grn">443/tcp&nbsp;&nbsp;open&nbsp;&nbsp;&nbsp;&nbsp;https</span><br>
-  <span class="t-err">1337/tcp&nbsp;filtered&nbsp;leet-soc</span><br>
-  <span class="t-ylw">8080/tcp&nbsp;open&nbsp;&nbsp;&nbsp;&nbsp;caffeine-api</span><br><br>
-  <span class="t-dim">Nmap done: 1 IP address (1 host up) scanned in 0.42s</span><br>
-  <span class="t-dim">⚠ Port 1337: SOC monitoring active. Proceed with caution.</span>
-</div>`;
 
 export const eggs: Record<string, CommandHandler> = {
   matrix,
@@ -55,10 +42,6 @@ export const eggs: Record<string, CommandHandler> = {
   <span class="t-dim">Did you really think that would work here? 🤨<br>
   Try <span class="t-link">whoami</span> instead.</span>
 </div>`,
-
-  nmap: nmapOutput,
-  'nmap localhost': nmapOutput,
-  'nmap fscakmak.com': nmapOutput,
 
   ping: () => `
 <div class="cmd-block egg-mono">
@@ -133,12 +116,12 @@ __/ =| o |=-~~\\  /~~\\  /~~\\  /~~\\ ____Y___________|__
       return `<div class="cmd-block t-dim">  No commands yet.</div>`;
     }
     const rows = h
-      .map((c, i) => ` ${String(i + 1).padStart(4, ' ')}  ${escape(c)}`)
+      .map((c, i) => ` ${String(i + 1).padStart(4, ' ')}  ${escapeHtml(c)}`)
       .join('<br>');
     return `<div class="cmd-block egg-mono t-dim">${rows}</div>`;
   },
 
-  date: () => `<div class="cmd-block t-tx">${escape(new Date().toString())}</div>`,
+  date: () => `<div class="cmd-block t-tx">${escapeHtml(new Date().toString())}</div>`,
 
   sudo: () => `
 <div class="cmd-block">
@@ -149,16 +132,3 @@ __/ =| o |=-~~\\  /~~\\  /~~\\  /~~\\ ____Y___________|__
   <span class="t-dim">most people just tab through. you didn't. that means something.</span>
 </div>`,
 };
-
-function escape(s: string): string {
-  return s.replace(/[&<>"']/g, (c) => {
-    switch (c) {
-      case '&': return '&amp;';
-      case '<': return '&lt;';
-      case '>': return '&gt;';
-      case '"': return '&quot;';
-      case "'": return '&#39;';
-      default: return c;
-    }
-  });
-}
