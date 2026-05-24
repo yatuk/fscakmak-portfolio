@@ -39,7 +39,6 @@
   /* Type scale */
   --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
   --font-body: 'Manrope', system-ui, -apple-system, sans-serif;
-  --font-display: 'Press Start 2P', var(--font-mono);
   --text-xs: 0.66rem;
   --text-sm: 0.74rem;
   --text-base: 0.82rem;

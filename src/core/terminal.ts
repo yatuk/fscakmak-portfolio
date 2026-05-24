@@ -3,58 +3,8 @@ import { commandRegistry, type CommandContext, type CommandResult } from '@comma
 import { prefixHandlers, developerModeHtml } from '@commands/step10-eggs';
 import { t as translate } from '@core/i18n';
 import { escapeHtml } from '@lib/sanitize';
-
-/**
- * Points per command (only awarded once per unique command).
- * v1 carried these; preserved verbatim so existing scoring intuition
- * remains identical for repeat visitors.
- */
-const POINTS: Record<string, number> = {
-  help: 3,
-  'help -v': 5,
-  whoami: 7,
-  skills: 10,
-  contact: 5,
-  experience: 8,
-  'git log': 15,
-  projects: 15,
-  neofetch: 5,
-  socials: 3,
-  'cat about.txt': 7,
-  ls: 2,
-  education: 5,
-  certs: 8,
-  certifications: 8,
-  languages: 3,
-  mitre: 10,
-  'mitre attack': 10,
-  tree: 4,
-  theme: 3,
-  'download resume': 5,
-  stats: 5,
-  'github stats': 5,
-  tcpdump: 3,
-  siem: 3,
-  'siem alerts': 3,
-  logs: 8,
-  'logs --severity critical': 3,
-  'logs --severity high': 3,
-  'logs --severity medium': 3,
-  'logs --severity low': 3,
-  alerts: 10,
-  ioc: 8,
-  threat: 8,
-  scan: 5,
-  nmap: 5,
-  skillmatrix: 6,
-};
-const MAX_SCORE = 100;
-
-const KONAMI = [
-  'ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown',
-  'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight',
-  'b', 'a',
-];
+import { addScore, maxScoreHtml, maxScoreEffect, setupKonami, type ScoreState, type ScoreDisplay } from './scoring';
+import { scheduleAutoWhoami, type BootContext } from './boot';
 
 interface Elements {
   body: HTMLElement;
@@ -85,27 +35,22 @@ export function initTerminal({ container, profile, locale }: InitOpts): void {
   const body = container.querySelector<HTMLElement>('[data-term-body]');
   const output = container.querySelector<HTMLElement>('[data-term-output]');
   const input = container.querySelector<HTMLInputElement>('[data-term-input]');
-  const scoreFill = container.querySelector<HTMLElement>('[data-term-score-fill]');
-  const scoreValue = container.querySelector<HTMLElement>('[data-term-score-value]');
+  const sf = container.querySelector<HTMLElement>('[data-term-score-fill]');
+  const sv = container.querySelector<HTMLElement>('[data-term-score-value]');
   const suggestions = container.querySelector<HTMLElement>('[data-term-suggestions]');
 
-  if (!body || !output || !input || !scoreFill || !scoreValue || !suggestions) {
+  if (!body || !output || !input || !sf || !sv || !suggestions) {
     console.warn('[terminal] required elements missing — skipping init');
     return;
   }
 
   const state: State = {
-    el: { body, output, input, scoreFill, scoreValue, suggestions },
+    el: { body, output, input, scoreFill: sf, scoreValue: sv, suggestions },
     history: [],
     hi: -1,
     score: 0,
     earned: new Set(),
-    ctx: {
-      profile,
-      locale,
-      t: (key) => translate(locale, key),
-      getHistory: () => state.history,
-    },
+    ctx: { profile, locale, t: (key) => translate(locale, key), getHistory: () => state.history },
     suggestIdx: -1,
   };
 
@@ -115,13 +60,32 @@ export function initTerminal({ container, profile, locale }: InitOpts): void {
     if (!(e.target as Element).closest('a')) input.focus();
   });
   input.focus();
-  setupKonami(state);
   wireQuickLaunch(container);
-  scheduleAutoWhoami(state);
+
+  setupKonami({
+    get score() { return state.score; },
+    set score(v: number) { state.score = v; },
+    display: state.el,
+    onPrompt: (cmd) => prompt(state, cmd),
+    onBlock: (html) => block(state, html),
+    devModeHtml: () => developerModeHtml(),
+  });
+
+  const st: ScoreState = state;
+  const display: ScoreDisplay = state.el;
+  const bootCtx: BootContext = {
+    profile, history: state.history, hi: state.hi, input,
+    onPrompt: (cmd) => prompt(state, cmd),
+    onLine: (html) => line(state, html),
+    onScore: (cmd) => addScore(st, display, cmd, () => {
+      maxScoreEffect(display);
+      block(state, maxScoreHtml());
+    }),
+  };
+  scheduleAutoWhoami(bootCtx);
 }
 
-/** Mobile chip toolbar + nav quick buttons. */
-export function wireQuickLaunch(root: ParentNode): void {
+function wireQuickLaunch(root: ParentNode): void {
   root.querySelectorAll<HTMLButtonElement>('[data-term-quick]').forEach((btn) => {
     btn.addEventListener('click', () => {
       const termRoot = btn.closest<HTMLElement>('[data-term-root]');
@@ -136,49 +100,42 @@ export function wireQuickLaunch(root: ParentNode): void {
   });
 }
 
+/* ── Input handling ──────────────────────────────────── */
+
 function onKey(s: State, e: KeyboardEvent): void {
   if (e.key === 'Enter') {
     hideSuggestions(s);
     s.suggestIdx = -1;
     run(s, s.el.input.value);
     s.el.input.value = '';
-  } else if (e.key === 'ArrowUp') {
+    return;
+  }
+  if (e.key === 'ArrowUp') {
     e.preventDefault();
-    if (s.hi < s.history.length - 1) {
-      s.hi++;
-      s.el.input.value = s.history[s.hi] ?? '';
-    }
-  } else if (e.key === 'ArrowDown') {
+    if (s.hi < s.history.length - 1) { s.hi++; s.el.input.value = s.history[s.hi] ?? ''; }
+    return;
+  }
+  if (e.key === 'ArrowDown') {
     e.preventDefault();
-    if (s.hi > 0) {
-      s.hi--;
-      s.el.input.value = s.history[s.hi] ?? '';
-    } else {
-      s.hi = -1;
-      s.el.input.value = '';
-    }
-  } else if (e.key === 'Tab') {
+    if (s.hi > 0) { s.hi--; s.el.input.value = s.history[s.hi] ?? ''; }
+    else { s.hi = -1; s.el.input.value = ''; }
+    return;
+  }
+  if (e.key === 'Tab') {
     e.preventDefault();
     const v = s.el.input.value.toLowerCase();
     if (!v) return;
     const matches = Object.keys(commandRegistry).filter((c) => c.startsWith(v));
     if (matches.length === 0) return;
-    if (matches.length === 1) {
-      s.el.input.value = matches[0];
-      hideSuggestions(s);
-    } else {
-      s.suggestIdx = (s.suggestIdx + 1) % matches.length;
-      s.el.input.value = matches[s.suggestIdx];
-      renderSuggestions(s, matches, s.suggestIdx);
-    }
-  } else if (e.key === 'Escape') {
-    hideSuggestions(s);
-    s.suggestIdx = -1;
-  } else if (e.key === 'l' && e.ctrlKey) {
-    e.preventDefault();
-    run(s, 'clear');
+    if (matches.length === 1) { s.el.input.value = matches[0]; hideSuggestions(s); }
+    else { s.suggestIdx = (s.suggestIdx + 1) % matches.length; s.el.input.value = matches[s.suggestIdx]; renderSuggestions(s, matches, s.suggestIdx); }
+    return;
   }
+  if (e.key === 'Escape') { hideSuggestions(s); s.suggestIdx = -1; return; }
+  if (e.key === 'l' && e.ctrlKey) { e.preventDefault(); run(s, 'clear'); }
 }
+
+/* ── Autocomplete ────────────────────────────────────── */
 
 const MAX_SUGGESTIONS = 6;
 
@@ -187,10 +144,7 @@ function updateSuggestions(s: State): void {
   s.suggestIdx = -1;
   if (!v) { hideSuggestions(s); return; }
   const matches = Object.keys(commandRegistry).filter((c) => c.startsWith(v));
-  if (matches.length === 0 || matches.length === 1 && matches[0] === v) {
-    hideSuggestions(s);
-    return;
-  }
+  if (matches.length === 0 || matches.length === 1 && matches[0] === v) { hideSuggestions(s); return; }
   renderSuggestions(s, matches, -1);
 }
 
@@ -203,7 +157,6 @@ function renderSuggestions(s: State, matches: string[], activeIdx: number): void
     })
     .join('');
   s.el.suggestions.classList.add('term-suggestions-open');
-
   s.el.suggestions.querySelectorAll<HTMLElement>('[data-cmd]').forEach((el) => {
     el.addEventListener('click', () => {
       s.el.input.value = el.dataset.cmd ?? '';
@@ -218,71 +171,49 @@ function hideSuggestions(s: State): void {
   s.el.suggestions.classList.remove('term-suggestions-open');
 }
 
+/* ── Command dispatch ────────────────────────────────── */
+
 function run(s: State, raw: string): void {
   const trimmed = raw.trim();
   const cmd = trimmed.toLowerCase();
   if (!cmd) return;
   s.history.unshift(cmd);
   s.hi = -1;
-
   prompt(s, cmd);
 
-  if (cmd === 'clear') {
-    s.el.output.innerHTML = '';
-    return;
-  }
+  if (cmd === 'clear') { s.el.output.innerHTML = ''; return; }
 
   const lower = trimmed.toLowerCase();
   for (const ph of prefixHandlers) {
     if (lower.startsWith(ph.prefix)) {
-      const arg = trimmed.slice(ph.prefix.length);
-      void dispatch(s, ph.run(arg), cmd);
+      void dispatch(s, ph.run(trimmed.slice(ph.prefix.length)), cmd);
       return;
     }
   }
 
   const handler = commandRegistry[cmd];
-  if (handler) {
-    void dispatch(s, handler(s.ctx), cmd);
-    return;
-  }
+  if (handler) { void dispatch(s, handler(s.ctx), cmd); return; }
 
-  if (cmd.startsWith('echo ')) {
-    line(s, `<span class="t-tx">${escapeHtml(cmd.slice(5))}</span>`);
-    return;
-  }
+  if (cmd.startsWith('echo ')) { line(s, `<span class="t-tx">${escapeHtml(cmd.slice(5))}</span>`); return; }
 
-  const notFound = s.ctx.t('errors.not_found');
-  const dym = s.ctx.t('errors.did_you_mean');
-  const typeHelpA = s.ctx.t('errors.type_help_prefix');
-  const typeHelpB = s.ctx.t('errors.type_help_suffix');
-
-  line(s, `<span class="t-err">${notFound}: ${escapeHtml(cmd)}</span>`);
-  const suggestion = Object.keys(commandRegistry).find((c) =>
-    c.startsWith(cmd.slice(0, 3))
-  );
-  if (suggestion) {
-    line(s, `<span class="t-dim">${dym}: <span class="t-link">${suggestion}</span>?</span>`);
-  }
-  line(s, `<span class="t-dim">${typeHelpA} <span class="t-link">help</span> ${typeHelpB}</span>`);
+  const t = s.ctx.t;
+  line(s, `<span class="t-err">${t('errors.not_found')}: ${escapeHtml(cmd)}</span>`);
+  const dym = Object.keys(commandRegistry).find((c) => c.startsWith(cmd.slice(0, 3)));
+  if (dym) line(s, `<span class="t-dim">${t('errors.did_you_mean')}: <span class="t-link">${dym}</span>?</span>`);
+  line(s, `<span class="t-dim">${t('errors.type_help_prefix')} <span class="t-link">help</span> ${t('errors.type_help_suffix')}</span>`);
 }
 
-async function dispatch(
-  s: State,
-  result: CommandResult | Promise<CommandResult>,
-  scoreKey: string
-): Promise<void> {
+async function dispatch(s: State, result: CommandResult | Promise<CommandResult>, scoreKey: string): Promise<void> {
   const resolved = await Promise.resolve(result);
+  if (typeof resolved === 'string') { if (resolved) block(s, resolved); }
+  else { if (resolved.html) block(s, resolved.html); if (resolved.effect) resolved.effect(s.ctx); }
 
-  if (typeof resolved === 'string') {
-    if (resolved) block(s, resolved);
-  } else {
-    if (resolved.html) block(s, resolved.html);
-    if (resolved.effect) resolved.effect(s.ctx);
-  }
-
-  addScore(s, scoreKey);
+  const st: ScoreState = s;
+  const display: ScoreDisplay = s.el;
+  addScore(st, display, scoreKey, () => { maxScoreEffect(display); block(s, maxScoreHtml()); });
 }
+
+/* ── Rendering ───────────────────────────────────────── */
 
 function prompt(s: State, cmd: string): void {
   line(s, `<span class="t-prompt">$ </span><span class="t-cmd">${escapeHtml(cmd)}</span>`);
@@ -304,104 +235,5 @@ function block(s: State, html: string): void {
 }
 
 function scrollEnd(s: State): void {
-  requestAnimationFrame(() => {
-    s.el.body.scrollTop = s.el.body.scrollHeight;
-  });
+  requestAnimationFrame(() => { s.el.body.scrollTop = s.el.body.scrollHeight; });
 }
-
-function addScore(s: State, cmd: string): void {
-  const pts = POINTS[cmd];
-  if (!pts || s.earned.has(cmd)) return;
-  s.earned.add(cmd);
-  const prev = s.score;
-  s.score = Math.min(s.score + pts, MAX_SCORE);
-  s.el.scoreValue.textContent = `${s.score}/${MAX_SCORE}`;
-  s.el.scoreFill.style.width = `${(s.score / MAX_SCORE) * 100}%`;
-  flash(s.el.scoreValue);
-  if (prev < MAX_SCORE && s.score >= MAX_SCORE) triggerMaxScore(s);
-}
-
-function triggerMaxScore(s: State): void {
-  s.el.scoreFill.style.background = 'var(--color-prompt)';
-  block(s, `<div class="cmd-block">
-    <div class="t-grn">██████████████████████ 100/100</div>
-    <div class="t-ylw">achievement unlocked: thorough investigator</div>
-    <div class="t-dim">You read everything. Most people don't get this far.</div>
-    <div class="t-dim">There's one more thing — try: <span class="t-link">sudo</span></div>
-  </div>`);
-}
-
-function flash(el: HTMLElement): void {
-  el.style.color = '#fff';
-  window.setTimeout(() => {
-    el.style.color = '';
-  }, 300);
-}
-
-function setupKonami(s: State): void {
-  let seq: string[] = [];
-  let unlocked = false;
-  document.addEventListener('keydown', (e) => {
-    const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
-    seq.push(k);
-    if (seq.length > KONAMI.length) seq.shift();
-    if (seq.join(',') !== KONAMI.join(',')) return;
-
-    if (unlocked) {
-      seq = [];
-      return;
-    }
-    unlocked = true;
-
-    prompt(s, '↑↑↓↓←→←→BA');
-    block(s, `<div class="cmd-block">
-        <div class="t-ylw">🎮 KONAMI CODE ACTIVATED!</div>
-        <div class="t-grn">Achievement Unlocked: Old School Gamer</div>
-        <div class="t-dim">Developer mode unlocked — hidden command list below. +30 bonus points.</div>
-      </div>`);
-    block(s, developerModeHtml());
-
-    try {
-      sessionStorage.setItem('fsc.developer', '1');
-    } catch {
-      /* no-op */
-    }
-
-    s.score = Math.min(s.score + 30, MAX_SCORE + 30);
-    s.el.scoreValue.textContent = `${s.score}/${MAX_SCORE}`;
-    s.el.scoreFill.style.width = '100%';
-    seq = [];
-  });
-}
-
-/** Auto-run whoami once after the boot overlay is removed. */
-function scheduleAutoWhoami(s: State): void {
-  const overlay = document.querySelector('[data-boot-overlay]');
-  const fire = () => window.setTimeout(() => autoRun(s), 400);
-  if (!overlay) {
-    fire();
-    return;
-  }
-  new MutationObserver((_, obs) => {
-    if (!document.contains(overlay)) {
-      obs.disconnect();
-      fire();
-    }
-  }).observe(document.body, { childList: true, subtree: true });
-}
-
-function autoRun(s: State): void {
-  const { identity } = s.ctx.profile;
-  s.history.unshift('whoami');
-  s.hi = -1;
-  prompt(s, 'whoami');
-  line(
-    s,
-    `<span class="t-tx">${escapeHtml(identity.name)}</span>` +
-    `<span class="t-dim"> — </span>` +
-    `<span class="t-grn">${escapeHtml(identity.role)}</span>`,
-  );
-  addScore(s, 'whoami');
-  s.el.input.focus();
-}
-
