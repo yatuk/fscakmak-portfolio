@@ -1,4 +1,5 @@
 import type { CommandHandler } from './index';
+import { escapeHtml } from '@lib/sanitize';
 
 export const socials: CommandHandler = ({ profile, t }) => {
   const { social } = profile.identity;
@@ -6,12 +7,12 @@ export const socials: CommandHandler = ({ profile, t }) => {
     {
       icon: '🐙',
       label: t('cmd.socials.github'),
-      value: `<a href="https://github.com/${social.github}" target="_blank" rel="noopener noreferrer">github.com/${social.github}</a>`,
+      value: `<a href="https://github.com/${escapeHtml(social.github)}" target="_blank" rel="noopener noreferrer">github.com/${escapeHtml(social.github)}</a>`,
     },
     {
       icon: '💼',
       label: t('cmd.socials.linkedin'),
-      value: `<a href="https://linkedin.com/in/${social.linkedin}" target="_blank" rel="noopener noreferrer">linkedin.com/in/${social.linkedin}</a>`,
+      value: `<a href="https://linkedin.com/in/${escapeHtml(social.linkedin)}" target="_blank" rel="noopener noreferrer">linkedin.com/in/${escapeHtml(social.linkedin)}</a>`,
     },
   ];
 
@@ -20,7 +21,7 @@ export const socials: CommandHandler = ({ profile, t }) => {
       (r) => `
     <div class="contact-row">
       <span class="contact-icon" aria-hidden="true">${r.icon}</span>
-      <span class="contact-label">${r.label}:</span>
+      <span class="contact-label">${escapeHtml(r.label)}:</span>
       <span class="contact-value">${r.value}</span>
     </div>`
     )
@@ -28,7 +29,7 @@ export const socials: CommandHandler = ({ profile, t }) => {
 
   return `
 <div class="cmd-block">
-  <div class="cmd-title">🌐 ${t('cmd.socials.title')}</div>
+  <div class="cmd-title">🌐 ${escapeHtml(t('cmd.socials.title'))}</div>
   <div class="contact-list">${rowsHtml}</div>
 </div>`;
 };
