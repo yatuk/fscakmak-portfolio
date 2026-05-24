@@ -1,5 +1,5 @@
 import type { CommandHandler } from './index';
-import { matrix } from './matrix';
+import { matrix } from '@commands/matrix';
 import { escapeHtml } from '@lib/sanitize';
 
 /**

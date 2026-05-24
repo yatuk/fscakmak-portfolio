@@ -23,6 +23,7 @@ export default defineConfig({
   build: {
     format: 'directory',
     inlineStylesheets: 'auto',
+    compressHTML: true,
   },
   i18n: {
     defaultLocale: 'en',
@@ -35,6 +36,16 @@ export default defineConfig({
   vite: {
     css: {
       devSourcemap: true,
+    },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('src/commands/')) return 'commands';
+            if (id.includes('src/core/')) return 'terminal-core';
+          },
+        },
+      },
     },
     resolve: {
       alias: {
