@@ -15,25 +15,20 @@ const profile = getProfile(locale);
 <!-- Entry screen — shown on every page load, no persistence.
      User picks a view; TERMINAL gates the boot sequence. -->
 <div class="entry-screen" data-entry-screen>
-  <div class="entry-content">
-    <div class="entry-name" data-entry-name></div>
-    <div class="entry-sep" aria-hidden="true"></div>
-    <div class="entry-buttons">
-      <button type="button" class="entry-btn entry-btn-terminal" data-entry-terminal>
-        <span class="entry-btn-label">TERMINAL</span>
-        <span class="entry-btn-hint" aria-hidden="true">&gt; access_shell</span>
-      </button>
-      <button type="button" class="entry-btn entry-btn-recruiter" data-entry-recruiter>
-        <span class="entry-btn-label">RECRUITER VIEW</span>
-        <span class="entry-btn-hint" aria-hidden="true">&gt; load_report</span>
-      </button>
-    </div>
+  <div class="entry-title-wrap">
+    <h1 class="entry-title" data-entry-title data-text="FSCAKMAK" aria-label="FSCAKMAK">FSCAKMAK</h1>
+    <p class="entry-subtitle" data-entry-subtitle>fatih serdar çakmak · soc analyst · itu cs</p>
   </div>
 
-  <div class="entry-status" data-entry-status aria-hidden="true">
-    <span class="entry-status-item entry-status-online">● STATUS: ONLINE</span>
-    <span class="entry-status-item">PROTOCOL: HTTPS</span>
-    <span class="entry-status-item">CONNECTION: SECURE</span>
+  <div class="entry-typing" data-entry-typing aria-hidden="true"></div>
+
+  <div class="entry-buttons" data-entry-buttons>
+    <button type="button" class="entry-btn entry-btn-terminal" data-entry-terminal>
+      [ TERMINAL ]
+    </button>
+    <button type="button" class="entry-btn entry-btn-recruiter" data-entry-recruiter>
+      [ RECRUITER VIEW ]
+    </button>
   </div>
 </div>
 
@@ -141,50 +136,45 @@ const profile = getProfile(locale);
 
     const locale  = document.documentElement.lang;
     const cvPath  = locale === 'tr' ? '/tr/cv' : '/cv';
-    const nameEl  = screen.querySelector('[data-entry-name]');
-    const sepEl   = screen.querySelector('.entry-sep');
+    const titleEl = screen.querySelector('[data-entry-title]');
+    const typeEl  = screen.querySelector('[data-entry-typing]');
     const btns    = screen.querySelectorAll('.entry-btn');
-    const statusEl = screen.querySelector('[data-entry-status]');
-    const NAME    = 'FSCAKMAK';
-    const CHAR_MS = 55;
-    /* CRT power-on takes ~420ms — start typing shortly after it peaks */
-    const START   = reduced ? 0 : 360;
+    const TEXT    = '> select interface to continue';
+    const CHAR_MS = 35;
 
-    /* Reveal separator + buttons after name is done */
-    const revealBelow = () => {
-      if (sepEl) sepEl.classList.add('sep-draw');
+    /* Fade in title at 100ms */
+    if (!reduced && titleEl) {
+      window.setTimeout(() => titleEl.classList.add('title-in'), 100);
+    }
+
+    /* Reveal buttons with stagger */
+    const revealButtons = () => {
       btns.forEach((btn, i) => {
-        window.setTimeout(() => btn.classList.add('btn-reveal'), 60 + i * 140);
+        window.setTimeout(() => btn.classList.add('btn-reveal'), i * 120);
       });
-      if (statusEl) {
-        window.setTimeout(
-          () => statusEl.classList.add('status-reveal'),
-          reduced ? 0 : 420
-        );
-      }
     };
 
-    if (nameEl) {
-      if (reduced) {
-        nameEl.textContent = NAME;
-        nameEl.classList.add('entry-name-done');
-        revealBelow();
-      } else {
+    if (reduced) {
+      if (titleEl) titleEl.classList.add('title-in');
+      if (typeEl) typeEl.textContent = TEXT;
+      revealButtons();
+    } else if (typeEl) {
+      /* Start typing at 400ms, 35ms/char */
+      window.setTimeout(() => {
         let i = 0;
         const tick = () => {
-          if (i < NAME.length) {
-            nameEl.textContent = NAME.slice(0, ++i);
+          if (i < TEXT.length) {
+            typeEl.appendChild(document.createTextNode(TEXT[i++]));
             window.setTimeout(tick, CHAR_MS);
           } else {
-            /* Hold cursor for one extra blink cycle, then dismiss it */
-            window.setTimeout(() => {
-              nameEl.classList.add('entry-name-done');
-              revealBelow();
-            }, 320);
+            typeEl.classList.add('typing-done');
+            revealButtons();
           }
         };
-        window.setTimeout(tick, START);
-      }
+        tick();
+      }, 400);
+    } else {
+      revealButtons();
     }
 
     /* Dismiss — mode 'terminal' zooms into the terminal behind the screen.
