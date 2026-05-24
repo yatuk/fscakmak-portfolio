@@ -1,4 +1,5 @@
 import type { CommandHandler } from './index';
+import { escapeHtml } from '@lib/sanitize';
 
 interface Row {
   cmd: string;
@@ -34,17 +35,17 @@ const QUICK_ROWS = (t: (k: string) => string): Row[] => [
 
 const renderRow = (r: Row): string => `
     <div class="cmd-help-row">
-      <span class="cmd-help-cmd">${r.cmd}</span>
-      <span class="cmd-help-desc">${r.desc}${r.pts ? ` <span class="cmd-help-pts">(+${r.pts})</span>` : ''}</span>
+      <span class="cmd-help-cmd">${escapeHtml(r.cmd)}</span>
+      <span class="cmd-help-desc">${escapeHtml(r.desc)}${r.pts ? ` <span class="cmd-help-pts">(+${r.pts})</span>` : ''}</span>
     </div>`;
 
 export const help: CommandHandler = ({ t }) => {
   const rowsHtml = QUICK_ROWS(t).map(renderRow).join('');
   return `
 <div class="cmd-block">
-  <div class="cmd-title">📋 ${t('cmd.help.title')}:</div>
+  <div class="cmd-title">📋 ${escapeHtml(t('cmd.help.title'))}:</div>
   <div class="cmd-help-rows">${rowsHtml}</div>
-  <div class="cmd-help-hint">💡 ${t('cmd.help.footer_hint')}</div>
+  <div class="cmd-help-hint">💡 ${escapeHtml(t('cmd.help.footer_hint'))}</div>
 </div>`;
 };
 
@@ -116,7 +117,7 @@ export const helpVerbose: CommandHandler = ({ t }) => {
     .map(
       (c) => `
     <div class="cmd-help-cat">
-      <div class="cmd-help-cat-title">${c.title}</div>
+      <div class="cmd-help-cat-title">${escapeHtml(c.title)}</div>
       <div class="cmd-help-rows">${c.rows.map(renderRow).join('')}</div>
     </div>`
     )
@@ -124,8 +125,8 @@ export const helpVerbose: CommandHandler = ({ t }) => {
 
   return `
 <div class="cmd-block">
-  <div class="cmd-title">📋 ${t('cmd.help.title')} (verbose):</div>
+  <div class="cmd-title">📋 ${escapeHtml(t('cmd.help.title'))} (verbose):</div>
   ${blocks}
-  <div class="cmd-help-hint">💡 ${t('cmd.help.footer_hint')}</div>
+  <div class="cmd-help-hint">💡 ${escapeHtml(t('cmd.help.footer_hint'))}</div>
 </div>`;
 };

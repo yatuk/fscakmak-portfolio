@@ -40,6 +40,9 @@ export const POINTS: Record<string, number> = {
   threat: 8,
   scan: 5,
   nmap: 5,
+  'nmap localhost': 5,
+  'nmap fscakmak.com': 5,
+  'scan fscakmak.com': 5,
   skillmatrix: 6,
 };
 
