@@ -11,6 +11,7 @@ export interface Props {
   canonical?: string;
   ogImage?: string;
   hideHeaderControls?: boolean;
+  metaRobots?: string;
 }
 
 const {
@@ -20,6 +21,7 @@ const {
   canonical,
   ogImage = '/og-image.png',
   hideHeaderControls = false,
+  metaRobots,
 } = Astro.props;
 
 const site = Astro.site?.toString().replace(/\/$/, '') ?? 'https://fscakmak.com';
@@ -66,6 +68,7 @@ const cfBeaconToken = import.meta.env.PUBLIC_CF_WEB_ANALYTICS_TOKEN;
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="color-scheme" content="dark" />
     <meta name="theme-color" content="#0d0d0d" />
+    {metaRobots && <meta name="robots" content={metaRobots} />}
     <meta name="generator" content={Astro.generator} />
 
     <title>{title}</title>
@@ -96,6 +99,7 @@ const cfBeaconToken = import.meta.env.PUBLIC_CF_WEB_ANALYTICS_TOKEN;
 
     <!-- Icons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
 
     <!-- JSON-LD Person schema -->
@@ -103,7 +107,7 @@ const cfBeaconToken = import.meta.env.PUBLIC_CF_WEB_ANALYTICS_TOKEN;
       '@context': 'https://schema.org',
       '@type': 'Person',
       name: 'Fatih Serdar Çakmak',
-      jobTitle: 'SOC Analyst Intern',
+      alternateName: ['Fatih Çakmak', 'fscakmak'],
       url: site,
       email: 'mailto:fscakmak@proton.me',
       worksFor: {
@@ -120,8 +124,16 @@ const cfBeaconToken = import.meta.env.PUBLIC_CF_WEB_ANALYTICS_TOKEN;
         addressCountry: 'TR',
       },
       sameAs: [
-        'https://github.com/yatuk',
         'https://linkedin.com/in/fatihserdar',
+        'https://github.com/yatuk',
+        'https://medium.com/@fscakmak',
+      ],
+      knowsAbout: [
+        'Security Operations Center',
+        'SIEM', 'SOAR', 'EDR',
+        'MITRE ATT&CK',
+        'Incident Response',
+        'Threat Intelligence',
       ],
     })} />
 

@@ -39,7 +39,7 @@ export async function onRequest(ctx: PagesContext): Promise<Response> {
   html = html.replaceAll(NONCE_TOKEN, nonce);
 
   const out = new Response(html, resp);
-  out.headers.set('Content-Security-Policy', CSP_TEMPLATE.replace('{N}', nonce));
+  out.headers.set('Content-Security-Policy', CSP_TEMPLATE.replaceAll('{N}', nonce));
 
   return out;
 }

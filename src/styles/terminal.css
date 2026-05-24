@@ -1078,6 +1078,31 @@
 
 .proj-name:hover { color: var(--color-link-hover); }
 
+.proj-name-plain {
+  color: var(--color-text);
+  font-size: var(--text-md);
+  font-weight: 600;
+}
+
+.proj-status {
+  font-size: var(--text-xs);
+  padding: 1px 7px;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+}
+
+.proj-status-active {
+  color: var(--color-accent);
+  background: rgba(34, 211, 238, 0.08);
+  border: 1px solid rgba(34, 211, 238, 0.25);
+}
+
+.proj-status-complete {
+  color: var(--color-text-dim);
+  background: rgba(113, 113, 122, 0.08);
+  border: 1px solid rgba(113, 113, 122, 0.18);
+}
+
 .proj-pill {
   font-size: var(--text-xs);
   padding: 1px 7px;
@@ -1095,6 +1120,12 @@
   color: var(--color-cmd);
   background: rgba(226, 185, 61, 0.08);
   border: 1px solid rgba(226, 185, 61, 0.3);
+}
+
+.proj-pill-private {
+  color: var(--color-text-dim);
+  background: rgba(113, 113, 122, 0.08);
+  border: 1px solid rgba(113, 113, 122, 0.2);
 }
 
 .proj-tags {
@@ -1118,6 +1149,16 @@
   font-size: var(--text-sm);
   line-height: 1.45;
 }
+
+.proj-demo {
+  display: inline-block;
+  margin-top: 6px;
+  color: var(--color-accent);
+  font-size: var(--text-xs);
+  text-decoration: none;
+}
+
+.proj-demo:hover { opacity: 0.8; }
 
 .proj-note {
   margin-top: 4px;

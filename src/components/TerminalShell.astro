@@ -243,7 +243,10 @@ const recruiterLabel = t(locale, 'view.recruiter_label');
       if (dismissed) return;
       dismissed = true;
       overlay.classList.add('boot-fade');
-      window.setTimeout(() => overlay.remove(), 220);
+      window.setTimeout(() => {
+        overlay.remove();
+        window.dispatchEvent(new CustomEvent('fsc:boot-done'));
+      }, 220);
     };
 
     const runBoot = () => {

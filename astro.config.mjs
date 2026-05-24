@@ -12,9 +12,19 @@ export default defineConfig({
       i18n: {
         defaultLocale: 'en',
         locales: {
-          en: 'en-US',
-          tr: 'tr-TR',
+          en: 'en',
+          tr: 'tr',
         },
+      },
+      serialize(item) {
+        const path = new URL(item.url).pathname;
+        if (path === '/cv' || path === '/tr/cv') {
+          return { ...item, priority: 0.9 };
+        }
+        if (path === '/' || path === '/tr') {
+          return { ...item, priority: 0.3 };
+        }
+        return item;
       },
     }),
   ],

@@ -36,7 +36,11 @@
   "project": {
     "owner_personal": "Personal project",
     "owner_team": "Team project",
-    "view_repo": "View repository"
+    "view_repo": "View repository",
+    "status_active": "ACTIVE",
+    "status_complete": "COMPLETE",
+    "private_repo": "PRIVATE REPO",
+    "demo_link": "Live demo"
   },
   "terminal": {
     "logo_sub": "fscakmak.com — Fatih Serdar Çakmak's portfolio",

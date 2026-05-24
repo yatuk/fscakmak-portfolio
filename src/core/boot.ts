@@ -22,12 +22,7 @@ export function scheduleAutoWhoami(ctx: BootContext): void {
     fire();
     return;
   }
-  new MutationObserver((_, obs) => {
-    if (!document.contains(overlay)) {
-      obs.disconnect();
-      fire();
-    }
-  }).observe(document.body, { childList: true, subtree: true });
+  window.addEventListener('fsc:boot-done', fire, { once: true });
 }
 
 function typeWhoami(ctx: BootContext): void {

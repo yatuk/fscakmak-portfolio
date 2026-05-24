@@ -109,12 +109,24 @@
   ],
   "projects": [
     {
+      "slug": "tamga",
+      "name": "Tamga — LLM Güvenlik Proxy'si",
+      "owner_type": "personal",
+      "is_private": true,
+      "status": "active",
+      "tags": ["Go", "Python", "TypeScript", "WAF", "AI Security"],
+      "summary": "LLM API trafiğini inceleyen, hız sınırlayan ve temizleyen ters-proxy güvenlik katmanı. Proxy çekirdeği Go ile, içerik denetimi Python middleware ile, yönetim paneli TypeScript ile yazıldı. Regüle ortamlarda self-hosted dağıtım için tasarlandı.",
+      "featured": true
+    },
+    {
       "slug": "soc-case-study",
       "name": "SOC Case Study: SIEM/SOAR Simülasyonu",
       "url": "https://github.com/yatuk/SOC-case-study-project",
+      "demo_url": "https://yatuk.github.io/SOC-case-study-project",
       "owner_type": "personal",
-      "tags": ["Python", "SIEM", "SOAR", "MITRE ATT&CK"],
-      "summary": "MITRE ATT&CK TTP'lerine eşlenmiş çok aşamalı saldırı simülasyonu; SIEM correlation kurallarını iyileştirmek için log veri setleri ve otomatik triyaj için Python tabanlı SOAR playbook akışları tasarlandı.",
+      "status": "complete",
+      "tags": ["Python", "React", "SIEM", "SOAR", "MITRE ATT&CK"],
+      "summary": "Çok aşamalı saldırıları MITRE ATT&CK TTP'lerine eşleyen uçtan uca SOC simülasyonu. Gerçek zamanlı alert görselleştirme için React dashboard, SIEM correlation kurallarını test etmek için gerçekçi log veri setleri ve otomatik triyaj için Python tabanlı SOAR playbook akışları tasarlandı.",
       "featured": true
     },
     {
@@ -123,8 +135,9 @@
       "url": "https://github.com/s411hs/Database-Management-System",
       "owner_type": "team",
       "owner_note": "Takım projesi — repo takım üyesine ait",
-      "tags": ["SQL", "RBAC", "Full-Stack", "Güvenlik"],
-      "summary": "RBAC, injection saldırılarını engellemek için parametreli SQL ve 10.000+ kayıt üzerinde veri bütünlüğü garantili full-stack veri platformu.",
+      "status": "complete",
+      "tags": ["SQL", "Python", "RBAC", "Full-Stack", "Güvenlik"],
+      "summary": "6 iş alanını kapsayan, RBAC, injection saldırılarını engellemek için parametreli SQL ve 10.000+ kayıt üzerinde veri bütünlüğü kısıtlamaları içeren full-stack veri platformu. Güvenli sorgu desenleri ve audit logging odağıyla geliştirildi.",
       "featured": true
     }
   ]

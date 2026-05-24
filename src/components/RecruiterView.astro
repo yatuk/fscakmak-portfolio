@@ -253,14 +253,33 @@ const gradYear = edu0.end ? `'${edu0.end.slice(2)}` : '';
       {featured.map((p) => (
         <article class="cv-project">
           <div class="cv-project-head">
-            <a
-              class="cv-project-name"
-              href={p.url}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {p.name} ↗
-            </a>
+            {p.status === 'active' && (
+              <span class="cv-project-status cv-project-status-active">
+                <span class="cv-status-dot" aria-hidden="true">●</span> {t(locale, 'project.status_active')}
+              </span>
+            )}
+            {p.status === 'complete' && (
+              <span class="cv-project-status cv-project-status-complete">
+                {t(locale, 'project.status_complete')}
+              </span>
+            )}
+            {p.url ? (
+              <a
+                class="cv-project-name"
+                href={p.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {p.name} ↗
+              </a>
+            ) : (
+              <span class="cv-project-name cv-project-name-plain">{p.name}</span>
+            )}
+            {p.is_private && (
+              <span class="cv-project-pill cv-project-pill-private">
+                {t(locale, 'project.private_repo')}
+              </span>
+            )}
             <span class={`cv-project-pill cv-project-pill-${p.owner_type}`}>
               {p.owner_type === 'team'
                 ? t(locale, 'project.owner_team')
@@ -271,7 +290,19 @@ const gradYear = edu0.end ? `'${edu0.end.slice(2)}` : '';
             {p.tags.map((tg) => <span class="cv-project-tag">{tg}</span>)}
           </div>
           <p class="cv-project-summary">{p.summary}</p>
-          {p.owner_note && <div class="cv-project-note">{p.owner_note}</div>}
+          <div class="cv-project-foot">
+            {p.demo_url && (
+              <a
+                class="cv-project-demo"
+                href={p.demo_url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {t(locale, 'project.demo_link')} →
+              </a>
+            )}
+            {p.owner_note && <div class="cv-project-note">{p.owner_note}</div>}
+          </div>
         </article>
       ))}
     </div>

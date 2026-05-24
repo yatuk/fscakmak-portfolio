@@ -109,12 +109,24 @@
   ],
   "projects": [
     {
+      "slug": "tamga",
+      "name": "Tamga — LLM Security Proxy",
+      "owner_type": "personal",
+      "is_private": true,
+      "status": "active",
+      "tags": ["Go", "Python", "TypeScript", "WAF", "AI Security"],
+      "summary": "Reverse-proxy security layer that inspects, rate-limits, and sanitizes LLM API traffic. Built in Go for the proxy core with Python middleware for content inspection and TypeScript for the admin dashboard. Designed for self-hosted deployment in regulated environments.",
+      "featured": true
+    },
+    {
       "slug": "soc-case-study",
       "name": "SOC Case Study: SIEM/SOAR Simulation",
       "url": "https://github.com/yatuk/SOC-case-study-project",
+      "demo_url": "https://yatuk.github.io/SOC-case-study-project",
       "owner_type": "personal",
-      "tags": ["Python", "SIEM", "SOAR", "MITRE ATT&CK"],
-      "summary": "Simulated multi-stage attacks mapped to MITRE ATT&CK TTPs; built log datasets to improve SIEM correlation rules and designed Python-based SOAR playbook flows for automated triage.",
+      "status": "complete",
+      "tags": ["Python", "React", "SIEM", "SOAR", "MITRE ATT&CK"],
+      "summary": "End-to-end SOC simulation mapping multi-stage attacks to MITRE ATT&CK TTPs. Built a React dashboard for real-time alert visualization, generated realistic log datasets to test SIEM correlation rules, and designed Python-based SOAR playbook flows for automated triage and enrichment.",
       "featured": true
     },
     {
@@ -123,8 +135,9 @@
       "url": "https://github.com/s411hs/Database-Management-System",
       "owner_type": "team",
       "owner_note": "Team project — repo owned by teammate",
-      "tags": ["SQL", "RBAC", "Full-Stack", "Security"],
-      "summary": "Full-stack data platform with RBAC, parameterized SQL to prevent injection attacks, and data integrity across 10,000+ records.",
+      "status": "complete",
+      "tags": ["SQL", "Python", "RBAC", "Full-Stack", "Security"],
+      "summary": "Full-stack data platform spanning 6 business domains with RBAC, parameterized SQL to prevent injection attacks, and data integrity constraints across 10,000+ records. Built with a focus on secure query patterns and audit logging.",
       "featured": true
     }
   ]

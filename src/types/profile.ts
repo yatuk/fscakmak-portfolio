@@ -62,12 +62,15 @@ export type ProjectOwnerType = 'personal' | 'team';
 export interface ProjectEntry {
   slug: string;
   name: string;
-  url: string;
+  url?: string;
   owner_type: ProjectOwnerType;
   owner_note?: string;
   tags: string[];
   summary: string;
   featured: boolean;
+  status?: 'active' | 'complete';
+  demo_url?: string;
+  is_private?: boolean;
 }
 
 export interface CertEntry {

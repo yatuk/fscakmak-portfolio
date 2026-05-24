@@ -688,6 +688,57 @@
   color: var(--color-accent);
 }
 
+.cv-project-name-plain {
+  color: var(--color-text);
+}
+
+/* ── Project status badges ────────────────────────────────── */
+.cv-project-status {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  padding: 0 6px;
+  border-radius: 2px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.cv-project-status-active {
+  color: var(--color-accent);
+  border: 1px solid rgba(34, 211, 238, 0.3);
+}
+
+.cv-project-status-complete {
+  color: var(--color-text-dim);
+  border: 1px solid var(--color-border);
+}
+
+/* ── Private repo pill ────────────────────────────────────── */
+.cv-project-pill-private {
+  color: var(--color-text-dim);
+  border: 1px solid var(--color-border);
+}
+
+/* ── Demo link ────────────────────────────────────────────── */
+.cv-project-foot {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.cv-project-demo {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: opacity var(--transition-fast);
+}
+
+.cv-project-demo:hover {
+  opacity: 0.8;
+}
+
 .cv-project-pill {
   font-family: var(--font-mono);
   font-size: var(--text-xs);
@@ -1038,9 +1089,13 @@ body.cv-body {
 
   /* Projects */
   .cv-project { border-color: #ccc !important; }
-  .cv-project-name { color: #111 !important; }
+  .cv-project-name,
+  .cv-project-name-plain { color: #111 !important; }
   .cv-project-summary { color: #444 !important; }
   .cv-project-tag { border-color: #ccc !important; color: #555 !important; }
+  .cv-project-status { border-color: #ccc !important; color: #555 !important; }
+  .cv-project-pill-private { border-color: #ccc !important; color: #555 !important; }
+  .cv-project-demo { color: #555 !important; }
 
   /* Certs */
   .cv-cert { border-color: #ccc !important; border-left-color: #555 !important; }

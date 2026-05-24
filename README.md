@@ -1,97 +1,63 @@
-# fscakmak.com — portfolio v2
+# fscakmak.com
 
 [![Astro](https://img.shields.io/badge/Astro-5.x-FF5D01?logo=astro&logoColor=white)](https://astro.build)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Cloudflare Pages](https://img.shields.io/badge/Cloudflare-Pages-F38020?logo=cloudflare&logoColor=white)](https://pages.cloudflare.com)
 
-Terminal-themed, multi-language portfolio for **Fatih Serdar Çakmak** — Cyber Security Operations (SOC) Intern @ Fibabanka & ITU Computer Engineering student.
+Terminal-themed personal site with a recruiter-facing CV view. Dual-language (EN/TR), static Astro build, self-hosted fonts, zero client-side framework.
 
-## Routes
+## What it does
 
-| Path        | View      | Locale |
-|-------------|-----------|--------|
-| `/`         | Terminal  | EN     |
-| `/tr`       | Terminal  | TR     |
-| `/cv`       | Recruiter | EN     |
-| `/tr/cv`    | Recruiter | TR     |
+A retro terminal emulator in the browser — visitors type commands to explore a SOC analyst's profile. The same content is also rendered as a traditional CV page for recruiters. Both views share a typed JSON data layer and i18n strings.
 
-Mobile (<768px) visitors land on `/cv` automatically; a one-click "Force terminal mode" link saves the preference.
+## Highlights
 
-## Terminal commands
-
-Documented: `help` · `help -v` · `whoami` · `cat about.txt` · `skills` · `experience` · `git log` · `projects` · `education` · `certs` · `mitre` · `languages` · `contact` · `socials` · `neofetch` · `ls` · `theme [name]` · `tree` · `download resume` · `clear`
-
-Hidden (tab-autocomplete to find): `matrix` · `sl` · `coffee` · `ping` · `nmap` · `hack` · `tcpdump` · `siem` · `attack` · `ports` · `traceroute` · `htop` · `decode <b64>` · `hash <text>` · `stats` · `vim` · `cowsay` · `figlet` · `weather` · `pwd` · `history` · `date` · `42` · `cat /etc/passwd` · `cat .secret/flag.txt` · `sudo rm -rf /` · `rm -rf /` · `whoami --root` · `exit`
-
-Konami code (↑↑↓↓←→←→BA) unlocks **developer mode** — full hidden-command list + 30 bonus points.
-
-Mobile force-terminal mode shows a chip toolbar (`whoami` · `projects` · `contact` · `help`).
+- **Terminal engine** — input handling, tab autocomplete, command history (sessionStorage), scoring system with hidden commands, Konami code easter egg
+- **Command registry** — 40+ commands (help, whoami, skills, experience, projects, mitre, logs, alerts, ioc, threat, scan, skillmatrix, neofetch, etc.), each a pure function consuming typed profile data
+- **Boot sequence** — fake kernel init with character-by-character typing, skippable, reduced-motion aware
+- **Entry screen** — CSS glitch title, typing animation, dual-view routing (terminal / recruiter)
+- **Recruiter view** — SOC-dashboard aesthetic, single-page CV with status panel, metrics bar, writeups section
+- **i18n** — EN/TR, locale-aware routing (`/` `/tr` `/cv` `/tr/cv`), hreflang tags, JSON-LD Person schema
+- **Theming** — 4 themes (Tokyo Night, Cyberpunk, Matrix, Catppuccin), no-flash init via inline script, persisted to localStorage
+- **CSP nonces** — per-request `crypto.randomUUID()` nonces via Cloudflare Pages Function, no `unsafe-inline`
+- **Font subsetting** — JetBrains Mono (terminal) and Manrope (CV), self-hosted via `@fontsource`, loaded per page route
 
 ## Stack
 
-- **Astro 5** — static site generation, built-in i18n routing
-- **TypeScript** (strict)
-- **Vanilla CSS** with design tokens — 4 themes (Tokyo Night default, Cyberpunk, Matrix, Catppuccin Mocha), no-flash boot via inline init
-- **Cloudflare Pages** — deploy target with `_headers` (CSP/HSTS), `.well-known/security.txt`, hreflang, JSON-LD Person schema
+| Layer | Choice |
+|---|---|
+| Framework | Astro 5 (static output, directory format) |
+| Language | TypeScript (strict, `verbatimModuleSyntax`) |
+| Styling | Vanilla CSS with custom properties, 4 themes |
+| Fonts | `@fontsource/jetbrains-mono` + `@fontsource/manrope` |
+| CSP | Cloudflare Pages Function (`functions/_middleware.ts`) |
+| Hosting | Cloudflare Pages |
 
-## Local dev
+## Dev
 
 ```bash
 npm install
-npm run dev       # http://localhost:4321
-npm run build     # → dist/
-npm run preview   # serve dist/ locally
-npm run check     # astro check (TS + content) — 0/0/0 expected
+npm run dev        # localhost:4321
+npm run build      # → dist/
+npm run check      # astro check (0 errors expected)
 ```
 
-## Project structure
+## Structure
 
 ```
-public/                     # resume.pdf, og-image.png, _headers, robots, security.txt, manifest
 src/
-├── pages/
-│   ├── index.astro         # / — terminal EN
-│   ├── cv.astro            # /cv — recruiter EN
-│   └── tr/
-│       ├── index.astro     # /tr — terminal TR
-│       └── cv.astro        # /tr/cv — recruiter TR
-├── layouts/BaseLayout.astro
-├── components/
-│   ├── TerminalShell.astro
-│   ├── RecruiterView.astro
-│   ├── HeaderControls.astro · LanguageToggle.astro · ViewToggle.astro
-├── core/
-│   ├── terminal.ts         # input runner, history, score, Konami
-│   └── i18n.ts             # t(locale, key) + locale URL helpers
-├── commands/               # one file per command — each consumes profile+strings
-│   └── easter-eggs.ts · matrix.ts · theme.ts · mitre.ts · tree.ts · download.ts · …
-├── data/
-│   ├── profile.{en,tr}.json   # CV-verbatim content
-│   └── strings.{en,tr}.json   # UI labels
-├── lib/profile.ts          # getProfile(locale) loader
-├── styles/
-│   ├── tokens.css · globals.css
-│   ├── terminal.css · recruiter.css
-└── types/profile.ts
-legacy/index.html           # v1 reference — preserved verbatim
+├── pages/            # index.astro (terminal), cv.astro (recruiter), tr/ variants
+├── layouts/          # BaseLayout.astro
+├── components/       # TerminalShell, RecruiterView, HeaderControls, toggles
+├── core/             # terminal.ts (shell engine), i18n.ts, scoring.ts, boot.ts
+├── commands/         # one file per terminal command, barrel-exported
+├── config/           # site constants, terminal config (POINTS, MAX_SCORE, localStorage keys)
+├── data/             # profile JSON (EN/TR), UI strings, writeups
+├── lib/              # sanitize.ts, profile.ts
+├── types/            # Profile, Locale, Identity, SkillGroups, etc.
+└── styles/           # tokens.css, globals.css, terminal.css, recruiter.css, fonts
 ```
-
-## Deploy (Cloudflare Pages, GitHub-connected)
-
-1. Push this repo to GitHub.
-2. In Cloudflare → Pages → **Create application → Connect to Git** → pick this repo.
-3. Build settings (Cloudflare auto-detects most of these from `wrangler.toml`):
-   - **Framework preset:** Astro
-   - **Build command:** `npm run build`
-   - **Build output directory:** `dist`
-   - **Deploy command** (if the UI requires it): `npm run deploy`
-   - **Version command** (if required): `npm run version:ci`
-   - **Node version:** 20 (`NODE_VERSION` env var)
-4. **Save and Deploy**. First build is ~30s.
-5. Add **Custom domain → `fscakmak.com`**. Since the apex is already on Cloudflare DNS, you get a one-click setup and automatic SSL.
-
-Every `git push origin main` triggers a new production deploy; pushes to branches publish to preview URLs.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT
