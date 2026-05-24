@@ -141,3 +141,70 @@ a:hover {
   scrollbar-width: thin;
   scrollbar-color: var(--color-border) transparent;
 }
+
+/* ── Print stylesheet ────────────────────────────────── */
+
+@media print {
+  body::after,
+  .entry-screen,
+  .boot-overlay,
+  .term-titlebar,
+  .term-footer,
+  .term-mobile-chips,
+  .term-hint,
+  .term-suggestions,
+  .view-toggle,
+  .skip-link,
+  .cv-sticky-bar,
+  .cv-force-terminal,
+  .cv-footer,
+  [aria-hidden="true"] {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+    color: black;
+    font-family: var(--font-body);
+    font-size: 11pt;
+    line-height: 1.5;
+    padding: 0;
+  }
+
+  .term-window,
+  .cv-root {
+    max-width: 100%;
+    box-shadow: none;
+    border: none;
+    background: white;
+    color: black;
+  }
+
+  .term-body,
+  .cv-card {
+    background: white;
+    color: black;
+    border: none;
+    padding: 0;
+  }
+
+  .cv-hero-name { font-size: 18pt; color: black; }
+  .cv-hero-role { font-size: 12pt; color: #333; }
+  .cv-card-title { font-size: 13pt; color: black; border-bottom: 1px solid #ccc; padding-bottom: 4px; margin-bottom: 8px; }
+
+  a { color: #0055cc; text-decoration: underline; }
+  a[href]::after { content: " (" attr(href) ")"; font-size: 9pt; color: #666; }
+
+  .cv-cta-row a::after,
+  .cv-contact-row a::after { content: none; }
+
+  .cv-chip,
+  .cv-chip-emph,
+  .cv-project-tag {
+    background: #eee;
+    color: black;
+    border: 1px solid #ccc;
+  }
+
+  @page { margin: 2cm; }
+}
