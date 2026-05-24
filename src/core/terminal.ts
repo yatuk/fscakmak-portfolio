@@ -6,6 +6,20 @@ import { escapeHtml } from '@lib/sanitize';
 import { addScore, maxScoreHtml, maxScoreEffect, setupKonami, type ScoreState, type ScoreDisplay } from './scoring';
 import { scheduleAutoWhoami, type BootContext } from './boot';
 
+const HIST_KEY = 'terminal_history';
+const HIST_MAX = 50;
+
+function loadHistory(): string[] {
+  try {
+    const raw = sessionStorage.getItem(HIST_KEY);
+    return raw ? JSON.parse(raw) as string[] : [];
+  } catch { return []; }
+}
+
+function saveHistory(h: readonly string[]): void {
+  try { sessionStorage.setItem(HIST_KEY, JSON.stringify(h.slice(0, HIST_MAX))); } catch { /* no-op */ }
+}
+
 interface Elements {
   body: HTMLElement;
   output: HTMLElement;
@@ -46,7 +60,7 @@ export function initTerminal({ container, profile, locale }: InitOpts): void {
 
   const state: State = {
     el: { body, output, input, scoreFill: sf, scoreValue: sv, suggestions },
-    history: [],
+    history: loadHistory(),
     hi: -1,
     score: 0,
     earned: new Set(),
@@ -178,6 +192,7 @@ function run(s: State, raw: string): void {
   const cmd = trimmed.toLowerCase();
   if (!cmd) return;
   s.history.unshift(cmd);
+  saveHistory(s.history);
   s.hi = -1;
   prompt(s, cmd);
 
