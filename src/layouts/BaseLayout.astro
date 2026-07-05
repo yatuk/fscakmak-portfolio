@@ -1,5 +1,7 @@
 ---
 import '@styles/globals.css';
+import jbmLatin400 from '@fontsource/jetbrains-mono/files/jetbrains-mono-latin-400-normal.woff2?url';
+import jbmLatin600 from '@fontsource/jetbrains-mono/files/jetbrains-mono-latin-600-normal.woff2?url';
 import HeaderControls from '@components/HeaderControls.astro';
 import { t } from '@core/i18n';
 import type { Locale } from '@ptypes/profile';
@@ -70,6 +72,10 @@ const cfBeaconToken = import.meta.env.PUBLIC_CF_WEB_ANALYTICS_TOKEN;
     <meta name="theme-color" content="#0d0d0d" />
     {metaRobots && <meta name="robots" content={metaRobots} />}
     <meta name="generator" content={Astro.generator} />
+
+    <!-- Primary mono font — used above the fold on every page -->
+    <link rel="preload" as="font" type="font/woff2" crossorigin href={jbmLatin400} />
+    <link rel="preload" as="font" type="font/woff2" crossorigin href={jbmLatin600} />
 
     <title>{title}</title>
     <meta name="description" content={description} />

@@ -18,11 +18,9 @@ const label = isRecruiter
 const aria = isRecruiter
   ? t(locale, 'view.terminal_aria')
   : t(locale, 'view.recruiter_aria');
-const glyph = isRecruiter ? '⌨' : '👔';
 ---
 
 <a class="view-toggle" href={href} aria-label={aria} data-view-target={isRecruiter ? 'terminal' : 'recruiter'}>
-  <span class="view-glyph" aria-hidden="true">{glyph}</span>
   <span class="view-label">{label}</span>
   <span class="view-arrow" aria-hidden="true">→</span>
 </a>
@@ -73,7 +71,6 @@ const glyph = isRecruiter ? '⌨' : '👔';
     transform: scale(0.97);
   }
 
-  .view-glyph { font-size: var(--text-lg); }
   .view-label { color: var(--color-link); font-weight: 600; }
   .view-arrow { color: var(--color-text-dim); }
 

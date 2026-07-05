@@ -1,5 +1,6 @@
 import type { CommandHandler } from './index';
 import { escapeHtml } from '@lib/sanitize';
+import { hydrateStars, githubSlug } from '@lib/github';
 
 export const projects: CommandHandler = ({ profile, t }) => {
   const personalLabel = t('cmd.projects.personal');
@@ -18,8 +19,12 @@ export const projects: CommandHandler = ({ profile, t }) => {
         ? '<span class="proj-pill proj-pill-private">PRIVATE REPO</span>'
         : '';
       const nameEl = p.url
-        ? `<a class="proj-name" href="${escapeHtml(p.url)}" target="_blank" rel="noopener noreferrer">🔗 ${escapeHtml(p.name)}</a>`
+        ? `<a class="proj-name" href="${escapeHtml(p.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(p.name)}</a>`
         : `<span class="proj-name proj-name-plain">${escapeHtml(p.name)}</span>`;
+      const slug = githubSlug(p.url);
+      const starsEl = slug
+        ? `<span class="proj-stars" data-gh-stars="${escapeHtml(slug)}" hidden></span>`
+        : '';
       const tags = p.tags
         .map((tg) => `<span class="proj-tag">${escapeHtml(tg)}</span>`)
         .join('');
@@ -35,6 +40,7 @@ export const projects: CommandHandler = ({ profile, t }) => {
         <div class="proj-head">
           ${statusBadge}
           ${nameEl}
+          ${starsEl}
           ${privateBadge}
           ${ownerPill}
         </div>
@@ -46,9 +52,14 @@ export const projects: CommandHandler = ({ profile, t }) => {
     })
     .join('');
 
-  return `
+  return {
+    html: `
 <div class="cmd-block">
-  <div class="cmd-title">🔧 ${escapeHtml(t('cmd.projects.title'))}</div>
+  <div class="cmd-title">${escapeHtml(t('cmd.projects.title'))}</div>
   <div class="proj-list">${cards}</div>
-</div>`;
+</div>`,
+    effect: () => {
+      void hydrateStars();
+    },
+  };
 };

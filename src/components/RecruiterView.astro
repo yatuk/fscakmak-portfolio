@@ -1,5 +1,7 @@
 ---
 import { getProfile } from '@lib/profile';
+import manropeLatin400 from '@fontsource/manrope/files/manrope-latin-400-normal.woff2?url';
+import { githubSlug } from '@lib/github';
 import { t } from '@core/i18n';
 import type { Locale } from '@ptypes/profile';
 import writeups from '@data/writeups.json';
@@ -44,12 +46,14 @@ const degreeAbbr = edu0.degree.toLowerCase().includes('computer') ? 'CS' : '';
 const gradYear = edu0.end ? `'${edu0.end.slice(2)}` : '';
 ---
 
+<link rel="preload" as="font" type="font/woff2" crossorigin href={manropeLatin400} />
+
 <div class="cv-sticky-bar" data-cv-sticky aria-hidden="true">
   <span class="cv-sticky-name">{identity.name}</span>
   <div class="cv-sticky-links">
-    <a href={`mailto:${identity.email}`}>📧</a>
-    <a href={`https://linkedin.com/in/${identity.social.linkedin}`} target="_blank" rel="noopener noreferrer">💼</a>
-    <a href={`https://github.com/${identity.social.github}`} target="_blank" rel="noopener noreferrer">🐙</a>
+    <a href={`mailto:${identity.email}`}>email</a>
+    <a href={`https://linkedin.com/in/${identity.social.linkedin}`} target="_blank" rel="noopener noreferrer">linkedin</a>
+    <a href={`https://github.com/${identity.social.github}`} target="_blank" rel="noopener noreferrer">github</a>
   </div>
 </div>
 
@@ -252,7 +256,7 @@ const gradYear = edu0.end ? `'${edu0.end.slice(2)}` : '';
     <div class="cv-projects">
       {featured.map((p) => (
         <article class="cv-project">
-          <div class="cv-project-head">
+          <div class="cv-project-meta">
             {p.status === 'active' && (
               <span class="cv-project-status cv-project-status-active">
                 <span class="cv-status-dot" aria-hidden="true">●</span> {t(locale, 'project.status_active')}
@@ -263,6 +267,21 @@ const gradYear = edu0.end ? `'${edu0.end.slice(2)}` : '';
                 {t(locale, 'project.status_complete')}
               </span>
             )}
+            {p.is_private && (
+              <span class="cv-project-pill cv-project-pill-private">
+                {t(locale, 'project.private_repo')}
+              </span>
+            )}
+            <span class={`cv-project-pill cv-project-pill-${p.owner_type}`}>
+              {p.owner_type === 'team'
+                ? t(locale, 'project.owner_team')
+                : t(locale, 'project.owner_personal')}
+            </span>
+            {githubSlug(p.url) && (
+              <span class="cv-project-stars" data-gh-stars={githubSlug(p.url)} hidden></span>
+            )}
+          </div>
+          <div class="cv-project-head">
             {p.url ? (
               <a
                 class="cv-project-name"
@@ -275,16 +294,6 @@ const gradYear = edu0.end ? `'${edu0.end.slice(2)}` : '';
             ) : (
               <span class="cv-project-name cv-project-name-plain">{p.name}</span>
             )}
-            {p.is_private && (
-              <span class="cv-project-pill cv-project-pill-private">
-                {t(locale, 'project.private_repo')}
-              </span>
-            )}
-            <span class={`cv-project-pill cv-project-pill-${p.owner_type}`}>
-              {p.owner_type === 'team'
-                ? t(locale, 'project.owner_team')
-                : t(locale, 'project.owner_personal')}
-            </span>
           </div>
           <div class="cv-project-tags">
             {p.tags.map((tg) => <span class="cv-project-tag">{tg}</span>)}
@@ -329,7 +338,7 @@ const gradYear = edu0.end ? `'${edu0.end.slice(2)}` : '';
       <div class="cv-certs">
         {certifications.map((c) => (
           <div class="cv-cert">
-            <div class="cv-cert-badge" aria-hidden="true">🎖️</div>
+            <div class="cv-cert-badge" aria-hidden="true">✓</div>
             <div>
               <div class="cv-cert-name">{c.name}</div>
               {c.full_name && <div class="cv-cert-full">{c.full_name}</div>}
@@ -346,7 +355,7 @@ const gradYear = edu0.end ? `'${edu0.end.slice(2)}` : '';
     <h2 class="cv-contact-title">{t(locale, 'recruiter.section_contact')}</h2>
     <div class="cv-contact-row">
       <a class="cv-cta cv-cta-primary" href={`mailto:${identity.email}`}>
-        📧 {identity.email}
+        {identity.email}
       </a>
       <a
         class="cv-cta"
@@ -354,7 +363,7 @@ const gradYear = edu0.end ? `'${edu0.end.slice(2)}` : '';
         target="_blank"
         rel="noopener noreferrer"
       >
-        💼 linkedin.com/in/{identity.social.linkedin}
+        linkedin.com/in/{identity.social.linkedin}
       </a>
       <a
         class="cv-cta"
@@ -362,7 +371,7 @@ const gradYear = edu0.end ? `'${edu0.end.slice(2)}` : '';
         target="_blank"
         rel="noopener noreferrer"
       >
-        🐙 github.com/{identity.social.github}
+        github.com/{identity.social.github}
       </a>
     </div>
   </section>
@@ -370,7 +379,7 @@ const gradYear = edu0.end ? `'${edu0.end.slice(2)}` : '';
   <!-- ── Mobile: force-terminal escape hatch ───────────────── -->
   <p class="cv-force-terminal">
     <a href={terminalHref} data-force-terminal>
-      ⌨ {t(locale, 'recruiter.force_terminal_label')}
+      &gt;_ {t(locale, 'recruiter.force_terminal_label')}
     </a>
     <br />
     <span style="opacity:.7">{t(locale, 'recruiter.force_terminal_hint')}</span>
@@ -378,6 +387,11 @@ const gradYear = edu0.end ? `'${edu0.end.slice(2)}` : '';
 
   <footer class="cv-footer">{t(locale, 'recruiter.footer_note')}</footer>
 </article>
+
+<script>
+  import { hydrateStars } from '@lib/github';
+  void hydrateStars();
+</script>
 
 <script is:inline>
   document.body.classList.add('cv-body');

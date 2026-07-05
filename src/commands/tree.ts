@@ -60,7 +60,7 @@ const renderer: CommandHandler = ({ profile, t }) => {
 
   return `
 <div class="cmd-block tree">
-  <div class="cmd-title">🌲 tree</div>
+  <div class="cmd-title">tree</div>
   <pre>${body}</pre>
 </div>`;
 };

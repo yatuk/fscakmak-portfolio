@@ -25,7 +25,7 @@ export const skills: CommandHandler = ({ profile, t }) => {
 
   return `
 <div class="cmd-block">
-  <div class="cmd-title">⚡ ${escapeHtml(t('cmd.skills.title'))}</div>
+  <div class="cmd-title">${escapeHtml(t('cmd.skills.title'))}</div>
   ${groupsHtml}
 </div>`;
 };

@@ -51,7 +51,7 @@ export const gitLog: CommandHandler = ({ profile, t }) => {
 
   return `
 <div class="cmd-block">
-  <div class="cmd-title">📦 ${escapeHtml(t('cmd.git_log.title'))}</div>
+  <div class="cmd-title">${escapeHtml(t('cmd.git_log.title'))}</div>
   <div class="tl">${html}</div>
 </div>`;
 };

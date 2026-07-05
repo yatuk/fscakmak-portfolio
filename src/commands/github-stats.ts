@@ -64,7 +64,7 @@ function formatStats(user: GithubUser | CachedUser, cached: boolean): string {
   const url = 'html_url' in user ? user.html_url : `https://github.com/${user.login}`;
   return `
 <div class="cmd-block">
-  <div class="cmd-title">📊 GitHub @${escapeHtml(user.login)}${cached ? ' <span class="t-dim">(cached)</span>' : ''}</div>
+  <div class="cmd-title">GitHub @${escapeHtml(user.login)}${cached ? ' <span class="t-dim">(cached)</span>' : ''}</div>
   <div class="kv" style="margin-top:8px">
     <div class="kv-row"><span class="kv-k">repos</span><span class="kv-v kv-v-emph">${user.public_repos}</span></div>
     <div class="kv-row"><span class="kv-k">followers</span><span class="kv-v">${user.followers}</span></div>

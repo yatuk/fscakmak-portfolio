@@ -43,7 +43,7 @@ const closed = QUEUE.filter((a) => a.status === 'CLOSED').length;
 
 export const alerts: CommandHandler = () => `
 <div class="cmd-block">
-  <div class="cmd-title">🚨 Alert Queue — SOAR Triage</div>
+  <div class="cmd-title">Alert Queue — SOAR Triage</div>
   <div class="alert-summary">
     <span class="alert-sum-item soc-crit">${open} OPEN</span>
     <span class="alert-sum-sep">·</span>

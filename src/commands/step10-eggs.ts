@@ -95,7 +95,7 @@ const tcpdumpOutput = (): string => `
 
 const siemAlerts = (): string => `
 <div class="cmd-block">
-  <div class="cmd-title">🚨 SIEM — last 5 alerts (simulated)</div>
+  <div class="cmd-title">SIEM — last 5 alerts (simulated)</div>
   <div class="egg-mono">
     <span class="t-err">[HIGH]</span> T1110 Brute Force — svc_backup @ 10.0.4.12 <span class="t-dim">· 2m ago</span><br>
     <span class="t-ylw">[MED]</span>  T1059 PowerShell — FIN-WS-042 <span class="t-dim">· 14m ago</span><br>
@@ -163,7 +163,7 @@ PID  USER     CPU%  MEM%  COMMAND
     const city = locale === 'tr' ? 'İstanbul' : 'Istanbul';
     return `
 <div class="cmd-block">
-  <div class="cmd-title">🌤 ${city}</div>
+  <div class="cmd-title">${city}</div>
   <div class="egg-mono">
     <span class="t-grn">18°C</span> · partly cloudy · humidity 62%<br>
     <span class="t-dim">Wind NE 12 km/h · visibility 10 km</span><br>

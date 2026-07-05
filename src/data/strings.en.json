@@ -48,7 +48,7 @@
     "nav_suffix": "to get started",
     "input_aria": "Terminal command input",
     "hint": "tab to autocomplete • ↑↓ history",
-    "footer": "fscakmak.com terminal v2.0.0 — built with ☕ & 🛡️",
+    "footer": "fscakmak.com terminal v2.0.0 — source on GitHub",
     "score_label": "Score",
     "output_aria": "Terminal output",
     "boot_skip": "skip",

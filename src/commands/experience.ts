@@ -35,7 +35,7 @@ export const experience: CommandHandler = ({ profile, t }) => {
 
   return `
 <div class="cmd-block">
-  <div class="cmd-title">💼 ${escapeHtml(t('cmd.experience.title'))}</div>
+  <div class="cmd-title">${escapeHtml(t('cmd.experience.title'))}</div>
   <div class="exp-list">${entries}</div>
 </div>`;
 };

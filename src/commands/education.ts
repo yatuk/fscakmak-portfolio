@@ -18,7 +18,7 @@ export const education: CommandHandler = ({ profile, t }) => {
 
   return `
 <div class="cmd-block">
-  <div class="cmd-title">🎓 ${escapeHtml(t('cmd.education.title'))}</div>
+  <div class="cmd-title">${escapeHtml(t('cmd.education.title'))}</div>
   <div class="tl">${entries}</div>
 </div>`;
 };

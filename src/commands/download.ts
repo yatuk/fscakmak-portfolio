@@ -19,9 +19,9 @@ const renderer: CommandHandler = ({ locale }) => {
   return {
     html: `
 <div class="cmd-block">
-  <div class="cmd-title">📥 download ${file}</div>
+  <div class="cmd-title">download ${file}</div>
   <div class="cmd-help-hint">${note}</div>
-  <div style="margin-top:6px"><a href="/${file}" download class="t-link">📄 /${file}</a></div>
+  <div style="margin-top:6px"><a href="/${file}" download class="t-link">/${file}</a></div>
 </div>`,
     effect: () => {
       const a = document.createElement('a');

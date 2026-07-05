@@ -13,7 +13,7 @@
       "linkedin": "fatihserdar"
     }
   },
-  "about": "Computer Engineering student at Istanbul Technical University (class of 2027). Started in Industrial Automation at Kocaeli ENKA, which turned out to be solid prep for OT/IT security. At Doğuş Teknoloji I worked across SIEM, SOAR, EDR and NDR platforms: L1 incident response, SOAR playbook writing (phishing playbooks especially), EDR alert tuning, and IT/OT segmentation. Now part-time at Fibabanka doing daily alert triage, CTI feed review and firewall log analysis in a BDDK-regulated banking environment. MITRE ATT&CK is how I think about threats.",
+  "about": "Computer Engineering student at Istanbul Technical University (class of 2027). Started in Industrial Automation at Kocaeli ENKA, which turned out to be solid prep for OT/IT security. At Doğuş Teknoloji I worked across SIEM, SOAR, EDR and NDR platforms: L1 incident response, SOAR playbook writing (phishing playbooks especially), EDR alert tuning, and IT/OT segmentation. Now part-time at Fibabanka doing daily alert triage, CTI feed review and firewall log analysis in a BDDK-regulated banking environment. MITRE ATT&CK is how I think about threats. Off the clock I build open-source security tooling for AI systems: Tamga, a self-hosted LLM security proxy, and MCPRadar, a scanner that checks MCP servers for nasty surprises.",
   "skills": {
     "cybersecurity": [
       "SOC Operations",
@@ -110,35 +110,56 @@
   "projects": [
     {
       "slug": "tamga",
-      "name": "Tamga — LLM Security Proxy",
+      "name": "Tamga — Self-Hosted LLM Security Proxy",
+      "url": "https://github.com/yatuk/tamga",
       "owner_type": "personal",
-      "is_private": true,
       "status": "active",
-      "tags": ["Go", "Python", "TypeScript", "WAF", "AI Security"],
-      "summary": "Reverse-proxy security layer that inspects, rate-limits, and sanitizes LLM API traffic. Built in Go for the proxy core with Python middleware for content inspection and TypeScript for the admin dashboard. Designed for self-hosted deployment in regulated environments.",
+      "tags": ["Go", "Python", "Next.js", "AI Security", "AGPL-3.0"],
+      "summary": "Open-source proxy you host yourself, sitting between your app and the LLM provider (OpenAI, Anthropic, Azure, Vertex). Redacts PII inline (TC Kimlik, IBAN, credit cards), blocks leaked secrets, and catches prompt injection with sub-millisecond static scanning via an Aho-Corasick DFA. Ships KVKK / BDDK / GDPR / PCI-DSS compliance mappings, hash-chained audit logs, a Next.js incident dashboard, and a 309-prompt adversarial suite gated in CI.",
       "featured": true
     },
     {
-      "slug": "soc-case-study",
-      "name": "SOC Case Study: SIEM/SOAR Simulation",
-      "url": "https://github.com/yatuk/SOC-case-study-project",
-      "demo_url": "https://yatuk.github.io/SOC-case-study-project",
+      "slug": "mcpradar",
+      "name": "MCPRadar — Security Scanner for MCP Servers",
+      "url": "https://github.com/yatuk/mcpradar",
+      "demo_url": "https://yatuk.github.io/mcpradar",
+      "owner_type": "personal",
+      "status": "active",
+      "tags": ["Python", "MCP", "Supply Chain", "SARIF", "PyPI"],
+      "summary": "Catches tool poisoning, prompt injection, and supply-chain rug pulls in Model Context Protocol servers before your agent runs them. 6 detection rules (zero-width Unicode, injection patterns, encoded blobs, hidden HTML/Markdown, permission scope mismatch, dangerous tool names), SARIF output that drops straight into the GitHub Security tab, and SQLite snapshot diffing to flag silent schema changes. One-shot run with uvx, no install needed.",
+      "featured": true
+    },
+    {
+      "slug": "soc-simulation",
+      "name": "SOC Simulation: SIEM/SOAR Case Study",
+      "url": "https://github.com/yatuk/soc-simulation",
+      "demo_url": "https://yatuk.github.io/soc-simulation",
       "owner_type": "personal",
       "status": "complete",
       "tags": ["Python", "React", "SIEM", "SOAR", "MITRE ATT&CK"],
-      "summary": "End-to-end SOC simulation mapping multi-stage attacks to MITRE ATT&CK TTPs. Built a React dashboard for real-time alert visualization, generated realistic log datasets to test SIEM correlation rules, and designed Python-based SOAR playbook flows for automated triage and enrichment.",
+      "summary": "End-to-end SOC simulation: 127 alerts, 126 false positives, 1 real threat. Maps multi-stage attacks to MITRE ATT&CK TTPs, with a React dashboard for real-time alert visualization, realistic log datasets to test SIEM correlation rules, and Python-based SOAR playbook flows for automated triage and enrichment.",
       "featured": true
     },
     {
+      "slug": "soc-n8n-workflows",
+      "name": "SOC n8n Workflows",
+      "url": "https://github.com/yatuk/soc-n8n-workflows",
+      "owner_type": "personal",
+      "status": "active",
+      "tags": ["n8n", "SOAR", "Automation", "LLM"],
+      "summary": "10 production-shaped SOC automation playbooks for n8n: LLM-assisted alert triage, phishing analysis, IOC enrichment, human-approved containment, CVE watch, and SOC reporting. Import-ready JSON, zero secrets.",
+      "featured": false
+    },
+    {
       "slug": "wdi-analytics",
-      "name": "Database Management System (WDI Analytics)",
-      "url": "https://github.com/s411hs/Database-Management-System",
+      "name": "WDI Analytics — Full-Stack Data Platform",
+      "url": "https://github.com/s4l1hs/Database-Management-System",
       "owner_type": "team",
       "owner_note": "Team project — repo owned by teammate",
       "status": "complete",
-      "tags": ["SQL", "Python", "RBAC", "Full-Stack", "Security"],
-      "summary": "Full-stack data platform spanning 6 business domains with RBAC, parameterized SQL to prevent injection attacks, and data integrity constraints across 10,000+ records. Built with a focus on secure query patterns and audit logging.",
-      "featured": true
+      "tags": ["Flask", "React", "TypeScript", "MySQL", "Docker"],
+      "summary": "Platform for exploring World Bank development indicators across six domains (countries, health, emissions, energy, freshwater, sustainability). A Flask blueprint API behind a React + TypeScript SPA, with role-based access control (admin / editor / viewer), parameterized SQL to block injection, and audit logging on every change. Chart.js trends, a Leaflet world map, CSV export, Docker Compose, Alembic migrations, and a CI pipeline. Built as an ITU term project (BLG-317E).",
+      "featured": false
     }
   ]
 }

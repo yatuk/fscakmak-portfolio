@@ -3,7 +3,7 @@ import type { CommandHandler } from './index';
 /* Realistic nmap output for fscakmak.com.
    Format mirrors nmap 7.94 service-version scan output exactly. */
 const SCAN_OUTPUT = `<div class="cmd-block scan-output">
-  <div class="cmd-title">🔎 nmap — Port Scan</div>
+  <div class="cmd-title">nmap — Port Scan</div>
   <pre class="scan-pre"><span class="scan-dim">Starting Nmap 7.94 ( https://nmap.org )</span>
 <span class="scan-dim">Nmap scan report for</span> <span class="scan-host">fscakmak.com</span> <span class="scan-dim">(188.114.96.x)</span>
 <span class="scan-dim">Host is up (0.038s latency).</span>

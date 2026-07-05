@@ -13,7 +13,7 @@
       "linkedin": "fatihserdar"
     }
   },
-  "about": "İstanbul Teknik Üniversitesi Bilgisayar Mühendisliği öğrencisiyim (2027 mezuniyeti beklenir). Kocaeli ENKA Teknik Liseleri'nde Endüstriyel Otomasyon okudum; OT/IT güvenliği için fena bir temel sayılır. Doğuş Teknoloji'de SIEM, SOAR, EDR ve NDR platformlarında çalıştım: L1 incident response, SOAR playbook yazımı (phishing playbook'ları dahil), EDR alert tuning ve IT/OT segmentation. Şu an Fibabanka'da yarı-zamanlı SOC Analist Stajyeri olarak BDDK düzenlemesi altındaki bir bankacılık ortamında günlük alert triyajı, CTI feed incelemesi ve firewall log analizini yürütüyorum. Tehditleri MITRE ATT&CK çerçevesiyle okumayı tercih ederim.",
+  "about": "İstanbul Teknik Üniversitesi Bilgisayar Mühendisliği öğrencisiyim (2027 mezuniyeti beklenir). Kocaeli ENKA Teknik Liseleri'nde Endüstriyel Otomasyon okudum; OT/IT güvenliği için fena bir temel sayılır. Doğuş Teknoloji'de SIEM, SOAR, EDR ve NDR platformlarında çalıştım: L1 incident response, SOAR playbook yazımı (phishing playbook'ları dahil), EDR alert tuning ve IT/OT segmentation. Şu an Fibabanka'da yarı-zamanlı SOC Analist Stajyeri olarak BDDK düzenlemesi altındaki bir bankacılık ortamında günlük alert triyajı, CTI feed incelemesi ve firewall log analizini yürütüyorum. Tehditleri MITRE ATT&CK çerçevesiyle okumayı tercih ederim. Mesai dışında AI sistemleri için açık kaynak güvenlik araçları geliştiriyorum: self-hosted bir LLM güvenlik proxy'si olan Tamga ve MCP sunucularını tatsız sürprizlere karşı tarayan MCPRadar.",
   "skills": {
     "cybersecurity": [
       "SOC Operasyonları",
@@ -110,35 +110,56 @@
   "projects": [
     {
       "slug": "tamga",
-      "name": "Tamga — LLM Güvenlik Proxy'si",
+      "name": "Tamga — Self-Hosted LLM Güvenlik Proxy'si",
+      "url": "https://github.com/yatuk/tamga",
       "owner_type": "personal",
-      "is_private": true,
       "status": "active",
-      "tags": ["Go", "Python", "TypeScript", "WAF", "AI Security"],
-      "summary": "LLM API trafiğini inceleyen, hız sınırlayan ve temizleyen ters-proxy güvenlik katmanı. Proxy çekirdeği Go ile, içerik denetimi Python middleware ile, yönetim paneli TypeScript ile yazıldı. Regüle ortamlarda self-hosted dağıtım için tasarlandı.",
+      "tags": ["Go", "Python", "Next.js", "AI Security", "AGPL-3.0"],
+      "summary": "Uygulamanız ile LLM sağlayıcısı (OpenAI, Anthropic, Azure, Vertex) arasında duran, kendi sunucunuzda barındırdığınız açık kaynak proxy. PII'yi anında maskeler (TC Kimlik, IBAN, kredi kartı), sızan secret'ları engeller ve Aho-Corasick DFA ile milisaniyenin altında statik taramayla prompt injection yakalar. KVKK / BDDK / GDPR / PCI-DSS uyumluluk eşlemeleri, hash zincirli audit logları, Next.js olay dashboard'u ve CI'da koşan 309 prompt'luk adversarial test paketiyle gelir.",
       "featured": true
     },
     {
-      "slug": "soc-case-study",
-      "name": "SOC Case Study: SIEM/SOAR Simülasyonu",
-      "url": "https://github.com/yatuk/SOC-case-study-project",
-      "demo_url": "https://yatuk.github.io/SOC-case-study-project",
+      "slug": "mcpradar",
+      "name": "MCPRadar — MCP Sunucuları için Güvenlik Tarayıcısı",
+      "url": "https://github.com/yatuk/mcpradar",
+      "demo_url": "https://yatuk.github.io/mcpradar",
+      "owner_type": "personal",
+      "status": "active",
+      "tags": ["Python", "MCP", "Supply Chain", "SARIF", "PyPI"],
+      "summary": "Model Context Protocol sunucularındaki tool poisoning, prompt injection ve supply-chain \"rug pull\" saldırılarını agent'ınız çalıştırmadan önce yakalar. 6 tespit kuralı (zero-width Unicode, injection desenleri, encode edilmiş bloblar, gizli HTML/Markdown, izin kapsamı uyumsuzluğu, tehlikeli tool isimleri), GitHub Security sekmesine doğrudan düşen SARIF çıktısı ve sessiz şema değişikliklerini işaretleyen SQLite snapshot diff'i. uvx ile tek komutta çalışır, kurulum gerektirmez.",
+      "featured": true
+    },
+    {
+      "slug": "soc-simulation",
+      "name": "SOC Simülasyonu: SIEM/SOAR Case Study",
+      "url": "https://github.com/yatuk/soc-simulation",
+      "demo_url": "https://yatuk.github.io/soc-simulation",
       "owner_type": "personal",
       "status": "complete",
       "tags": ["Python", "React", "SIEM", "SOAR", "MITRE ATT&CK"],
-      "summary": "Çok aşamalı saldırıları MITRE ATT&CK TTP'lerine eşleyen uçtan uca SOC simülasyonu. Gerçek zamanlı alert görselleştirme için React dashboard, SIEM correlation kurallarını test etmek için gerçekçi log veri setleri ve otomatik triyaj için Python tabanlı SOAR playbook akışları tasarlandı.",
+      "summary": "Uçtan uca SOC simülasyonu: 127 alert, 126 false positive, 1 gerçek tehdit. Çok aşamalı saldırıları MITRE ATT&CK TTP'lerine eşler; gerçek zamanlı alert görselleştirme için React dashboard, SIEM correlation kurallarını test etmek için gerçekçi log veri setleri ve otomatik triyaj için Python tabanlı SOAR playbook akışları içerir.",
       "featured": true
     },
     {
+      "slug": "soc-n8n-workflows",
+      "name": "SOC n8n Workflows",
+      "url": "https://github.com/yatuk/soc-n8n-workflows",
+      "owner_type": "personal",
+      "status": "active",
+      "tags": ["n8n", "SOAR", "Automation", "LLM"],
+      "summary": "n8n için üretim kalitesinde 10 SOC otomasyon playbook'u: LLM destekli alert triyajı, phishing analizi, IOC zenginleştirme, insan onaylı containment, CVE takibi ve SOC raporlama. Import'a hazır JSON, sıfır secret.",
+      "featured": false
+    },
+    {
       "slug": "wdi-analytics",
-      "name": "Veritabanı Yönetim Sistemi (WDI Analytics)",
-      "url": "https://github.com/s411hs/Database-Management-System",
+      "name": "WDI Analytics — Full-Stack Veri Platformu",
+      "url": "https://github.com/s4l1hs/Database-Management-System",
       "owner_type": "team",
       "owner_note": "Takım projesi — repo takım üyesine ait",
       "status": "complete",
-      "tags": ["SQL", "Python", "RBAC", "Full-Stack", "Güvenlik"],
-      "summary": "6 iş alanını kapsayan, RBAC, injection saldırılarını engellemek için parametreli SQL ve 10.000+ kayıt üzerinde veri bütünlüğü kısıtlamaları içeren full-stack veri platformu. Güvenli sorgu desenleri ve audit logging odağıyla geliştirildi.",
-      "featured": true
+      "tags": ["Flask", "React", "TypeScript", "MySQL", "Docker"],
+      "summary": "Dünya Bankası kalkınma göstergelerini altı alanda (ülkeler, sağlık, emisyon, enerji, tatlı su, sürdürülebilirlik) keşfetmeye yarayan platform. React + TypeScript SPA'nın arkasında Flask blueprint API; rol tabanlı erişim kontrolü (admin / editor / viewer), injection'ı engelleyen parametreli SQL ve her değişiklikte audit logging. Chart.js trendleri, Leaflet dünya haritası, CSV export, Docker Compose, Alembic migration'ları ve CI pipeline'ı. İTÜ dönem projesi olarak geliştirildi (BLG-317E).",
+      "featured": false
     }
   ]
 }

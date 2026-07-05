@@ -23,7 +23,7 @@ export const languages: CommandHandler = ({ profile, t }) => {
 
   return `
 <div class="cmd-block">
-  <div class="cmd-title">🗣️ ${escapeHtml(t('cmd.languages.title'))}</div>
+  <div class="cmd-title">${escapeHtml(t('cmd.languages.title'))}</div>
   <div class="cmd-skill-group">
     <div class="cmd-skill-label">▸ ${escapeHtml(t('cmd.languages.spoken'))}:</div>
     <div class="lang-list">${spokenItems}</div>

@@ -38,3 +38,6 @@ desktop.ini
 # Local artifacts
 *.local
 .cache/
+
+# Claude Code local config
+.claude/

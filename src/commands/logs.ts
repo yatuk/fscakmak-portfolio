@@ -45,7 +45,7 @@ function build(entries: LogEntry[], title: string): string {
 
   return `
 <div class="cmd-block">
-  <div class="cmd-title">📡 ${title}</div>
+  <div class="cmd-title">${title}</div>
   <div class="log-head">
     <span class="log-ts">TIMESTAMP</span>
     <span class="log-sev">SEVERITY</span>

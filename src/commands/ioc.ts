@@ -32,7 +32,7 @@ function iocRow(ioc: IOC): string {
 
 export const ioc: CommandHandler = () => `
 <div class="cmd-block">
-  <div class="cmd-title">🔍 IOC Feed — Threat Intelligence</div>
+  <div class="cmd-title">IOC Feed — Threat Intelligence</div>
   <div class="ioc-head">
     <span class="ioc-type">TYPE</span>
     <span class="ioc-val">INDICATOR</span>

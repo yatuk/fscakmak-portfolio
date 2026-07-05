@@ -78,7 +78,7 @@ const renderer: CommandHandler = ({ locale }) => {
 
   return `
 <div class="cmd-block">
-  <div class="cmd-title">🎯 Defended ATT&CK</div>
+  <div class="cmd-title">Defended ATT&CK</div>
   <div class="cmd-help-hint" style="margin-bottom:10px">${escapeHtml(subtitle)}</div>
   <div class="mitre-grid">${cards}</div>
 </div>`;

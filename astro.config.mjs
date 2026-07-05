@@ -51,6 +51,9 @@ export default defineConfig({
       rollupOptions: {
         output: {
           manualChunks(id) {
+            /* Shared helpers get their own small chunk so the CV page
+               doesn't pull the whole terminal commands bundle. */
+            if (id.includes('src/lib/')) return 'lib';
             if (id.includes('src/commands/')) return 'commands';
             if (id.includes('src/core/')) return 'terminal-core';
           },

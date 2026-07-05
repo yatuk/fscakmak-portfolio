@@ -81,7 +81,7 @@ function actorCard(a: ThreatActor): string {
 
 export const threat: CommandHandler = () => `
 <div class="cmd-block">
-  <div class="cmd-title">🌐 Threat Intelligence Brief</div>
+  <div class="cmd-title">Threat Intelligence Brief</div>
   <div class="cmd-help-hint" style="margin-bottom:10px">Active threat actors relevant to banking / financial sector — Q2 2026.</div>
   <div class="threat-grid">${ACTORS.map(actorCard).join('')}</div>
   <div class="cmd-help-hint">Sources: CISA · MITRE ATT&CK · Recorded Future · ENISA ETL 2025.</div>

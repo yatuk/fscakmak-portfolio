@@ -38,7 +38,7 @@ function row(s: Skill): string {
 
 export const skillmatrix: CommandHandler = () => `
 <div class="cmd-block">
-  <div class="cmd-title">📊 Skill Matrix</div>
+  <div class="cmd-title">Skill Matrix</div>
   <div class="smat-wrap">
     <div class="smat-head">
       <span class="smat-name">SKILL</span>

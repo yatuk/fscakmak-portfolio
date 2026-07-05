@@ -27,7 +27,7 @@ export const certs: CommandHandler = ({ profile, t }) => {
 
   return `
 <div class="cmd-block">
-  <div class="cmd-title">🎖️ ${escapeHtml(t('cmd.certs.title'))}</div>
+  <div class="cmd-title">${escapeHtml(t('cmd.certs.title'))}</div>
   <div class="cert-list">${cards}</div>
 </div>`;
 };

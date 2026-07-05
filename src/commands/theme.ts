@@ -48,7 +48,7 @@ const list: CommandHandler = () => {
   ).join('');
   return `
 <div class="cmd-block">
-  <div class="cmd-title">🎨 Themes</div>
+  <div class="cmd-title">Themes</div>
   <div class="theme-list">${rows}</div>
   <div class="cmd-help-hint">Type <span class="t-link">theme &lt;name&gt;</span> to switch · <span class="t-link">theme reset</span> to revert.</div>
 </div>`;
