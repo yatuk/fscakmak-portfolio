@@ -1,5 +1,12 @@
 [
   {
+    "title": "ESP32 ile Google Login Sayfası Klonlama",
+    "url": "https://medium.com/@fscakmak/birka%C3%A7-dolarl%C4%B1k-bir-esp32-ile-google-login-sayfas%C4%B1n%C4%B1-nas%C4%B1l-kopyalad%C4%B1m-a684a601d6d6",
+    "date": "2026-05",
+    "lang": "tr",
+    "tags": ["ESP32", "phishing", "hardware"]
+  },
+  {
     "title": "EDR RULES #1",
     "url": "https://medium.com/@fscakmak/edr-rules-1-2096b425df09",
     "date": "2026-02",
@@ -14,10 +21,10 @@
     "tags": ["malware", "trojan", "analysis"]
   },
   {
-    "title": "ESP32 ile Google Login Sayfası Klonlama",
-    "url": "https://medium.com/@fscakmak/birka%C3%A7-dolarl%C4%B1k-bir-esp32-ile-google-login-sayfas%C4%B1n%C4%B1-nas%C4%B1l-kopyalad%C4%B1m-a684a601d6d6",
-    "date": "2025",
-    "lang": "tr",
-    "tags": ["ESP32", "phishing", "hardware"]
+    "title": "Blind SQL Injection with Conditional Errors",
+    "url": "https://medium.com/@fscakmak/blind-sql-injection-with-conditional-errors-df5c72948696",
+    "date": "2025-02",
+    "lang": "en",
+    "tags": ["SQLi", "web", "PortSwigger"]
   }
 ]
