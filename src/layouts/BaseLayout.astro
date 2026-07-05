@@ -158,5 +158,14 @@ const cfBeaconToken = import.meta.env.PUBLIC_CF_WEB_ANALYTICS_TOKEN;
     <main id="main">
       <slot />
     </main>
+    {import.meta.env.PROD && (
+      <script is:inline>
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js').catch(() => {});
+          });
+        }
+      </script>
+    )}
   </body>
 </html>

@@ -1,6 +1,6 @@
 import type { CommandHandler } from './index';
 import { escapeHtml } from '@lib/sanitize';
-import { hydrateStars, githubSlug } from '@lib/github';
+import { hydrateGithubMeta, githubSlug } from '@lib/github';
 
 export const projects: CommandHandler = ({ profile, t }) => {
   const personalLabel = t('cmd.projects.personal');
@@ -25,6 +25,9 @@ export const projects: CommandHandler = ({ profile, t }) => {
       const starsEl = slug
         ? `<span class="proj-stars" data-gh-stars="${escapeHtml(slug)}" hidden></span>`
         : '';
+      const updatedEl = slug
+        ? `<span class="proj-updated" data-gh-updated="${escapeHtml(slug)}" hidden></span>`
+        : '';
       const tags = p.tags
         .map((tg) => `<span class="proj-tag">${escapeHtml(tg)}</span>`)
         .join('');
@@ -43,6 +46,7 @@ export const projects: CommandHandler = ({ profile, t }) => {
           ${starsEl}
           ${privateBadge}
           ${ownerPill}
+          ${updatedEl}
         </div>
         <div class="proj-tags">${tags}</div>
         <p class="proj-summary">${escapeHtml(p.summary)}</p>
@@ -59,7 +63,7 @@ export const projects: CommandHandler = ({ profile, t }) => {
   <div class="proj-list">${cards}</div>
 </div>`,
     effect: () => {
-      void hydrateStars();
+      void hydrateGithubMeta();
     },
   };
 };

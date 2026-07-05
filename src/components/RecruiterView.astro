@@ -122,6 +122,10 @@ const gradYear = edu0.end ? `'${edu0.end.slice(2)}` : '';
             <span class="cv-status-key">STATUS</span>
             <span class="cv-status-val"><span class="cv-status-dot" aria-hidden="true">●</span> ACTIVE</span>
           </div>
+          <div class="cv-status-row" data-gh-lastpush-row hidden>
+            <span class="cv-status-key">LAST PUSH</span>
+            <span class="cv-status-val" data-gh-lastpush={identity.social.github} hidden></span>
+          </div>
         </div>
       </div>
     </div>
@@ -280,6 +284,9 @@ const gradYear = edu0.end ? `'${edu0.end.slice(2)}` : '';
             {githubSlug(p.url) && (
               <span class="cv-project-stars" data-gh-stars={githubSlug(p.url)} hidden></span>
             )}
+            {githubSlug(p.url) && (
+              <span class="cv-project-updated" data-gh-updated={githubSlug(p.url)} hidden></span>
+            )}
           </div>
           <div class="cv-project-head">
             {p.url ? (
@@ -357,6 +364,14 @@ const gradYear = edu0.end ? `'${edu0.end.slice(2)}` : '';
       <a class="cv-cta cv-cta-primary" href={`mailto:${identity.email}`}>
         {identity.email}
       </a>
+      <button
+        type="button"
+        class="cv-cta cv-cta-copy"
+        data-copy-email={identity.email}
+        data-copied-label={t(locale, 'recruiter.copied')}
+      >
+        {t(locale, 'recruiter.copy_email')}
+      </button>
       <a
         class="cv-cta"
         href={`https://linkedin.com/in/${identity.social.linkedin}`}
@@ -389,16 +404,68 @@ const gradYear = edu0.end ? `'${edu0.end.slice(2)}` : '';
 </article>
 
 <script>
-  import { hydrateStars } from '@lib/github';
-  void hydrateStars();
+  import { hydrateGithubMeta } from '@lib/github';
+  void hydrateGithubMeta();
 </script>
 
 <script is:inline>
   document.body.classList.add('cv-body');
+
+  document.querySelectorAll('[data-copy-email]').forEach((btn) => {
+    const original = btn.textContent;
+    btn.addEventListener('click', async () => {
+      const email = btn.getAttribute('data-copy-email');
+      let copied = false;
+      try {
+        await navigator.clipboard.writeText(email);
+        copied = true;
+      } catch {
+        /* Clipboard API blocked — legacy fallback */
+        const ta = document.createElement('textarea');
+        ta.value = email;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { copied = document.execCommand('copy'); } catch { /* give up */ }
+        ta.remove();
+      }
+      if (!copied) return;
+      btn.textContent = btn.getAttribute('data-copied-label');
+      btn.classList.add('cv-cta-copied');
+      setTimeout(() => {
+        btn.textContent = original;
+        btn.classList.remove('cv-cta-copied');
+      }, 2000);
+    });
+  });
   const force = document.querySelector('[data-force-terminal]');
   if (force) {
     force.addEventListener('click', () => {
       try { localStorage.setItem('fsc.view', 'terminal'); } catch {}
+    });
+  }
+
+  /* Scroll-reveal — classes added from JS so content stays visible
+     without it; skipped entirely under prefers-reduced-motion. */
+  if (
+    !window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
+    'IntersectionObserver' in window
+  ) {
+    const revealIo = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('cv-revealed');
+            revealIo.unobserve(entry.target);
+          }
+        }
+      },
+      { rootMargin: '0px 0px -40px 0px', threshold: 0.05 }
+    );
+    document.querySelectorAll('.cv-root > section').forEach((s) => {
+      s.classList.add('cv-reveal');
+      revealIo.observe(s);
     });
   }
 

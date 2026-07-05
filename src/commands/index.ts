@@ -27,6 +27,7 @@ import { ioc } from './ioc';
 import { threat } from './threat';
 import { scanCommands } from './scan';
 import { skillmatrix } from './skillmatrix';
+import { writeups } from './writeups';
 
 export interface CommandContext {
   profile: Profile;
@@ -93,4 +94,5 @@ export const commandRegistry: Record<string, CommandHandler> = {
   threat,
   ...scanCommands,
   skillmatrix,
+  writeups,
 };

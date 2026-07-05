@@ -16,6 +16,7 @@ const QUICK_ROWS = (t: (k: string) => string): Row[] => [
   { cmd: 'projects',       desc: t('cmd.projects.title'),     pts: 15 },
   { cmd: 'education',      desc: t('cmd.education.title'),    pts: 5 },
   { cmd: 'certs',          desc: t('cmd.certs.title'),        pts: 8 },
+  { cmd: 'writeups',       desc: t('sections.writeups') },
   { cmd: 'mitre',          desc: 'defended ATT&CK techniques' },
   { cmd: 'logs',           desc: 'SIEM log stream' },
   { cmd: 'alerts',         desc: 'alert triage queue' },

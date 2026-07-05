@@ -1068,11 +1068,16 @@
   background: transparent;
   border: 1px solid var(--color-border);
   border-radius: 8px;
-  transition: border-color var(--transition-base);
+  transition:
+    border-color var(--transition-base),
+    transform var(--transition-base),
+    box-shadow var(--transition-base);
 }
 
 .proj-card:hover {
   border-color: var(--color-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
 }
 
 .proj-head {
@@ -1097,6 +1102,43 @@
   color: var(--ylw);
   letter-spacing: 0.04em;
   flex-shrink: 0;
+}
+
+.proj-updated {
+  font-size: var(--text-xs);
+  color: var(--color-text-dim);
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* ── Writeups list ───────────────────────────────────────── */
+.writeup-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.writeup-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.writeup-date {
+  color: var(--color-text-dim);
+  font-size: var(--text-sm);
+  flex-shrink: 0;
+}
+
+.writeup-title {
+  font-weight: 600;
+}
+
+.writeup-tags {
+  display: inline-flex;
+  gap: 4px;
+  flex-wrap: wrap;
 }
 
 .proj-name-plain {
