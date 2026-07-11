@@ -4,7 +4,8 @@ import writeupsData from '@data/writeups.json';
 
 interface Writeup {
   title: string;
-  url: string;
+  url?: string;
+  path?: string;
   date: string;
   lang: string;
   tags: string[];
@@ -16,10 +17,13 @@ export const writeups: CommandHandler = ({ t }) => {
       const tags = w.tags
         .map((tg) => `<span class="proj-tag">${escapeHtml(tg)}</span>`)
         .join('');
+      const link = w.path
+        ? `<a class="writeup-title" href="${escapeHtml(w.path)}">${escapeHtml(w.title)} →</a>`
+        : `<a class="writeup-title" href="${escapeHtml(w.url ?? '#')}" target="_blank" rel="noopener noreferrer">${escapeHtml(w.title)} ↗</a>`;
       return `
     <div class="writeup-row">
       <span class="writeup-date">${escapeHtml(w.date)}</span>
-      <a class="writeup-title" href="${escapeHtml(w.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(w.title)} →</a>
+      ${link}
       <span class="writeup-tags">${tags}</span>
     </div>`;
     })

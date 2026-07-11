@@ -14,7 +14,8 @@ const localePrefix = locale === 'tr' ? '/tr' : '';
 
 interface Writeup {
   title: string;
-  url: string;
+  url?: string;
+  path?: string;
   date: string;
   lang: string;
   tags: string[];
@@ -25,6 +26,9 @@ interface Writeup {
 const items = writeups as Writeup[];
 
 const site = Astro.site?.toString().replace(/\/$/, '') ?? 'https://fscakmak.com';
+/** On-site article → internal path; otherwise the external (Medium) URL. */
+const hrefOf = (w: Writeup) => w.path ?? w.url ?? '#';
+const isExternal = (w: Writeup) => !w.path;
 const blogSchema = {
   '@context': 'https://schema.org',
   '@type': 'Blog',
@@ -39,7 +43,7 @@ const blogSchema = {
   blogPost: items.map((w) => ({
     '@type': 'BlogPosting',
     headline: w.title,
-    url: w.url,
+    url: w.path ? `${site}${w.path}` : w.url,
     datePublished: `${w.date}-01`,
     inLanguage: w.lang,
     keywords: w.tags.join(', '),
@@ -91,9 +95,13 @@ const blogSchema = {
             </div>
           </div>
           <h2 class="wr-item-title">
-            <a href={w.url} target="_blank" rel="noopener noreferrer">
-              {w.title} ↗
-            </a>
+            {isExternal(w) ? (
+              <a href={hrefOf(w)} target="_blank" rel="noopener noreferrer">
+                {w.title} ↗
+              </a>
+            ) : (
+              <a href={hrefOf(w)}>{w.title} →</a>
+            )}
           </h2>
           <p class="wr-item-summary">
             {locale === 'tr' ? w.summary_tr : w.summary}

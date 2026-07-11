@@ -24,6 +24,8 @@
 
 - [CV](https://fscakmak.com/cv): Full experience, skills, education, and certifications.
 - [Writeups](https://fscakmak.com/writeups): Security writeups on detection engineering, malware analysis, and web security.
+- [I built a security scanner for MCP servers](https://fscakmak.com/writeups/mcpradar): Why MCPRadar exists and what it detects.
+- [İTÜ MCP](https://fscakmak.com/writeups/itu-mcp): Building a local MCP server for ITU's Ninova and OBS (Turkish).
 - [Terminal](https://fscakmak.com/): Interactive terminal view of the profile.
 
 ## Links

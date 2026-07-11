@@ -187,14 +187,18 @@ const gradYear = edu0.end ? `'${edu0.end.slice(2)}` : '';
       {writeups.map((w) => (
         <article class="cv-writeup">
           <span class="cv-writeup-date">{w.date}</span>
-          <a
-            class="cv-writeup-title"
-            href={w.url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {w.title} →
-          </a>
+          {w.path ? (
+            <a class="cv-writeup-title" href={w.path}>{w.title} →</a>
+          ) : (
+            <a
+              class="cv-writeup-title"
+              href={w.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {w.title} ↗
+            </a>
+          )}
           <div class="cv-writeup-tags">
             {w.tags.map((tg) => <span class="cv-writeup-tag">{tg}</span>)}
           </div>

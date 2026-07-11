@@ -1,0 +1,83 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import ArticleView from '@components/ArticleView.astro';
+
+const locale = 'en';
+const title = "I built a security scanner for MCP servers";
+const description =
+  "Nobody was checking the tool descriptions MCP servers feed your agent. MCPRadar detects tool poisoning, prompt injection, and rug pulls, with SARIF output and SQLite snapshot diffing.";
+---
+
+<BaseLayout title={`${title} — Fatih Serdar Çakmak`} description={description} locale={locale}>
+  <ArticleView
+    locale={locale}
+    title={title}
+    date="2026-07"
+    tags={["MCP", "security", "SARIF"]}
+    readingTime="4 min read"
+  >
+    <p>
+      The Model Context Protocol took off fast. Everyone's plugging MCP servers into
+      their agents, and most people run them the way you'd run any npm package:
+      <code>npx</code>, trust, move on.
+    </p>
+
+    <p>
+      Here's the part that bothers me. Your agent doesn't just call an MCP server's
+      tools. It reads their descriptions, and those descriptions go straight into the
+      model's context. A malicious server can hide instructions in a tool description
+      that your agent will happily follow. There's also the "rug pull" move: a server
+      behaves fine when you install it, then quietly changes its tool schema later.
+      Traditional security tooling doesn't look at any of this. It scans code and
+      dependencies, not the words an MCP server feeds your model.
+    </p>
+
+    <p>
+      A 2025 study of 1,899 MCP servers found roughly 7% had general vulnerabilities
+      and over 5% showed MCP-specific tool poisoning
+      (<a href="https://arxiv.org/abs/2506.13538" target="_blank" rel="noopener noreferrer">arXiv:2506.13538</a>).
+      Those aren't rounding errors when the thing you're scanning has a direct line to
+      your agent.
+    </p>
+
+    <h2>What it checks</h2>
+
+    <p>
+      You point MCPRadar at a server and it enumerates the tools, prompts, and
+      resources, then runs each one through detection rules: zero-width Unicode hidden
+      in names, prompt-injection patterns, encoded blobs, hidden HTML, permission
+      scope that doesn't match what the tool claims to do, dangerous tool names. It
+      stores a snapshot in SQLite, so the next scan diffs against the last one and
+      tells you when a server changed its schema behind your back.
+    </p>
+
+    <p>One command, nothing to install:</p>
+
+    <pre><code>uvx mcpradar scan "npx -y @modelcontextprotocol/server-filesystem /tmp" -t stdio</code></pre>
+
+    <p>
+      Output goes to SARIF too, which means it drops straight into your GitHub
+      Security tab through a normal Action. If you're already running CI, this is a
+      two-line addition.
+    </p>
+
+    <h2>What it is not</h2>
+
+    <p>
+      I want to be honest here. MCPRadar is a pattern detector, not an exploit engine.
+      It doesn't run the server's code or prove a finding is exploitable. It'll flag
+      <code>pip install</code> in a setup string and sometimes that's completely fine.
+      Static analysis catches a class of problems; it won't catch everything, and I've
+      documented where it gets things wrong rather than pretend it's perfect.
+    </p>
+
+    <p>
+      It's on PyPI, MIT licensed. There's a public leaderboard scoring popular MCP
+      servers at
+      <a href="https://yatuk.github.io/mcpradar" target="_blank" rel="noopener noreferrer">yatuk.github.io/mcpradar</a>,
+      and the code is at
+      <a href="https://github.com/yatuk/mcpradar" target="_blank" rel="noopener noreferrer">github.com/yatuk/mcpradar</a>.
+      If you find a false positive, open an issue — that's how the rules get better.
+    </p>
+  </ArticleView>
+</BaseLayout>

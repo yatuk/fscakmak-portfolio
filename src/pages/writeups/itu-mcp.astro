@@ -1,0 +1,69 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import ArticleView from '@components/ArticleView.astro';
+
+const locale = 'tr';
+const title = "İTÜ Ninova ve OBS'yi yapay zekaya bağladım: İTÜ MCP";
+const description =
+  "İTÜ MCP: Ninova ve OBS hesabını Claude, Cursor ve Codex'e bağlayan yerel MCP sunucusu. Ödev, not ve transkripti düz Türkçeyle sor; şifren cihazından çıkmaz.";
+---
+
+<BaseLayout title={`${title} — Fatih Serdar Çakmak`} description={description} locale={locale}>
+  <ArticleView
+    locale={locale}
+    title={title}
+    date="2026-07"
+    tags={["MCP", "automation", "Python"]}
+    readingTime="3 dk okuma"
+  >
+    <p>
+      Bir dönem boyunca kaç kere Ninova'ya girip "bu hafta neyin teslimi var" diye
+      baktığımı sayamam. OBS'de not kontrol etmek ayrı sekme, danışman bilgisi ayrı
+      tıklama, transkript indirmek ayrı dert. Hepsi ortada duruyor ama her biri için
+      üç ayrı yere gitmen gerekiyor.
+    </p>
+
+    <p>
+      İTÜ MCP bunu tek yerden halletmek için yazdığım bir araç. Bilgisayarında
+      çalışıyor, kendi İTÜ hesabınla giriş yapıyor, Ninova ve OBS'yi okuyup Claude,
+      Cursor, Codex gibi <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener noreferrer">MCP</a>
+      destekleyen asistanlara açıyor. Yani asistana normal Türkçeyle soruyorsun:
+    </p>
+
+    <ul>
+      <li>"Bu hafta hangi ödevlerimin teslimi var?"</li>
+      <li>"BLG317E'nin ara notu ve yoklamam ne durumda?"</li>
+      <li>"Danışmanım kim, staj kaydım göründü mü?"</li>
+      <li>"Şu PDF'i indir ve özetle."</li>
+    </ul>
+
+    <p>
+      Arkada MCP sunucusu Ninova ve OBS'ye gidip cevabı çekiyor. Ödev yükleme de var
+      ama orada bilerek fren koydum: <code>confirm=true</code> demeden hiçbir şey
+      yüklemiyor. Yanlışlıkla boş dosya göndermek istemezsin.
+    </p>
+
+    <h2>Şifren cihazından çıkmıyor</h2>
+
+    <p>
+      En çok önemsediğim kısım bu. Kimlik bilgin ne benim sunucuma ne başka bir yere
+      gidiyor; sadece İTÜ'nün kendi giriş, Ninova ve OBS adreslerine gidiyor. Üçüncü
+      taraf bir yerde hiçbir şey saklanmıyor. Kod açık, MIT lisanslı, istersen ne
+      yaptığına satır satır bakabilirsin.
+    </p>
+
+    <p>
+      Bir de açık olayım: bunun İTÜ ile resmi bir bağlantısı yok. Kendi hesabınla,
+      kendi verini okumak için yazdığım kişisel bir araç. Başkasının hesabında
+      kullanmak için değil.
+    </p>
+
+    <h2>Kurulum</h2>
+
+    <p>
+      Python 3.11+ ile çalışıyor, kurulum adımlarını README'de anlattım. Repo burada:
+      <a href="https://github.com/yatuk/itu-mcp" target="_blank" rel="noopener noreferrer">github.com/yatuk/itu-mcp</a>
+      — takıldığın yer olursa issue aç, bakarım.
+    </p>
+  </ArticleView>
+</BaseLayout>

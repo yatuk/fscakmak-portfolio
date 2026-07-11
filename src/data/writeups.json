@@ -1,5 +1,23 @@
 [
   {
+    "title": "İTÜ Ninova ve OBS'yi yapay zekaya bağladım: İTÜ MCP",
+    "path": "/writeups/itu-mcp",
+    "date": "2026-07",
+    "lang": "tr",
+    "tags": ["MCP", "automation", "Python"],
+    "summary": "Why I built İTÜ MCP: a local MCP server that connects an ITU student's Ninova (LMS) and OBS (student portal) to Claude, Cursor, and Codex, so you can ask about assignments, grades, and transcripts in plain language — without your password ever leaving your machine.",
+    "summary_tr": "İTÜ MCP'yi neden yazdım: İTÜ öğrencisinin Ninova ve OBS hesaplarını Claude, Cursor ve Codex'e bağlayan, ödev/not/transkripti düz Türkçeyle sorabildiğin, şifresi cihazından hiç çıkmayan yerel bir MCP sunucusu."
+  },
+  {
+    "title": "I built a security scanner for MCP servers",
+    "path": "/writeups/mcpradar",
+    "date": "2026-07",
+    "lang": "en",
+    "tags": ["MCP", "security", "SARIF"],
+    "summary": "Nobody was checking the tool descriptions MCP servers feed your agent. MCPRadar does: tool poisoning, prompt injection, and rug-pull detection, with SARIF output and SQLite snapshot diffing. Here's why I built it and what it does not do.",
+    "summary_tr": "MCP sunucularının agent'ına verdiği tool açıklamalarını kimse kontrol etmiyordu. MCPRadar ediyor: tool poisoning, prompt injection ve rug-pull tespiti, SARIF çıktısı ve SQLite snapshot diff'i. Neden yazdım ve neyi yapmadığı."
+  },
+  {
     "title": "ESP32 ile Google Login Sayfası Klonlama",
     "url": "https://medium.com/@fscakmak/birka%C3%A7-dolarl%C4%B1k-bir-esp32-ile-google-login-sayfas%C4%B1n%C4%B1-nas%C4%B1l-kopyalad%C4%B1m-a684a601d6d6",
     "date": "2026-05",
@@ -7,15 +25,6 @@
     "tags": ["ESP32", "phishing", "hardware"],
     "summary": "A hands-on captive-portal experiment: using a cheap ESP32 board running Bruce firmware to stand up a fake \"Free WiFi\" access point and clone Google's login page in a lab setting — why the attack is so cheap to run and what defenders should watch for.",
     "summary_tr": "Ucuz bir ESP32 (Bruce firmware) ile sahte \"Free WiFi\" ağı kurup Google login sayfasını klonlayan bir captive-portal deneyi. Saldırının neden bu kadar ucuz ve etkili olduğu, savunma tarafında nelere dikkat edilmesi gerektiği."
-  },
-  {
-    "title": "EDR RULES #1",
-    "url": "https://medium.com/@fscakmak/edr-rules-1-2096b425df09",
-    "date": "2026-02",
-    "lang": "tr",
-    "tags": ["EDR", "KQL", "detection"],
-    "summary": "First in a detection-engineering series: a master KQL query for Microsoft Defender / Advanced Hunting that catches AppLocker EDR-blinding across three attack stages, including tampering with the AppIDSvc service in DeviceRegistryEvents.",
-    "summary_tr": "Detection-engineering serisinin ilki: Microsoft Defender / Advanced Hunting için AppLocker EDR-blinding'i üç saldırı aşamasında yakalayan master KQL sorgusu; DeviceRegistryEvents üzerinden AppIDSvc servis manipülasyonu dahil."
   },
   {
     "title": "Trojan:Win32/ClickFix.ZG",
