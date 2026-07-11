@@ -226,6 +226,12 @@ const gradYear = edu0.end ? `'${edu0.end.slice(2)}` : '';
         </div>
       </div>
       <div class="cv-skill-group">
+        <div class="cv-skill-label">{t(locale, 'skill_groups.ai_security')}</div>
+        <div class="cv-skill-chips">
+          {skills.ai_security.map((s) => <span class="cv-chip cv-chip-emph">{s}</span>)}
+        </div>
+      </div>
+      <div class="cv-skill-group">
         <div class="cv-skill-label">{t(locale, 'skill_groups.infrastructure')}</div>
         <div class="cv-skill-chips">
           {skills.infrastructure.map((s) => <span class="cv-chip">{s}</span>)}

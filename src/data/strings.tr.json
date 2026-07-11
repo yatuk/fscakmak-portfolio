@@ -23,6 +23,7 @@
   },
   "skill_groups": {
     "cybersecurity": "Siber Güvenlik",
+    "ai_security": "AI / LLM Güvenliği",
     "infrastructure": "Altyapı",
     "compliance": "Uyum",
     "tools": "Araçlar & Programlama",

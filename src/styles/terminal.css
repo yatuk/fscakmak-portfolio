@@ -216,6 +216,12 @@
   100% { opacity: 0; transform: translateY(-28px) scale(0.97); }
 }
 
+/* Navigation exit — children animate out, the opaque screen itself
+   stays put so the terminal never flashes while the next page loads. */
+.entry-screen.exit-nav > * {
+  animation: exit-to-recruiter 260ms ease-in forwards;
+}
+
 /* ── Reduced motion — everything visible immediately, no effects */
 @media (prefers-reduced-motion: reduce) {
   .entry-title {
@@ -242,6 +248,11 @@
   .entry-screen.exit-recruiter {
     animation: none;
     transition: opacity 120ms linear;
+    opacity: 0;
+  }
+
+  .entry-screen.exit-nav > * {
+    animation: none;
     opacity: 0;
   }
 }

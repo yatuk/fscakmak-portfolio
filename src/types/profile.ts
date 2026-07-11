@@ -32,6 +32,7 @@ export interface SpokenLanguage {
 
 export interface SkillGroups {
   cybersecurity: string[];
+  ai_security: string[];
   infrastructure: string[];
   compliance: string[];
   tools: string[];

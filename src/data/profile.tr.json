@@ -13,42 +13,50 @@
       "linkedin": "fatihserdar"
     }
   },
-  "about": "İstanbul Teknik Üniversitesi Bilgisayar Mühendisliği öğrencisiyim (2027 mezuniyeti beklenir). Kocaeli ENKA Teknik Liseleri'nde Endüstriyel Otomasyon okudum; OT/IT güvenliği için fena bir temel sayılır. Doğuş Teknoloji'de SIEM, SOAR, EDR ve NDR platformlarında çalıştım: L1 incident response, SOAR playbook yazımı (phishing playbook'ları dahil), EDR alert tuning ve IT/OT segmentation. Şu an Fibabanka'da yarı-zamanlı SOC Analist Stajyeri olarak BDDK düzenlemesi altındaki bir bankacılık ortamında günlük alert triyajı, CTI feed incelemesi ve firewall log analizini yürütüyorum. Tehditleri MITRE ATT&CK çerçevesiyle okumayı tercih ederim. Mesai dışında AI sistemleri için açık kaynak güvenlik araçları geliştiriyorum: self-hosted bir LLM güvenlik proxy'si olan Tamga ve MCP sunucularını tatsız sürprizlere karşı tarayan MCPRadar.",
+  "about": "İstanbul Teknik Üniversitesi Bilgisayar Mühendisliği öğrencisiyim (2027 mezuniyeti beklenir). Kocaeli ENKA Teknik Liseleri'nde Endüstriyel Otomasyon okudum; OT/IT güvenliği için fena bir temel sayılır. Doğuş Teknoloji'de SIEM, SOAR, EDR ve NDR platformlarında çalıştım: L1 incident response, SOAR playbook yazımı (phishing playbook'ları dahil), EDR alert tuning ve IT/OT segmentation. Şu an Fibabanka'da yarı-zamanlı SOC Analist Stajyeri olarak BDDK düzenlemesi altındaki bir bankacılık ortamında günlük alert triyajı, CTI incelemesi ve n8n SOC otomasyonunu (LLM destekli triyaj, IOC zenginleştirme, phishing analizi) yürütüyorum. Tehditleri MITRE ATT&CK çerçevesiyle okumayı tercih ederim. Mesai dışında AI sistemleri için açık kaynak güvenlik araçları geliştiriyorum: self-hosted bir LLM güvenlik proxy'si olan Tamga ve MCP sunucularını tatsız sürprizlere karşı tarayan MCPRadar.",
   "skills": {
     "cybersecurity": [
       "SOC Operasyonları",
+      "Alert Triyajı",
       "Incident Response (IR)",
+      "Tehdit Tespiti",
       "Log Analizi",
+      "Phishing Analizi",
+      "IOC Zenginleştirme",
       "CTI",
       "SIEM",
       "SOAR",
-      "EDR Alert Tuning",
-      "SOAR Playbook Geliştirme",
-      "Log Source Configuration",
-      "False-Positive Filtreleme",
-      "MITRE ATT&CK",
-      "NDR"
+      "EDR/NDR",
+      "MITRE ATT&CK"
+    ],
+    "ai_security": [
+      "Prompt Injection Savunması",
+      "PII Maskeleme",
+      "MCP Güvenliği",
+      "LLM Destekli Triyaj"
     ],
     "infrastructure": [
-      "Ağ Güvenliği",
-      "Ağ Segmentasyonu",
-      "Firewall Log Analizi",
       "Active Directory",
       "Windows/Linux Yönetimi",
-      "Zafiyet Değerlendirme"
+      "Ağ Güvenliği",
+      "Ağ Segmentasyonu"
     ],
     "compliance": [
       "BDDK Mevzuatı Farkındalığı",
-      "Bankacılık Güvenlik Standartları",
+      "KVKK",
+      "ISO/IEC 27001 Farkındalığı",
       "Olay Raporlama"
     ],
     "tools": [
       "Python",
       "Go",
-      "C/C++",
       "SQL",
+      "C/C++",
+      "FastAPI",
       "Cortex XSOAR",
+      "n8n",
       "Wireshark",
+      "Docker",
       "Git"
     ],
     "spoken_languages": [
@@ -66,8 +74,9 @@
       "company": "Fibabanka",
       "location": "İstanbul, Türkiye",
       "highlights": [
-        "Senior analist gözetiminde canlı production trafiğinde günlük alert triyajı ve CTI feed incelemesi yaptım",
-        "Olay dokümantasyonu ve firewall log incelemesi; BDDK düzenlemesi altındaki raporlama süreçlerini ilk elden gördüm"
+        "BDDK düzenlemesi altındaki banka SOC'unda canlı SIEM ve EDR alertlerini triyajlıyor, doğrulanan olayları senior analistlere eskale ediyorum",
+        "SOC için n8n otomasyon workflow'ları tasarlayıp işletiyorum: LLM destekli alert triyajı, IOC zenginleştirme ve phishing analiziyle manuel L1 adımlarını azaltıyorum",
+        "CTI feed'lerini inceliyor, günlük alert hacmini takip ediyorum; vardiya devirlerinde ve denetim kayıtlarında kullanılan olay dokümantasyonunu yazıyorum"
       ]
     },
     {
@@ -78,10 +87,10 @@
       "company": "Doğuş Teknoloji",
       "location": "İstanbul, Türkiye",
       "highlights": [
-        "SIEM, SOAR, EDR ve NDR platformlarında çalıştım: kurumsal altyapı genelinde log correlation, alert triyajı, playbook yazımı ve false-positive filtreleme",
-        "Tekrarlayan tehditler için (özellikle phishing) SOAR playbook yazdım ve iterasyon yaptım; kurumsal altyapıda detection noise'u azaltmak için EDR alert tuning",
-        "L1 incident response, Root Cause Analysis (RCA) ve SLA uyumlu vaka raporları. Olgun bir SOC'ta vakaların nasıl takip edilip kapatıldığını yerinde gördüm.",
-        "Active Directory ve Windows/Linux sistem loglarını izledim; IT/OT sınırları için ağ segmentasyonu uyguladım"
+        "Canlı SOC vardiyasında SIEM, SOAR, EDR ve NDR platformlarında alert triyajı yaptım, false positive'leri filtreledim",
+        "Senior analistlerle birlikte phishing ve tekrarlayan tehdit desenleri için Cortex XSOAR playbook'ları yazıp ayarladım",
+        "L1 incident response görevlerini yürüttüm, SLA hedefleri içinde vaka raporları hazırladım",
+        "Active Directory ve Windows/Linux loglarını izledim; temel ağ segmentasyonu çalışmalarına destek verdim"
       ]
     }
   ],

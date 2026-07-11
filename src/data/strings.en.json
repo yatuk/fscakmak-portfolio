@@ -23,6 +23,7 @@
   },
   "skill_groups": {
     "cybersecurity": "Cybersecurity",
+    "ai_security": "AI / LLM Security",
     "infrastructure": "Infrastructure",
     "compliance": "Compliance",
     "tools": "Tools & Programming",

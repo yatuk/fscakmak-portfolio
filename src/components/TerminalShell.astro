@@ -217,7 +217,22 @@ const recruiterLabel = t(locale, 'view.recruiter_label');
     });
 
     recBtn.addEventListener('click', () => {
-      dismiss('recruiter', () => { window.location.href = cvPath; });
+      /* Fade the content but keep the opaque backdrop up until the
+         browser swaps pages — otherwise the terminal behind the entry
+         screen is visible for however long /cv takes to load. */
+      btns.forEach((b) => b.classList.add('btn-chosen'));
+      window.setTimeout(() => {
+        screen.classList.add('exit-nav');
+        window.setTimeout(() => { window.location.href = cvPath; }, 200);
+      }, 90);
+    });
+
+    /* bfcache restore (back button from /cv) — bring the screen back */
+    window.addEventListener('pageshow', (e) => {
+      if (e.persisted && screen.isConnected) {
+        screen.classList.remove('exit-nav');
+        btns.forEach((b) => b.classList.remove('btn-chosen'));
+      }
     });
   })();
 </script>

@@ -4,6 +4,7 @@ import { escapeHtml } from '@lib/sanitize';
 export const skills: CommandHandler = ({ profile, t }) => {
   const groups: Array<{ key: string; items: string[]; emphasize: boolean }> = [
     { key: 'cybersecurity', items: profile.skills.cybersecurity, emphasize: true },
+    { key: 'ai_security', items: profile.skills.ai_security, emphasize: true },
     { key: 'infrastructure', items: profile.skills.infrastructure, emphasize: false },
     { key: 'compliance', items: profile.skills.compliance, emphasize: false },
     { key: 'tools', items: profile.skills.tools, emphasize: false },

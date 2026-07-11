@@ -13,42 +13,50 @@
       "linkedin": "fatihserdar"
     }
   },
-  "about": "Computer Engineering student at Istanbul Technical University (class of 2027). Started in Industrial Automation at Kocaeli ENKA, which turned out to be solid prep for OT/IT security. At Doğuş Teknoloji I worked across SIEM, SOAR, EDR and NDR platforms: L1 incident response, SOAR playbook writing (phishing playbooks especially), EDR alert tuning, and IT/OT segmentation. Now part-time at Fibabanka doing daily alert triage, CTI feed review and firewall log analysis in a BDDK-regulated banking environment. MITRE ATT&CK is how I think about threats. Off the clock I build open-source security tooling for AI systems: Tamga, a self-hosted LLM security proxy, and MCPRadar, a scanner that checks MCP servers for nasty surprises.",
+  "about": "Computer Engineering student at Istanbul Technical University (class of 2027). Started in Industrial Automation at Kocaeli ENKA, which turned out to be solid prep for OT/IT security. At Doğuş Teknoloji I worked across SIEM, SOAR, EDR and NDR platforms: L1 incident response, SOAR playbook writing (phishing playbooks especially), EDR alert tuning, and IT/OT segmentation. Now part-time at Fibabanka doing daily alert triage, CTI review, and n8n SOC automation (LLM-assisted triage, IOC enrichment, phishing analysis) in a BDDK-regulated banking environment. MITRE ATT&CK is how I think about threats. Off the clock I build open-source security tooling for AI systems: Tamga, a self-hosted LLM security proxy, and MCPRadar, a scanner that checks MCP servers for nasty surprises.",
   "skills": {
     "cybersecurity": [
       "SOC Operations",
+      "Alert Triage",
       "Incident Response (IR)",
+      "Threat Detection",
       "Log Analysis",
+      "Phishing Analysis",
+      "IOC Enrichment",
       "CTI",
       "SIEM",
       "SOAR",
-      "EDR Alert Tuning",
-      "SOAR Playbook Development",
-      "Log Source Configuration",
-      "False-Positive Filtering",
-      "MITRE ATT&CK",
-      "NDR"
+      "EDR/NDR",
+      "MITRE ATT&CK"
+    ],
+    "ai_security": [
+      "Prompt Injection Defense",
+      "PII Redaction",
+      "MCP Security",
+      "LLM-Assisted Triage"
     ],
     "infrastructure": [
-      "Network Security",
-      "Network Segmentation",
-      "Firewall Log Analysis",
       "Active Directory",
       "Windows/Linux Administration",
-      "Vulnerability Assessment"
+      "Network Security",
+      "Network Segmentation"
     ],
     "compliance": [
       "BDDK Regulatory Awareness",
-      "Banking Security Standards",
+      "KVKK",
+      "ISO/IEC 27001 Awareness",
       "Incident Reporting"
     ],
     "tools": [
       "Python",
       "Go",
-      "C/C++",
       "SQL",
+      "C/C++",
+      "FastAPI",
       "Cortex XSOAR",
+      "n8n",
       "Wireshark",
+      "Docker",
       "Git"
     ],
     "spoken_languages": [
@@ -66,8 +74,9 @@
       "company": "Fibabanka",
       "location": "Istanbul, Turkey",
       "highlights": [
-        "Daily alert triage and CTI feed review on live production traffic, under senior analyst supervision",
-        "Incident documentation and firewall log review; first real look at what BDDK-regulated reporting looks like in practice"
+        "Triage production SIEM and EDR alerts in a BDDK-regulated banking SOC, escalating confirmed incidents to senior analysts",
+        "Design and run n8n automation workflows for the SOC — LLM-assisted alert triage, IOC enrichment, and phishing analysis to cut manual L1 steps",
+        "Review CTI feeds and track daily alert volumes; write incident documentation used in shift handovers and audit records"
       ]
     },
     {
@@ -78,10 +87,10 @@
       "company": "Doğuş Teknoloji",
       "location": "Istanbul, Turkey",
       "highlights": [
-        "Worked across SIEM, SOAR, EDR, and NDR platforms: log correlation, alert triage, playbook writing, false-positive filtering across enterprise infrastructure",
-        "Wrote and iterated SOAR playbooks for recurring threats (phishing especially); tuned EDR alert rules to cut detection noise across enterprise infrastructure",
-        "L1 incident response, root cause analysis, and SLA case reports. Got a clear picture of how a mature SOC actually tracks and closes cases.",
-        "Monitored Active Directory and Windows/Linux system logs; applied network segmentation for IT/OT boundaries"
+        "Triaged alerts and filtered false positives across SIEM, SOAR, EDR, and NDR platforms on a live SOC shift",
+        "Wrote and tuned Cortex XSOAR playbooks for phishing and recurring threat patterns together with senior analysts",
+        "Handled L1 incident response tasks and prepared case reports within SLA targets",
+        "Monitored Active Directory and Windows/Linux logs; supported basic network segmentation work"
       ]
     }
   ],
