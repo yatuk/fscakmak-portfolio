@@ -201,13 +201,8 @@ const gradYear = edu0.end ? `'${edu0.end.slice(2)}` : '';
         </article>
       ))}
     </div>
-    <a
-      class="cv-writeup-more"
-      href="https://medium.com/@fscakmak"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Medium →
+    <a class="cv-writeup-more" href={`${localePrefix}/writeups`}>
+      {locale === 'tr' ? 'Tüm yazılar →' : 'All writeups →'}
     </a>
   </section>
 

@@ -1,0 +1,180 @@
+---
+import { t } from '@core/i18n';
+import type { Locale } from '@ptypes/profile';
+import writeups from '@data/writeups.json';
+import '@styles/fonts-body.css';
+import '@styles/recruiter.css';
+
+export interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const localePrefix = locale === 'tr' ? '/tr' : '';
+
+interface Writeup {
+  title: string;
+  url: string;
+  date: string;
+  lang: string;
+  tags: string[];
+  summary: string;
+  summary_tr: string;
+}
+
+const items = writeups as Writeup[];
+
+const site = Astro.site?.toString().replace(/\/$/, '') ?? 'https://fscakmak.com';
+const blogSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  name: locale === 'tr' ? 'Fatih Serdar Çakmak — Yazılar' : 'Fatih Serdar Çakmak — Writeups',
+  url: `${site}${localePrefix}/writeups`,
+  inLanguage: locale,
+  author: {
+    '@type': 'Person',
+    name: 'Fatih Serdar Çakmak',
+    url: site,
+  },
+  blogPost: items.map((w) => ({
+    '@type': 'BlogPosting',
+    headline: w.title,
+    url: w.url,
+    datePublished: `${w.date}-01`,
+    inLanguage: w.lang,
+    keywords: w.tags.join(', '),
+    abstract: locale === 'tr' ? w.summary_tr : w.summary,
+    author: { '@type': 'Person', name: 'Fatih Serdar Çakmak', url: site },
+  })),
+};
+---
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(blogSchema)} />
+
+<article class="cv-root wr-root">
+  <header class="cv-hero wr-hero">
+    <div class="cv-hero-left">
+      <div class="cv-hero-label">[ WRITEUPS ]</div>
+      <h1 class="cv-hero-name wr-title">
+        {locale === 'tr' ? 'Yazılar' : 'Writeups'}
+      </h1>
+      <p class="cv-hero-tagline">
+        &gt; {locale === 'tr'
+          ? 'Tespit mühendisliği, zararlı analizi ve web güvenliği üzerine notlar.'
+          : 'Notes on detection engineering, malware analysis, and web security.'}
+      </p>
+      <div class="cv-cta-row">
+        <a class="cv-cta" href={localePrefix || '/'}>
+          {locale === 'tr' ? 'Terminal' : 'Terminal'}
+        </a>
+        <a class="cv-cta" href={`${localePrefix}/cv`}>CV</a>
+        <a
+          class="cv-cta"
+          href="https://medium.com/@fscakmak"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Medium
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <section class="cv-card">
+    <div class="wr-list">
+      {items.map((w) => (
+        <article class="wr-item">
+          <div class="wr-item-meta">
+            <span class="wr-item-date">{w.date}</span>
+            <div class="wr-item-tags">
+              {w.tags.map((tg) => <span class="cv-project-tag">{tg}</span>)}
+            </div>
+          </div>
+          <h2 class="wr-item-title">
+            <a href={w.url} target="_blank" rel="noopener noreferrer">
+              {w.title} ↗
+            </a>
+          </h2>
+          <p class="wr-item-summary">
+            {locale === 'tr' ? w.summary_tr : w.summary}
+          </p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <footer class="cv-footer">{t(locale, 'recruiter.footer_note')}</footer>
+</article>
+
+<script is:inline>
+  document.body.classList.add('cv-body');
+</script>
+
+<style>
+  .wr-title {
+    font-size: clamp(2rem, 5vw, 3rem);
+  }
+
+  .wr-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .wr-item {
+    padding-bottom: var(--space-5);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .wr-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .wr-item-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-2);
+  }
+
+  .wr-item-date {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: rgba(34, 211, 238, 0.7);
+    letter-spacing: 0.03em;
+  }
+
+  .wr-item-tags {
+    display: inline-flex;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+
+  .wr-item-title {
+    font-family: var(--font-body);
+    font-size: 1.15rem;
+    font-weight: 600;
+    line-height: 1.35;
+    margin-bottom: var(--space-2);
+  }
+
+  .wr-item-title a {
+    color: var(--color-text);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .wr-item-title a:hover {
+    color: var(--color-accent);
+  }
+
+  .wr-item-summary {
+    font-family: var(--font-body);
+    color: var(--color-text-dim);
+    font-size: 0.9rem;
+    line-height: 1.65;
+    max-width: 68ch;
+  }
+</style>

@@ -5,7 +5,7 @@
     "location": "Istanbul, Turkey",
     "sector": "Financial Services / Banking Security",
     "current": "Defending production banking systems @ Fibabanka",
-    "tagline": "MITRE ATT&CK is how I think about threats.",
+    "tagline": "Blue team by day, AI/LLM security tooling by night.",
     "email": "fscakmak@proton.me",
     "domain": "fscakmak.com",
     "social": {
@@ -136,6 +136,16 @@
       "status": "active",
       "tags": ["Python", "MCP", "Supply Chain", "SARIF", "PyPI"],
       "summary": "Catches tool poisoning, prompt injection, and supply-chain rug pulls in Model Context Protocol servers before your agent runs them. 6 detection rules (zero-width Unicode, injection patterns, encoded blobs, hidden HTML/Markdown, permission scope mismatch, dangerous tool names), SARIF output that drops straight into the GitHub Security tab, and SQLite snapshot diffing to flag silent schema changes. One-shot run with uvx, no install needed.",
+      "featured": true
+    },
+    {
+      "slug": "itu-mcp",
+      "name": "İTÜ MCP — University Portal MCP Server",
+      "url": "https://github.com/yatuk/itu-mcp",
+      "owner_type": "personal",
+      "status": "active",
+      "tags": ["Python", "MCP", "Automation", "MIT"],
+      "summary": "Local MCP server that connects an ITU student's Ninova (LMS) and OBS (student portal) accounts to Claude, Cursor, Codex, and other MCP clients. Ask about assignments, deadlines, grades, transcripts, or attendance in natural language; reads PDF/DOCX files, uploads homework only with explicit confirmation. Local-first: credentials never leave the machine and are sent only to ITU endpoints.",
       "featured": true
     },
     {

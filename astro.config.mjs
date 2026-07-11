@@ -21,8 +21,11 @@ export default defineConfig({
         if (path === '/cv' || path === '/tr/cv') {
           return { ...item, priority: 0.9 };
         }
+        if (path === '/writeups' || path === '/tr/writeups') {
+          return { ...item, priority: 0.7 };
+        }
         if (path === '/' || path === '/tr') {
-          return { ...item, priority: 0.3 };
+          return { ...item, priority: 0.5 };
         }
         return item;
       },

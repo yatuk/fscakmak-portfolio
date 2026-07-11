@@ -1,0 +1,13 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import WriteupsView from '@components/WriteupsView.astro';
+
+const locale = 'en';
+const title = 'Writeups — Fatih Serdar Çakmak | Detection, Malware & Web Security';
+const description =
+  'Security writeups by Fatih Serdar Çakmak: detection engineering (KQL/EDR rules), malware analysis, and web security (SQL injection, phishing).';
+---
+
+<BaseLayout title={title} description={description} locale={locale}>
+  <WriteupsView locale={locale} />
+</BaseLayout>

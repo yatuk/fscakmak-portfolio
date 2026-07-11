@@ -1,13 +1,37 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import TerminalShell from '@components/TerminalShell.astro';
+import { getProfile } from '@lib/profile';
 
 const locale = 'en';
-const title = 'Fatih Serdar Çakmak — SOC Analyst Intern | ITU CS';
+const title = 'Fatih Serdar Çakmak — SOC Analyst & AI/LLM Security | ITU CS';
 const description =
-  'SOC Analyst intern at Fibabanka and Computer Engineering student at ITU. SIEM, SOAR, EDR, MITRE ATT&CK. Istanbul, Turkey.';
+  'SOC analyst intern at Fibabanka and CE student at ITU, building open-source AI/LLM security tooling (Tamga, MCPRadar). SIEM, SOAR, detection, MCP security. Istanbul.';
+
+const profile = getProfile(locale);
 ---
 
-<BaseLayout title={title} description={description} locale={locale} hideHeaderControls={true} metaRobots="noindex, follow">
+<BaseLayout title={title} description={description} locale={locale} hideHeaderControls={true}>
+  <!-- Crawlable summary — the terminal renders everything with JS,
+       which most AI crawlers never execute. Screen readers get a
+       usable overview from the same block. -->
+  <section class="sr-only">
+    <h1>{profile.identity.name} — {profile.identity.role}</h1>
+    <p>{profile.about}</p>
+    <h2>Projects</h2>
+    <ul>
+      {profile.projects.map((p) => (
+        <li>
+          {p.url ? <a href={p.url}>{p.name}</a> : p.name}: {p.summary}
+        </li>
+      ))}
+    </ul>
+    <p>
+      <a href="/cv">Full CV</a> · <a href="/writeups">Writeups</a> ·{' '}
+      <a href={`https://github.com/${profile.identity.social.github}`}>GitHub</a> ·{' '}
+      <a href={`https://linkedin.com/in/${profile.identity.social.linkedin}`}>LinkedIn</a>
+    </p>
+  </section>
+
   <TerminalShell locale={locale} />
 </BaseLayout>

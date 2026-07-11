@@ -115,7 +115,13 @@ const cfBeaconToken = import.meta.env.PUBLIC_CF_WEB_ANALYTICS_TOKEN;
       name: 'Fatih Serdar Çakmak',
       alternateName: ['Fatih Çakmak', 'fscakmak'],
       url: site,
+      image: ogImageUrl,
       email: 'mailto:fscakmak@proton.me',
+      jobTitle: locale === 'tr'
+        ? 'Siber Güvenlik Operasyonları (SOC) Stajyeri'
+        : 'Cyber Security Operations (SOC) Intern',
+      description: description,
+      knowsLanguage: ['tr', 'en'],
       worksFor: {
         '@type': 'Organization',
         name: 'Fibabanka',
@@ -135,11 +141,17 @@ const cfBeaconToken = import.meta.env.PUBLIC_CF_WEB_ANALYTICS_TOKEN;
         'https://medium.com/@fscakmak',
       ],
       knowsAbout: [
-        'Security Operations Center',
-        'SIEM', 'SOAR', 'EDR',
+        'Security Operations Center (SOC)',
+        'SIEM', 'SOAR', 'EDR', 'NDR',
         'MITRE ATT&CK',
         'Incident Response',
+        'Detection Engineering',
         'Threat Intelligence',
+        'AI Security',
+        'LLM Security',
+        'Prompt Injection Defense',
+        'Model Context Protocol (MCP) Security',
+        'SOC Automation',
       ],
     })} />
 

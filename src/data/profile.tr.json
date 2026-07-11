@@ -5,7 +5,7 @@
     "location": "İstanbul, Türkiye",
     "sector": "Finansal Hizmetler / Bankacılık Güvenliği",
     "current": "Fibabanka'da canlı bankacılık sistemlerini savunuyor",
-    "tagline": "Tehditleri MITRE ATT&CK çerçevesiyle okumayı tercih ederim.",
+    "tagline": "Gündüz blue team, gece AI/LLM güvenlik araçları.",
     "email": "fscakmak@proton.me",
     "domain": "fscakmak.com",
     "social": {
@@ -136,6 +136,16 @@
       "status": "active",
       "tags": ["Python", "MCP", "Supply Chain", "SARIF", "PyPI"],
       "summary": "Model Context Protocol sunucularındaki tool poisoning, prompt injection ve supply-chain \"rug pull\" saldırılarını agent'ınız çalıştırmadan önce yakalar. 6 tespit kuralı (zero-width Unicode, injection desenleri, encode edilmiş bloblar, gizli HTML/Markdown, izin kapsamı uyumsuzluğu, tehlikeli tool isimleri), GitHub Security sekmesine doğrudan düşen SARIF çıktısı ve sessiz şema değişikliklerini işaretleyen SQLite snapshot diff'i. uvx ile tek komutta çalışır, kurulum gerektirmez.",
+      "featured": true
+    },
+    {
+      "slug": "itu-mcp",
+      "name": "İTÜ MCP — Üniversite Portalı MCP Sunucusu",
+      "url": "https://github.com/yatuk/itu-mcp",
+      "owner_type": "personal",
+      "status": "active",
+      "tags": ["Python", "MCP", "Automation", "MIT"],
+      "summary": "İTÜ öğrencisinin Ninova (LMS) ve OBS hesaplarını Claude, Cursor, Codex ve diğer MCP istemcilerine bağlayan yerel MCP sunucusu. Ödevleri, teslim tarihlerini, notları, transkripti ve yoklamayı doğal dilde sorabilirsin; PDF/DOCX okur, ödev yüklemeyi yalnızca açık onayla yapar. Önce yerel: kimlik bilgileri cihazdan çıkmaz, yalnızca İTÜ adreslerine gönderilir.",
       "featured": true
     },
     {

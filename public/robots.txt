@@ -1,6 +1,7 @@
 User-agent: *
 Allow: /
 
+# AI crawlers welcome — see /llms.txt for a structured summary.
 Sitemap: https://fscakmak.com/sitemap-index.xml
 
 # Hey, you're reading robots.txt. That's a good sign.

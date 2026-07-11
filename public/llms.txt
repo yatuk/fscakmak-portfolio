@@ -1,0 +1,34 @@
+# Fatih Serdar Çakmak
+
+> SOC analyst intern at Fibabanka (BDDK-regulated banking SOC) and Computer
+> Engineering student at Istanbul Technical University (ITU), graduating 2027.
+> Blue team by day — SIEM/SOAR/EDR alert triage, detection engineering, incident
+> response — and by night an open-source builder of AI/LLM security tooling.
+> Based in Istanbul, Turkey.
+
+## Focus areas
+
+- Security operations: SOC operations, alert triage, incident response, threat detection, log analysis, CTI, SIEM, SOAR (Cortex XSOAR), EDR/NDR, MITRE ATT&CK
+- AI / LLM security: prompt injection defense, PII redaction, MCP (Model Context Protocol) security, LLM-assisted triage
+- SOC automation with n8n; detection-as-code
+
+## Projects
+
+- [Tamga](https://github.com/yatuk/tamga): Self-hosted LLM security proxy in Go/Python/Next.js. Inline PII redaction (TC Kimlik, IBAN, credit cards), secret leak blocking, and prompt-injection detection with sub-millisecond Aho-Corasick scanning. Ships KVKK/BDDK/GDPR/PCI-DSS mappings, hash-chained audit logs, and a 309-prompt adversarial CI suite. AGPL-3.0.
+- [MCPRadar](https://github.com/yatuk/mcpradar): Security scanner for Model Context Protocol servers. Detects tool poisoning, prompt injection, and supply-chain rug pulls; SARIF output for the GitHub Security tab; SQLite snapshot diffing. Published on PyPI. MIT.
+- [İTÜ MCP](https://github.com/yatuk/itu-mcp): Local MCP server connecting ITU Ninova (LMS) and OBS (student portal) to Claude, Cursor, and Codex. Local-first; credentials never leave the machine. MIT.
+- [SOC n8n Workflows](https://github.com/yatuk/soc-n8n-workflows): 10 production-shaped SOC automation playbooks for n8n — LLM-assisted alert triage, phishing analysis, IOC enrichment, human-approved containment, CVE watch, reporting.
+- [SOC Simulation](https://github.com/yatuk/soc-simulation): End-to-end SIEM/SOAR case study (127 alerts, 126 false positives, 1 real threat) mapped to MITRE ATT&CK.
+
+## Pages
+
+- [CV](https://fscakmak.com/cv): Full experience, skills, education, and certifications.
+- [Writeups](https://fscakmak.com/writeups): Security writeups on detection engineering, malware analysis, and web security.
+- [Terminal](https://fscakmak.com/): Interactive terminal view of the profile.
+
+## Links
+
+- GitHub: https://github.com/yatuk
+- LinkedIn: https://linkedin.com/in/fatihserdar
+- Medium: https://medium.com/@fscakmak
+- Email: fscakmak@proton.me

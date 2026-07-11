@@ -4,27 +4,35 @@
     "url": "https://medium.com/@fscakmak/birka%C3%A7-dolarl%C4%B1k-bir-esp32-ile-google-login-sayfas%C4%B1n%C4%B1-nas%C4%B1l-kopyalad%C4%B1m-a684a601d6d6",
     "date": "2026-05",
     "lang": "tr",
-    "tags": ["ESP32", "phishing", "hardware"]
+    "tags": ["ESP32", "phishing", "hardware"],
+    "summary": "A hands-on captive-portal experiment: using a cheap ESP32 board running Bruce firmware to stand up a fake \"Free WiFi\" access point and clone Google's login page in a lab setting — why the attack is so cheap to run and what defenders should watch for.",
+    "summary_tr": "Ucuz bir ESP32 (Bruce firmware) ile sahte \"Free WiFi\" ağı kurup Google login sayfasını klonlayan bir captive-portal deneyi. Saldırının neden bu kadar ucuz ve etkili olduğu, savunma tarafında nelere dikkat edilmesi gerektiği."
   },
   {
     "title": "EDR RULES #1",
     "url": "https://medium.com/@fscakmak/edr-rules-1-2096b425df09",
     "date": "2026-02",
     "lang": "tr",
-    "tags": ["EDR", "KQL", "detection"]
+    "tags": ["EDR", "KQL", "detection"],
+    "summary": "First in a detection-engineering series: a master KQL query for Microsoft Defender / Advanced Hunting that catches AppLocker EDR-blinding across three attack stages, including tampering with the AppIDSvc service in DeviceRegistryEvents.",
+    "summary_tr": "Detection-engineering serisinin ilki: Microsoft Defender / Advanced Hunting için AppLocker EDR-blinding'i üç saldırı aşamasında yakalayan master KQL sorgusu; DeviceRegistryEvents üzerinden AppIDSvc servis manipülasyonu dahil."
   },
   {
     "title": "Trojan:Win32/ClickFix.ZG",
     "url": "https://medium.com/@fscakmak/trojan-win32-clickfix-zg-d4ef97d993e3",
     "date": "2025-09",
     "lang": "tr",
-    "tags": ["malware", "trojan", "analysis"]
+    "tags": ["malware", "trojan", "analysis"],
+    "summary": "Analysis of ClickFix, a social-engineering malware family that tricks users into running malicious commands themselves while thinking they are fixing a problem — how Microsoft Defender flags it and how the lure works.",
+    "summary_tr": "Kullanıcıyı bir sorunu çözdüğünü sanırken kendi eliyle zararlı komut çalıştırmaya kandıran ClickFix sosyal mühendislik zararlısının analizi: Microsoft Defender'ın tespiti ve tuzağın nasıl çalıştığı."
   },
   {
     "title": "Blind SQL Injection with Conditional Errors",
     "url": "https://medium.com/@fscakmak/blind-sql-injection-with-conditional-errors-df5c72948696",
     "date": "2025-02",
     "lang": "en",
-    "tags": ["SQLi", "web", "PortSwigger"]
+    "tags": ["SQLi", "web", "PortSwigger"],
+    "summary": "Walkthrough of a blind SQL injection where no data is returned directly: inferring database contents from server behaviour (status codes, error messages, response timing), worked through a PortSwigger Web Security Academy lab.",
+    "summary_tr": "Doğrudan veri dönmeyen bir blind SQL injection anlatımı: sunucu davranışından (durum kodları, hata mesajları, yanıt süresi) veritabanı içeriğini çıkarsama; PortSwigger Web Security Academy lab'ı üzerinden."
   }
 ]
