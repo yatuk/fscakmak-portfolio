@@ -11,7 +11,7 @@ const description =
 const profile = getProfile(locale);
 ---
 
-<BaseLayout title={title} description={description} locale={locale} hideHeaderControls={true}>
+<BaseLayout title={title} description={description} locale={locale} hideHeaderControls={true} alternates={{ en: '/', tr: '/tr' }}>
   <!-- Crawlable summary — the terminal renders everything with JS,
        which most AI crawlers never execute. Screen readers get a
        usable overview from the same block. -->

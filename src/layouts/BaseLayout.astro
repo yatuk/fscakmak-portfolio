@@ -14,6 +14,9 @@ export interface Props {
   ogImage?: string;
   hideHeaderControls?: boolean;
   metaRobots?: string;
+  /** en/tr equivalents of this page (paths or absolute URLs). Omit on
+      single-language pages so no incorrect hreflang alternates are emitted. */
+  alternates?: { en?: string; tr?: string };
 }
 
 const {
@@ -24,10 +27,21 @@ const {
   ogImage = '/og-image.png',
   hideHeaderControls = false,
   metaRobots,
+  alternates,
 } = Astro.props;
 
 const site = Astro.site?.toString().replace(/\/$/, '') ?? 'https://fscakmak.com';
-const canonicalUrl = canonical ?? new URL(Astro.url.pathname, site).toString();
+const abs = (p: string) => (p.startsWith('http') ? p : `${site}${p === '/' ? '' : p}`);
+// Canonical with no trailing slash, matching trailingSlash: 'never' and the sitemap.
+const rawCanonical = canonical ?? new URL(Astro.url.pathname, site).toString();
+const canonicalUrl = rawCanonical.replace(/\/$/, '') || site;
+const hreflangs = alternates
+  ? [
+      ...(alternates.en ? [{ lang: 'en', href: abs(alternates.en) }] : []),
+      ...(alternates.tr ? [{ lang: 'tr', href: abs(alternates.tr) }] : []),
+      { lang: 'x-default', href: abs(alternates.en ?? alternates.tr ?? '/') },
+    ]
+  : [];
 const ogImageUrl = new URL(ogImage, site).toString();
 const cfBeaconToken = import.meta.env.PUBLIC_CF_WEB_ANALYTICS_TOKEN;
 ---
@@ -81,10 +95,10 @@ const cfBeaconToken = import.meta.env.PUBLIC_CF_WEB_ANALYTICS_TOKEN;
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
 
-    <!-- hreflang — trailingSlash: 'never' in astro.config -->
-    <link rel="alternate" hreflang="en" href={site} />
-    <link rel="alternate" hreflang="tr" href={`${site}/tr`} />
-    <link rel="alternate" hreflang="x-default" href={site} />
+    <!-- hreflang — per-page, no trailing slash (trailingSlash: 'never') -->
+    {hreflangs.map((h) => (
+      <link rel="alternate" hreflang={h.lang} href={h.href} />
+    ))}
 
     <!-- Open Graph -->
     <meta property="og:type" content="profile" />
@@ -102,6 +116,9 @@ const cfBeaconToken = import.meta.env.PUBLIC_CF_WEB_ANALYTICS_TOKEN;
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
 
+
+    <!-- RSS feed -->
+    <link rel="alternate" type="application/rss+xml" title="Fatih Serdar Çakmak — Writeups" href={`${site}/rss.xml`} />
 
     <!-- Icons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

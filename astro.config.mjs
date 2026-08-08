@@ -18,14 +18,15 @@ export default defineConfig({
       },
       serialize(item) {
         const path = new URL(item.url).pathname;
+        item.lastmod = new Date().toISOString();
         if (path === '/cv' || path === '/tr/cv') {
-          return { ...item, priority: 0.9 };
+          return { ...item, priority: 0.9, changefreq: 'monthly' };
         }
-        if (path === '/writeups' || path === '/tr/writeups') {
-          return { ...item, priority: 0.7 };
+        if (path.startsWith('/writeups') || path.startsWith('/tr/writeups')) {
+          return { ...item, priority: 0.7, changefreq: 'weekly' };
         }
         if (path === '/' || path === '/tr') {
-          return { ...item, priority: 0.5 };
+          return { ...item, priority: 0.5, changefreq: 'monthly' };
         }
         return item;
       },
