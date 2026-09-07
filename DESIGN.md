@@ -58,7 +58,7 @@ Source of truth: `src/components/RecruiterView.astro`, `src/styles/recruiter.css
 
 Use `paper` for primary reading text, `muted` for descriptions and metadata, and `line` for section dividers on `portfolio-bg`. Lime marks the surname, principal action, current status, selected skill headings, and diagram nodes. Project illustrations use two quiet green surfaces rather than bright promotional artwork.
 
-The terminal uses semantic `--color-*` properties with its existing theme overrides. Its default is near-black with cyan links, green prompts, yellow commands, and purple tags. Preserve those functional distinctions; do not globally replace terminal colors with the recruiter palette.
+The terminal's default theme now draws its semantic `--color-*` properties directly from the recruiter palette (`tokens.css`): dark olive ground, paper text, lime for links/accent/prompt. This is deliberate — the terminal and CV are one product and should read as one, not two different sites. Severity/data hues stay distinct where they carry meaning (SOC command output: red/orange for critical/high alerts, warm gold for tags and typed commands) — those are functional, not brand decoration, and are not touched. The macOS-style traffic-light dots were recolored to the same olive/lime pair for the same reason. The alternate themes (`cyberpunk`, `matrix`, `catppuccin`, selectable via the `theme` command) remain intentionally distinct skins — a user opt-in, not the default identity.
 
 ## Typography
 

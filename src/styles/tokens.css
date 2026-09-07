@@ -6,20 +6,23 @@
 
 :root,
 [data-theme="tokyonight"] {
-  /* Palette · restrained near-black/near-white with single cyan accent */
-  --bg: #0d0d0d;
-  --tbg: #111111;
-  --tbar: #171717;
-  --tx: #e4e4e7;
-  --dim: #8a8a8a;
-  --grn: #4ade80;
-  --cyan: #22d3ee;
-  --mag: #c084fc;
-  --red: #f87171;
-  --ylw: #facc15;
-  --org: #fb923c;
-  --brd: #27272a;
-  --acc: #22d3ee;
+  /* Palette · same editorial fieldbook system as the recruiter view
+     (dark olive ground, lime accent, paper text) so the terminal and
+     CV read as one site. Severity hues (red/org/ylw) stay distinct —
+     they carry meaning in SOC command output, not brand decoration. */
+  --bg: #101310;
+  --tbg: #161a14;
+  --tbar: #1c261a;
+  --tx: #eef0e8;
+  --dim: #a6afa3;
+  --grn: #c3ec88;
+  --cyan: #c3ec88;
+  --mag: #cbb677;
+  --red: #f2867a;
+  --ylw: #e3c876;
+  --org: #e2a97a;
+  --brd: #31382f;
+  --acc: #c3ec88;
 
   /* Semantic aliases · use these in components, not raw palette */
   --color-bg: var(--bg);
@@ -32,7 +35,7 @@
   --color-prompt: var(--grn);
   --color-cmd: var(--ylw);
   --color-link: var(--cyan);
-  --color-link-hover: #67e8f9;
+  --color-link-hover: #d7f4af;
   --color-tag: var(--mag);
   --color-danger: var(--red);
 
