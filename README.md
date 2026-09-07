@@ -32,8 +32,8 @@ Two views over one typed JSON data layer, in English and Turkish:
 
 | View | Route | What it is |
 |---|---|---|
-| Terminal | `/`, `/tr` | Browser terminal emulator — autocomplete, history, hidden commands, scoring |
-| Recruiter | `/cv`, `/tr/cv` | Single-page CV with status panel, live metrics, and writeups |
+| Terminal | `/terminal`, `/tr/terminal` | Browser terminal emulator — autocomplete, history, hidden commands, scoring |
+| Recruiter | `/`, `/tr`, `/cv`, `/tr/cv` | Direct-entry portfolio with featured projects, experience, writing, and contact |
 
 Static Astro build, no client-side framework.
 
@@ -72,7 +72,7 @@ node scripts/generate-og.mjs
 
 ```
 src/
-├── pages/            # index.astro (terminal), cv.astro (recruiter), tr/ variants
+├── pages/            # index.astro (portfolio), terminal.astro, cv.astro (recruiter alias), tr/ variants
 ├── layouts/          # BaseLayout.astro — head, meta, font preloads, SW registration
 ├── components/       # TerminalShell, RecruiterView, HeaderControls, toggles
 ├── core/             # terminal.ts (shell engine), i18n.ts, scoring.ts, boot.ts

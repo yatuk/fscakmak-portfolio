@@ -3,14 +3,14 @@ import { escapeHtml } from '@lib/sanitize';
 import type { Locale } from '@ptypes/profile';
 
 /**
- * Four ATT&CK techniques/tactics the user has actually touched —
+ * Four ATT&CK techniques/tactics the user has actually touched -
  * each anchored to a real CV line, NOT invented. Per spec:
- *   • T1566 Phishing          — Doğuş SOAR playbooks
- *   • TA0007 Discovery        — Active Directory monitoring
- *   • TA0005 Defense Evasion  — EDR alert tuning
- *   • TA0011 C2               — firewall log review
+ *   • T1566 Phishing          · Doğuş SOAR playbooks
+ *   • TA0007 Discovery        · Active Directory monitoring
+ *   • TA0005 Defense Evasion  · EDR alert tuning
+ *   • TA0011 C2               · firewall log review
  *
- * Mixing techniques (T*) and tactics (TA*) is intentional —
+ * Mixing techniques (T*) and tactics (TA*) is intentional -
  * those are exactly what the spec specifies, mirroring the
  * coarser level at which an intern actually operates.
  */
@@ -74,7 +74,7 @@ const renderer: CommandHandler = ({ locale }) => {
   const subtitle =
     locale === 'tr'
       ? 'Gerçek deneyime dayanan, uydurulmamış teknikler.'
-      : 'Real techniques touched on the job — not theoretical.';
+      : 'Real techniques touched on the job · not theoretical.';
 
   return `
 <div class="cmd-block">

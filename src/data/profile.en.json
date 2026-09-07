@@ -75,7 +75,7 @@
       "location": "Istanbul, Turkey",
       "highlights": [
         "Triage production SIEM and EDR alerts in a BDDK-regulated banking SOC, escalating confirmed incidents to senior analysts",
-        "Design and run n8n automation workflows for the SOC — LLM-assisted alert triage, IOC enrichment, and phishing analysis to cut manual L1 steps",
+        "Design and run n8n automation workflows for the SOC · LLM-assisted alert triage, IOC enrichment, and phishing analysis to cut manual L1 steps",
         "Review CTI feeds and track daily alert volumes; write incident documentation used in shift handovers and audit records"
       ]
     },
@@ -119,7 +119,7 @@
   "projects": [
     {
       "slug": "tamga",
-      "name": "Tamga — Self-Hosted LLM Security Proxy",
+      "name": "Tamga · Self-Hosted LLM Security Proxy",
       "url": "https://github.com/yatuk/tamga",
       "owner_type": "personal",
       "status": "active",
@@ -129,7 +129,7 @@
     },
     {
       "slug": "mcpradar",
-      "name": "MCPRadar — Security Scanner for MCP Servers",
+      "name": "MCPRadar · Security Scanner for MCP Servers",
       "url": "https://github.com/yatuk/mcpradar",
       "demo_url": "https://yatuk.github.io/mcpradar",
       "owner_type": "personal",
@@ -140,7 +140,7 @@
     },
     {
       "slug": "itu-mcp",
-      "name": "İTÜ MCP — University Portal MCP Server",
+      "name": "İTÜ MCP · University Portal MCP Server",
       "url": "https://github.com/yatuk/itu-mcp",
       "owner_type": "personal",
       "status": "active",
@@ -171,10 +171,10 @@
     },
     {
       "slug": "wdi-analytics",
-      "name": "WDI Analytics — Full-Stack Data Platform",
+      "name": "WDI Analytics · Full-Stack Data Platform",
       "url": "https://github.com/s4l1hs/Database-Management-System",
       "owner_type": "team",
-      "owner_note": "Team project — repo owned by teammate",
+      "owner_note": "Team project · repo owned by teammate",
       "status": "complete",
       "tags": ["Flask", "React", "TypeScript", "MySQL", "Docker"],
       "summary": "Platform for exploring World Bank development indicators across six domains (countries, health, emissions, energy, freshwater, sustainability). A Flask blueprint API behind a React + TypeScript SPA, with role-based access control (admin / editor / viewer), parameterized SQL to block injection, and audit logging on every change. Chart.js trends, a Leaflet world map, CSV export, Docker Compose, Alembic migrations, and a CI pipeline. Built as an ITU term project (BLG-317E).",

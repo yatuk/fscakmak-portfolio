@@ -101,7 +101,7 @@ const verboseCategories = (t: (k: string) => string): Category[] => [
       { cmd: 'logs',        desc: 'SIEM log stream  (--severity critical|high|medium|low)' },
       { cmd: 'alerts',      desc: 'SOAR alert triage queue' },
       { cmd: 'ioc',         desc: 'IOC / threat intel feed' },
-      { cmd: 'threat',      desc: 'CTI brief — active threat actors' },
+      { cmd: 'threat',      desc: 'CTI brief · active threat actors' },
       { cmd: 'skillmatrix', desc: 'skill proficiency matrix' },
     ],
   },

@@ -3,7 +3,7 @@ import trStrings from '@data/strings.tr.json';
 import type { Locale } from '@ptypes/profile';
 
 /**
- * UI string translations — distinct from profile content.
+ * UI string translations · distinct from profile content.
  * EN file is the schema (anything missing in TR falls back to the key).
  *
  * Usage in .astro frontmatter:

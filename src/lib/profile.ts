@@ -4,7 +4,7 @@ import type { Locale, Profile } from '@ptypes/profile';
 
 /**
  * All profile content lives in src/data/profile.{en,tr}.json.
- * This loader is the only module that imports those JSON files —
+ * This loader is the only module that imports those JSON files -
  * everything else asks via `getProfile(locale)`.
  *
  * Static imports keep the SSG build tree-shakable: each locale's

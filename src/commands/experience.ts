@@ -25,7 +25,7 @@ export const experience: CommandHandler = ({ profile, t }) => {
           <span class="exp-date">${dateRange}</span>
         </div>
         <div class="exp-title">
-          ${escapeHtml(e.title)} — <span class="exp-company">${escapeHtml(e.company)}</span>
+          ${escapeHtml(e.title)} · <span class="exp-company">${escapeHtml(e.company)}</span>
         </div>
         <div class="exp-location">${escapeHtml(e.location)}</div>
         <ul class="exp-highlights">${bullets}</ul>

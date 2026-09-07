@@ -3,7 +3,7 @@ import { escapeHtml } from '@lib/sanitize';
 
 /**
  * ASCII site map. Re-built each call so it reflects the profile
- * dynamically — when projects/certs change in the JSON, the tree
+ * dynamically · when projects/certs change in the JSON, the tree
  * updates automatically.
  */
 const renderer: CommandHandler = ({ profile, t }) => {

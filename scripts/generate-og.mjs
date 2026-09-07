@@ -2,7 +2,7 @@
  * Generates og-image.png (1200×630) — terminal-themed social card.
  * Run: node scripts/generate-og.mjs
  */
-import { readFileSync, writeFileSync } from 'node:fs';
+import { writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { renderAsync } from '@resvg/resvg-js';
 

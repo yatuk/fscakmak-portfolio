@@ -1,4 +1,4 @@
-/* Self-hosted Manrope — body text, only used on recruiter/CV pages.
+/* Self-hosted Manrope · body text, only used on recruiter/CV pages.
    Latin + latin-ext only (Turkish needs latin-ext). */
 @import '@fontsource/manrope/latin-400.css';
 @import '@fontsource/manrope/latin-ext-400.css';

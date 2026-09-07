@@ -76,7 +76,7 @@ const cfBeaconToken = import.meta.env.PUBLIC_CF_WEB_ANALYTICS_TOKEN;
             document.documentElement.dataset.theme = t;
           }
         } catch {
-          /* private mode — keep default */
+          /* private mode · keep default */
         }
       })();
     </script>
@@ -87,7 +87,7 @@ const cfBeaconToken = import.meta.env.PUBLIC_CF_WEB_ANALYTICS_TOKEN;
     {metaRobots && <meta name="robots" content={metaRobots} />}
     <meta name="generator" content={Astro.generator} />
 
-    <!-- Primary mono font — used above the fold on every page -->
+    <!-- Primary mono font · used above the fold on every page -->
     <link rel="preload" as="font" type="font/woff2" crossorigin href={jbmLatin400} />
     <link rel="preload" as="font" type="font/woff2" crossorigin href={jbmLatin600} />
 
@@ -95,7 +95,7 @@ const cfBeaconToken = import.meta.env.PUBLIC_CF_WEB_ANALYTICS_TOKEN;
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
 
-    <!-- hreflang — per-page, no trailing slash (trailingSlash: 'never') -->
+    <!-- hreflang · per-page, no trailing slash (trailingSlash: 'never') -->
     {hreflangs.map((h) => (
       <link rel="alternate" hreflang={h.lang} href={h.href} />
     ))}
@@ -118,7 +118,7 @@ const cfBeaconToken = import.meta.env.PUBLIC_CF_WEB_ANALYTICS_TOKEN;
 
 
     <!-- RSS feed -->
-    <link rel="alternate" type="application/rss+xml" title="Fatih Serdar Çakmak — Writeups" href={`${site}/rss.xml`} />
+    <link rel="alternate" type="application/rss+xml" title="Fatih Serdar Çakmak · Writeups" href={`${site}/rss.xml`} />
 
     <!-- Icons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -181,9 +181,9 @@ const cfBeaconToken = import.meta.env.PUBLIC_CF_WEB_ANALYTICS_TOKEN;
       />
     )}
   </head>
-  <body>
+  <body class={Astro.url.pathname.includes("/terminal") ? "terminal-body" : "cv-body"}>
     <a href="#main" class="skip-link">{t(locale, 'site.skip_to_content')}</a>
-    {!hideHeaderControls && <HeaderControls locale={locale} />}
+    {!hideHeaderControls && <HeaderControls locale={locale} showLanguage={Boolean(alternates)} />}
     <main id="main">
       <slot />
     </main>

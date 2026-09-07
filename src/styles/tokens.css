@@ -1,12 +1,12 @@
 /* ============================================================
-   fscakmak.com — Design Tokens
+   fscakmak.com · Design Tokens
    Single source of truth for palette, spacing, type, motion.
    Themes override these via [data-theme="..."] selectors.
    ============================================================ */
 
 :root,
 [data-theme="tokyonight"] {
-  /* Palette — restrained near-black/near-white with single cyan accent */
+  /* Palette · restrained near-black/near-white with single cyan accent */
   --bg: #0d0d0d;
   --tbg: #111111;
   --tbar: #171717;
@@ -21,7 +21,7 @@
   --brd: #27272a;
   --acc: #22d3ee;
 
-  /* Semantic aliases — use these in components, not raw palette */
+  /* Semantic aliases · use these in components, not raw palette */
   --color-bg: var(--bg);
   --color-surface: var(--tbg);
   --color-surface-raised: var(--tbar);
@@ -45,7 +45,7 @@
   --text-md: 0.86rem;
   --text-lg: 1rem;
   --text-xl: 1.5rem;
-  /* Recruiter heading scale — 3-4× body text ratio */
+  /* Recruiter heading scale · 3-4× body text ratio */
   --text-h1: clamp(2.8rem, 6vw, 4rem);
   --text-h2: clamp(1.4rem, 3vw, 1.8rem);
   --leading-tight: 1.15;
@@ -67,23 +67,23 @@
   --radius-lg: 12px;
   --radius-pill: 20px;
 
-  /* Motion — fast: hover/border changes (100ms), base: state reveals (150ms) */
+  /* Motion · fast: hover/border changes (100ms), base: state reveals (150ms) */
   --transition-fast: 0.1s ease-out;
   --transition-base: 0.15s ease-out;
   --transition-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 
-  /* Shadows — no ambient glow; depth through opacity only */
+  /* Shadows · no ambient glow; depth through opacity only */
   --shadow-window: 0 0 0 1px rgba(255, 255, 255, 0.04), 0 24px 64px rgba(0, 0, 0, 0.7);
   --glow-accent: none;
 }
 
-/* Theme: Cyberpunk — magenta/cyan */
+/* Theme: Cyberpunk · magenta/cyan */
 [data-theme="cyberpunk"] {
   --bg: #0d0221;
   --tbg: #1a0b2e;
   --tbar: #261447;
   --tx: #f0e9ff;
-  --dim: #6b528a;
+  --dim: #aa91c7;
   --grn: #00ff9f;
   --cyan: #00d9ff;
   --mag: #ff2e97;
@@ -94,13 +94,13 @@
   --acc: #ff2e97;
 }
 
-/* Theme: Matrix — pure green-on-black */
+/* Theme: Matrix · pure green-on-black */
 [data-theme="matrix"] {
   --bg: #000000;
   --tbg: #050a05;
   --tbar: #0a1410;
   --tx: #00ff41;
-  --dim: #1d4d2c;
+  --dim: #71a67e;
   --grn: #00ff41;
   --cyan: #39ff14;
   --mag: #88ff88;
@@ -117,7 +117,7 @@
   --tbg: #181825;
   --tbar: #11111b;
   --tx: #cdd6f4;
-  --dim: #6c7086;
+  --dim: #959bb4;
   --grn: #a6e3a1;
   --cyan: #89dceb;
   --mag: #cba6f7;

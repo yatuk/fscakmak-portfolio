@@ -1,489 +1,78 @@
 ---
 import { getProfile } from '@lib/profile';
-import manropeLatin400 from '@fontsource/manrope/files/manrope-latin-400-normal.woff2?url';
-import { githubSlug } from '@lib/github';
 import { t } from '@core/i18n';
 import type { Locale } from '@ptypes/profile';
+import LanguageToggle from './LanguageToggle.astro';
 import writeups from '@data/writeups.json';
 import '@styles/fonts-body.css';
 import '@styles/recruiter.css';
-
-export interface Props {
-  locale: Locale;
-}
-
+export interface Props { locale: Locale }
 const { locale } = Astro.props;
-const profile = getProfile(locale);
-const { identity, about, skills, experience, education, projects, certifications } = profile;
-
-const SOC_START = new Date('2025-07-01T00:00:00Z');
-const now = new Date();
-const monthsInSoc = Math.max(
-  0,
-  (now.getUTCFullYear() - SOC_START.getUTCFullYear()) * 12 +
-    (now.getUTCMonth() - SOC_START.getUTCMonth())
-);
-const featured = projects.filter((p) => p.featured);
-
-const present = t(locale, 'cmd.experience.present');
-const partTime = t(locale, 'cmd.experience.part_time');
-const expected = t(locale, 'cmd.education.expected');
-
-const localePrefix = locale === 'tr' ? '/tr' : '';
-const terminalHref = localePrefix || '/';
-
-/* ── Header computed values ─────────────────────────────── */
-const nameParts = identity.name.split(' ');
-const firstName = nameParts[0];
-const restName = nameParts.slice(1).join(' ');
-const parenMatch = identity.role.match(/\(([^)]+)\)/);
-const shortRole = parenMatch ? `${parenMatch[1]} Intern` : identity.role;
-
-/* University abbreviation: İTÜ → ITU, degree → CS, year → '27 */
-const edu0 = education[0];
-const uniShort = edu0.school.includes('İTÜ') ? 'ITU' : edu0.school.substring(0, 3).toUpperCase();
-const degreeAbbr = edu0.degree.toLowerCase().includes('computer') ? 'CS' : '';
-const gradYear = edu0.end ? `'${edu0.end.slice(2)}` : '';
+const tr = locale === 'tr';
+const prefix = tr ? '/tr' : '';
+const { identity, about, skills, experience, education, projects, certifications } = getProfile(locale);
+const short = (name: string) => name.split(' · ')[0].split(' · ')[0].split(':')[0];
 ---
-
-<link rel="preload" as="font" type="font/woff2" crossorigin href={manropeLatin400} />
-
-<div class="cv-sticky-bar" data-cv-sticky aria-hidden="true">
-  <span class="cv-sticky-name">{identity.name}</span>
-  <div class="cv-sticky-links">
-    <a href={`mailto:${identity.email}`}>email</a>
-    <a href={`https://linkedin.com/in/${identity.social.linkedin}`} target="_blank" rel="noopener noreferrer">linkedin</a>
-    <a href={`https://github.com/${identity.social.github}`} target="_blank" rel="noopener noreferrer">github</a>
-  </div>
+<div class="portfolio">
+  <nav class="portfolio-nav" aria-label={tr ? 'Ana menü' : 'Main navigation'}>
+    <a class="wordmark" href={prefix || '/'} aria-label={identity.name}>fsc<span>.</span></a>
+    <div class="nav-sections">
+      <a href="#work">{tr ? 'Projeler' : 'Work'}</a>
+      <a href="#experience">{tr ? 'Deneyim' : 'Experience'}</a>
+      <a href={`${prefix}/writeups`}>{tr ? 'Yazılar' : 'Writing'}</a>
+    </div>
+    <div class="nav-tools"><LanguageToggle locale={locale} /><a class="terminal-link" href={`${prefix}/terminal`}><span aria-hidden="true">&gt;_</span> Terminal</a></div>
+  </nav>
+  <article class="cv-root" id="cv">
+    <header class="profile-hero">
+      <div class="hero-main">
+        <h1>Fatih Serdar<br /><span>Çakmak.</span></h1>
+        <p class="hero-statement">{tr ? 'Gündüz mavi takım.' : 'Blue team by day.'}<br />{tr ? 'Gece daha güvenli AI.' : 'Safer AI by night.'}</p>
+        <p class="hero-intro">{tr ? 'Fibabanka’da SOC analist stajyeri. İTÜ’de bilgisayar mühendisliği öğrencisi. Tehditleri araştırıyor, güvenlik araçları geliştiriyorum.' : 'SOC analyst intern at Fibabanka. Computer Engineering student at ITU. Investigating threats and building tools to keep systems safe.'}</p>
+        <div class="hero-actions"><a class="button primary" href="#work">{tr ? 'Projeleri keşfet' : 'Explore my work'} <span aria-hidden="true">↗</span></a><a class="text-link" href="/resume.pdf" download>{tr ? 'CV indir' : 'Download CV'} <span aria-hidden="true">↓</span></a></div>
+      </div>
+      <aside class="hero-aside" aria-label={tr ? 'Çalışma alanları' : 'Areas of work'}>
+        <div class="security-map" aria-hidden="true">
+          <svg viewBox="0 0 400 320" fill="none"><path class="map-grid" d="M0 80H400M0 160H400M0 240H400M80 0V320M160 0V320M240 0V320M320 0V320"/><path class="map-path" d="M20 160H125L170 115H235L280 160H380M200 20V90M200 230V300M70 60L120 110M280 210L330 260"/><path class="shield" d="M200 68L270 94V155C270 206 200 246 200 246S130 206 130 155V94Z"/><path class="shield-inner" d="M200 92L247 110V155C247 187 200 220 200 220S153 187 153 155V110Z"/><path class="shield-check" d="M178 155L194 171L225 136"/><g class="map-nodes"><circle cx="20" cy="160" r="4"/><circle cx="380" cy="160" r="4"/><circle cx="200" cy="20" r="4"/><circle cx="200" cy="300" r="4"/><circle cx="70" cy="60" r="4"/><circle cx="330" cy="260" r="4"/></g></svg>
+          <span class="map-label map-label-top">DETECT / INVESTIGATE</span><span class="map-label map-label-bottom">BUILD / DEFEND</span>
+        </div>
+        <div class="aside-line"><span class="status-dot" aria-hidden="true"></span><span>{identity.current}</span></div>
+        <div class="aside-bottom"><span>{identity.location}</span><a href={`https://github.com/${identity.social.github}`} target="_blank" rel="noopener noreferrer">GitHub ↗</a></div>
+      </aside>
+    </header>
+    <div class="focus-strip"><span>SOC & INCIDENT RESPONSE</span><span>AI / LLM SECURITY</span><span>OPEN-SOURCE TOOLING</span></div>
+    <section id="work" class="work-section">
+      <div class="section-heading"><h2>{tr ? 'Üzerinde çalıştıklarım' : 'Built to defend.'}</h2><span>{tr ? 'Güvenlik, kodla buluşuyor.' : 'Security thinking, working code.'}</span></div>
+      <div class="featured-work">{projects.slice(0,2).map((p,i) => <article class={`work-feature work-feature-${i}`}>
+        <div class="project-art" aria-label={tr ? 'Proje mimarisi' : 'Project architecture'}>
+          <span class="art-caption">{i === 0 ? 'LLM SECURITY PROXY' : 'MCP SECURITY SCANNER'}</span>
+          {i === 0 ? <div class="proxy-diagram"><span>request</span><span class="diagram-line" aria-hidden="true"></span><strong>TAMGA</strong><span class="diagram-line" aria-hidden="true"></span><span>LLM</span></div> : <div class="radar-diagram"><code>tools/list</code><div><span>SCHEMA</span><span>PAYLOAD</span><span>PERMISSIONS</span></div><code>mcpradar scan</code></div>}
+          <span class="art-foot">{i === 0 ? 'PII REDACTION / INJECTION DEFENSE' : 'INSPECT / DETECT / REPORT'}</span>
+        </div>
+        <div class="project-details"><div class="project-title-row"><h3><a href={p.url} target="_blank" rel="noopener noreferrer">{short(p.name)} <span aria-hidden="true">↗</span></a></h3><span class="project-kind">{tr ? 'Açık kaynak' : 'Open source'}</span></div><p>{p.summary}</p><div class="project-tags">{p.tags.map(tag => <span>{tag}</span>)}</div></div>
+      </article>)}</div>
+      <div class="more-work">{projects.slice(2).map(p => <article class="project-row"><h3>{p.url ? <a href={p.url} target="_blank" rel="noopener noreferrer">{short(p.name)} ↗</a> : short(p.name)}</h3><div><p>{p.summary}</p><div class="project-tags">{p.tags.map(tag => <span>{tag}</span>)}</div>{p.demo_url && <a class="text-link" href={p.demo_url} target="_blank" rel="noopener noreferrer">{tr ? 'Demoyu aç' : 'Open demo'} ↗</a>}{p.owner_note && <small>{p.owner_note}</small>}</div></article>)}</div>
+    </section>
+    <section id="experience" class="experience-section">
+      <div class="section-heading"><h2>{tr ? 'Sahada.' : 'In the field.'}</h2><span>{tr ? 'Güvenlik operasyonlarında deneyim' : 'Hands-on security operations'}</span></div>
+      {experience.map(e => <article class="experience-row"><div class="experience-when"><span>{e.start} / {e.end ?? t(locale,'cmd.experience.present')}</span>{e.active && <span class="current-label">{tr ? 'Şu anda' : 'Current'}</span>}</div><div><h3>{e.company}</h3><p class="experience-role">{e.title}{e.part_time ? ` · ${t(locale,'cmd.experience.part_time')}` : ''}</p><ul>{e.highlights.map(h => <li>{h}</li>)}</ul></div></article>)}
+    </section>
+    <section class="about-section" id="about"><div><h2>{tr ? 'Merakla başlayan.' : 'Curiosity, applied.'}</h2><p class="about-copy">{about}</p><div class="education-list">{education.map(e => <div><h3>{e.school}</h3><p>{e.degree} · {e.start} / {e.end}{e.expected ? ` (${t(locale,'cmd.education.expected')})` : ''}</p></div>)}</div></div><div class="skills-column"><h3>{tr ? 'Araçlar ve uzmanlık' : 'Tools & disciplines'}</h3>{(['cybersecurity','ai_security','infrastructure','compliance','tools'] as const).map(group => <div class="skill-group"><h4>{t(locale,`skill_groups.${group}`)}</h4><p>{skills[group].join(' · ')}</p></div>)}<div class="spoken-languages">{skills.spoken_languages.map(l => <span>{l.name} / {l.level}</span>)}</div></div></section>
+    <section class="credentials-section"><h2>{t(locale,'sections.certifications')}</h2><div class="credentials">{certifications.map(c => <div><h3>{c.name}</h3>{c.full_name && <p>{c.full_name}</p>}<span>{c.issuer}{c.date ? ` · ${c.date}` : ''}</span></div>)}</div></section>
+    <section class="writing-section"><div class="section-heading"><h2>{tr ? 'Saha notları.' : 'Field notes.'}</h2><a class="text-link" href={`${prefix}/writeups`}>{tr ? 'Tüm yazılar' : 'All writing'} ↗</a></div>{writeups.map(w => <a class="writing-row" href={w.path || w.url} target={w.path ? undefined : '_blank'} rel={w.path ? undefined : 'noopener noreferrer'}><time>{w.date}</time><h3>{w.title}</h3><span aria-hidden="true">↗</span></a>)}</section>
+    <section class="contact-section" id="contact"><h2>{tr ? 'İletişime geçelim.' : 'Let’s talk security.'}</h2><a class="contact-email" href={`mailto:${identity.email}`}>{identity.email} <span aria-hidden="true">↗</span></a><div class="contact-links"><a href={`https://linkedin.com/in/${identity.social.linkedin}`} target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><a href={`https://github.com/${identity.social.github}`} target="_blank" rel="noopener noreferrer">GitHub ↗</a><button data-copy-email={identity.email} data-success={tr ? 'Kopyalandı' : 'Copied'} data-error={tr ? 'Kopyalanamadı. E-posta bağlantısını kullan.' : 'Could not copy. Use the email link.'}>{tr ? 'E-postayı kopyala' : 'Copy email'}</button><span class="copy-status" role="status"></span></div></section>
+    <footer class="portfolio-footer"><span>© {new Date().getFullYear()} {identity.name}</span><a href={`${prefix}/terminal`}>{tr ? 'Komut satırından bak' : 'Take the command line'} <span aria-hidden="true">&gt;_</span></a><a href="#cv">{tr ? 'Yukarı' : 'Back to top'} ↑</a></footer>
+  </article>
 </div>
-
-<article class="cv-root" id="cv">
-
-  <!-- ── HERO ──────────────────────────────────────────────── -->
-  <header class="cv-hero">
-    <div class="cv-hero-left">
-      <div class="cv-hero-label">[ ANALYST PROFILE ]</div>
-      <h1 class="cv-hero-name">
-        <span class="cv-hero-name-accent">{firstName}</span> {restName}
-      </h1>
-      <p class="cv-hero-meta-line">
-        {shortRole} @ {experience[0]?.company ?? 'Fibabanka'}
-        <span class="cv-hero-sep" aria-hidden="true">|</span>
-        {uniShort} {degreeAbbr} {gradYear}
-        <span class="cv-hero-sep" aria-hidden="true">|</span>
-        {identity.location}
-      </p>
-      {identity.tagline && (
-        <p class="cv-hero-tagline">&gt; {identity.tagline}</p>
-      )}
-      <blockquote class="cv-hero-pitch">{identity.current}</blockquote>
-      <div class="cv-cta-row">
-        <a class="cv-cta cv-cta-primary" href={`mailto:${identity.email}`}>
-          {t(locale, 'recruiter.cta_email')}
-        </a>
-        <a
-          class="cv-cta"
-          href={`https://linkedin.com/in/${identity.social.linkedin}`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {t(locale, 'recruiter.cta_linkedin')}
-        </a>
-        <a
-          class="cv-cta"
-          href={`https://github.com/${identity.social.github}`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {t(locale, 'recruiter.cta_github')}
-        </a>
-        <a class="cv-cta" href="/resume.pdf" download>
-          {t(locale, 'recruiter.cta_download_cv')}
-        </a>
-      </div>
-    </div>
-    <div class="cv-hero-right">
-      <div class="cv-status-panel">
-        <div class="cv-status-header">CURRENT STATUS</div>
-        <div class="cv-status-rows">
-          <div class="cv-status-row">
-            <span class="cv-status-key">ROLE</span>
-            <span class="cv-status-val">SOC Analyst Intern</span>
-          </div>
-          <div class="cv-status-row">
-            <span class="cv-status-key">ENV</span>
-            <span class="cv-status-val">Banking / BDDK</span>
-          </div>
-          <div class="cv-status-row">
-            <span class="cv-status-key">STACK</span>
-            <span class="cv-status-val">SIEM · EDR · SOAR</span>
-          </div>
-          <div class="cv-status-row">
-            <span class="cv-status-key">STATUS</span>
-            <span class="cv-status-val"><span class="cv-status-dot" aria-hidden="true">●</span> ACTIVE</span>
-          </div>
-          <div class="cv-status-row" data-gh-lastpush-row hidden>
-            <span class="cv-status-key">LAST PUSH</span>
-            <span class="cv-status-val" data-gh-lastpush={identity.social.github} hidden></span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- ── METRICS ────────────────────────────────────────────── -->
-  <section class="cv-metrics-bar" aria-label="metrics">
-    <div class="cv-metric-item">
-      <span class="cv-metric-value">{monthsInSoc} mo</span>
-      <span class="cv-metric-label">SOC</span>
-    </div>
-    <div class="cv-metric-divider" aria-hidden="true"></div>
-    <div class="cv-metric-item">
-      <span class="cv-metric-value">{featured.length}</span>
-      <span class="cv-metric-label">{t(locale, 'recruiter.metrics_projects_singular')}</span>
-    </div>
-    <div class="cv-metric-divider" aria-hidden="true"></div>
-    <div class="cv-metric-item">
-      <span class="cv-metric-value">{certifications.length}</span>
-      <span class="cv-metric-label">{t(locale, 'recruiter.metrics_certs_singular')}</span>
-    </div>
-    <div class="cv-metric-divider" aria-hidden="true"></div>
-    <div class="cv-metric-item cv-metric-badge">
-      <span class="cv-metric-badge-tag">[ BDDK REGULATED ]</span>
-    </div>
-  </section>
-
-  <!-- ── EXPERIENCE (full width) ───────────────────────────── -->
-  <section class="cv-card">
-    <h2 class="cv-card-title">{t(locale, 'sections.experience')}</h2>
-    <div class="cv-exp-list">
-      {experience.map((e) => (
-        <div class={`cv-exp${e.active ? ' cv-exp-active' : ''}`}>
-          <div class="cv-exp-meta">
-            {e.active && (
-              <span class="cv-exp-pill cv-exp-pill-active">● {t(locale, 'cmd.experience.active')}</span>
-            )}
-            {e.part_time && (
-              <span class="cv-exp-pill cv-exp-pill-pt">{partTime}</span>
-            )}
-            <span class="cv-exp-date">{e.start} – {e.end ?? present}</span>
-          </div>
-          <div class="cv-exp-title">
-            {e.title} <span class="at">@</span> <span class="cv-exp-company">{e.company}</span>
-          </div>
-          <div class="cv-exp-location">{e.location}</div>
-          <ul class="cv-exp-bullets">
-            {e.highlights.map((h) => <li>{h}</li>)}
-          </ul>
-        </div>
-      ))}
-    </div>
-  </section>
-
-  <!-- ── WRITEUPS ────────────────────────────────────────────── -->
-  <section class="cv-card">
-    <h2 class="cv-card-title">{t(locale, 'sections.writeups')}</h2>
-    <div class="cv-writeups">
-      {writeups.map((w) => (
-        <article class="cv-writeup">
-          <span class="cv-writeup-date">{w.date}</span>
-          {w.path ? (
-            <a class="cv-writeup-title" href={w.path}>{w.title} →</a>
-          ) : (
-            <a
-              class="cv-writeup-title"
-              href={w.url}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {w.title} ↗
-            </a>
-          )}
-          <div class="cv-writeup-tags">
-            {w.tags.map((tg) => <span class="cv-writeup-tag">{tg}</span>)}
-          </div>
-        </article>
-      ))}
-    </div>
-    <a class="cv-writeup-more" href={`${localePrefix}/writeups`}>
-      {locale === 'tr' ? 'Tüm yazılar →' : 'All writeups →'}
-    </a>
-  </section>
-
-  <!-- ── ABOUT + SKILLS ─────────────────────────────────────── -->
-  <section class="cv-row">
-    <div class="cv-card">
-      <h2 class="cv-card-title">{t(locale, 'sections.about')}</h2>
-      <p class="cv-about-text">{about}</p>
-    </div>
-    <div class="cv-card">
-      <h2 class="cv-card-title">{t(locale, 'sections.skills')}</h2>
-      <div class="cv-skill-group">
-        <div class="cv-skill-label">{t(locale, 'skill_groups.cybersecurity')}</div>
-        <div class="cv-skill-chips">
-          {skills.cybersecurity.map((s) => <span class="cv-chip cv-chip-emph">{s}</span>)}
-        </div>
-      </div>
-      <div class="cv-skill-group">
-        <div class="cv-skill-label">{t(locale, 'skill_groups.ai_security')}</div>
-        <div class="cv-skill-chips">
-          {skills.ai_security.map((s) => <span class="cv-chip cv-chip-emph">{s}</span>)}
-        </div>
-      </div>
-      <div class="cv-skill-group">
-        <div class="cv-skill-label">{t(locale, 'skill_groups.infrastructure')}</div>
-        <div class="cv-skill-chips">
-          {skills.infrastructure.map((s) => <span class="cv-chip">{s}</span>)}
-        </div>
-      </div>
-      <div class="cv-skill-group">
-        <div class="cv-skill-label">{t(locale, 'skill_groups.compliance')}</div>
-        <div class="cv-skill-chips">
-          {skills.compliance.map((s) => <span class="cv-chip">{s}</span>)}
-        </div>
-      </div>
-      <div class="cv-skill-group">
-        <div class="cv-skill-label">{t(locale, 'skill_groups.tools')}</div>
-        <div class="cv-skill-chips">
-          {skills.tools.map((s) => <span class="cv-chip">{s}</span>)}
-        </div>
-      </div>
-      <div class="cv-spoken">
-        {skills.spoken_languages.map((l) => (
-          <div class="cv-spoken-row">
-            <span class="cv-spoken-name">{l.name}</span>
-            <span class="cv-spoken-level">{l.level}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- ── FEATURED PROJECTS ──────────────────────────────────── -->
-  <section class="cv-card">
-    <h2 class="cv-card-title">{t(locale, 'recruiter.section_featured')}</h2>
-    <div class="cv-projects">
-      {featured.map((p) => (
-        <article class="cv-project">
-          <div class="cv-project-meta">
-            {p.status === 'active' && (
-              <span class="cv-project-status cv-project-status-active">
-                <span class="cv-status-dot" aria-hidden="true">●</span> {t(locale, 'project.status_active')}
-              </span>
-            )}
-            {p.status === 'complete' && (
-              <span class="cv-project-status cv-project-status-complete">
-                {t(locale, 'project.status_complete')}
-              </span>
-            )}
-            {p.is_private && (
-              <span class="cv-project-pill cv-project-pill-private">
-                {t(locale, 'project.private_repo')}
-              </span>
-            )}
-            <span class={`cv-project-pill cv-project-pill-${p.owner_type}`}>
-              {p.owner_type === 'team'
-                ? t(locale, 'project.owner_team')
-                : t(locale, 'project.owner_personal')}
-            </span>
-            {githubSlug(p.url) && (
-              <span class="cv-project-stars" data-gh-stars={githubSlug(p.url)} hidden></span>
-            )}
-            {githubSlug(p.url) && (
-              <span class="cv-project-updated" data-gh-updated={githubSlug(p.url)} hidden></span>
-            )}
-          </div>
-          <div class="cv-project-head">
-            {p.url ? (
-              <a
-                class="cv-project-name"
-                href={p.url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {p.name} ↗
-              </a>
-            ) : (
-              <span class="cv-project-name cv-project-name-plain">{p.name}</span>
-            )}
-          </div>
-          <div class="cv-project-tags">
-            {p.tags.map((tg) => <span class="cv-project-tag">{tg}</span>)}
-          </div>
-          <p class="cv-project-summary">{p.summary}</p>
-          <div class="cv-project-foot">
-            {p.demo_url && (
-              <a
-                class="cv-project-demo"
-                href={p.demo_url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {t(locale, 'project.demo_link')} →
-              </a>
-            )}
-            {p.owner_note && <div class="cv-project-note">{p.owner_note}</div>}
-          </div>
-        </article>
-      ))}
-    </div>
-  </section>
-
-  <!-- ── EDUCATION + CERTIFICATIONS ────────────────────────── -->
-  <section class="cv-row">
-    <div class="cv-card">
-      <h2 class="cv-card-title">{t(locale, 'sections.education')}</h2>
-      <div class="cv-edu-list">
-        {education.map((edu) => (
-          <div>
-            <div class="cv-edu-degree">{edu.degree}</div>
-            <div class="cv-edu-school">{edu.school}</div>
-            <div class="cv-edu-date">
-              {edu.start} – {edu.end}{edu.expected ? ` (${expected})` : ''}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-    <div class="cv-card">
-      <h2 class="cv-card-title">{t(locale, 'sections.certifications')}</h2>
-      <div class="cv-certs">
-        {certifications.map((c) => (
-          <div class="cv-cert">
-            <div class="cv-cert-badge" aria-hidden="true">✓</div>
-            <div>
-              <div class="cv-cert-name">{c.name}</div>
-              {c.full_name && <div class="cv-cert-full">{c.full_name}</div>}
-              <div class="cv-cert-issuer">{c.issuer}{c.date ? ` · ${c.date}` : ''}</div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- ── CONTACT ────────────────────────────────────────────── -->
-  <section class="cv-card cv-contact">
-    <h2 class="cv-contact-title">{t(locale, 'recruiter.section_contact')}</h2>
-    <div class="cv-contact-row">
-      <a class="cv-cta cv-cta-primary" href={`mailto:${identity.email}`}>
-        {identity.email}
-      </a>
-      <button
-        type="button"
-        class="cv-cta cv-cta-copy"
-        data-copy-email={identity.email}
-        data-copied-label={t(locale, 'recruiter.copied')}
-      >
-        {t(locale, 'recruiter.copy_email')}
-      </button>
-      <a
-        class="cv-cta"
-        href={`https://linkedin.com/in/${identity.social.linkedin}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        linkedin.com/in/{identity.social.linkedin}
-      </a>
-      <a
-        class="cv-cta"
-        href={`https://github.com/${identity.social.github}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        github.com/{identity.social.github}
-      </a>
-    </div>
-  </section>
-
-  <!-- ── Mobile: force-terminal escape hatch ───────────────── -->
-  <p class="cv-force-terminal">
-    <a href={terminalHref} data-force-terminal>
-      &gt;_ {t(locale, 'recruiter.force_terminal_label')}
-    </a>
-    <br />
-    <span style="opacity:.7">{t(locale, 'recruiter.force_terminal_hint')}</span>
-  </p>
-
-  <footer class="cv-footer">{t(locale, 'recruiter.footer_note')}</footer>
-</article>
-
 <script>
-  import { hydrateGithubMeta } from '@lib/github';
-  void hydrateGithubMeta();
-</script>
-
-<script is:inline>
   document.body.classList.add('cv-body');
-
-  document.querySelectorAll('[data-copy-email]').forEach((btn) => {
-    const original = btn.textContent;
-    btn.addEventListener('click', async () => {
-      const email = btn.getAttribute('data-copy-email');
-      let copied = false;
+  document.querySelectorAll<HTMLButtonElement>('[data-copy-email]').forEach(button => {
+    button.addEventListener('click', async () => {
+      const status = document.querySelector('.copy-status');
       try {
-        await navigator.clipboard.writeText(email);
-        copied = true;
-      } catch {
-        /* Clipboard API blocked — legacy fallback */
-        const ta = document.createElement('textarea');
-        ta.value = email;
-        ta.style.position = 'fixed';
-        ta.style.opacity = '0';
-        document.body.appendChild(ta);
-        ta.select();
-        try { copied = document.execCommand('copy'); } catch { /* give up */ }
-        ta.remove();
-      }
-      if (!copied) return;
-      btn.textContent = btn.getAttribute('data-copied-label');
-      btn.classList.add('cv-cta-copied');
-      setTimeout(() => {
-        btn.textContent = original;
-        btn.classList.remove('cv-cta-copied');
-      }, 2000);
+        await navigator.clipboard.writeText(button.dataset.copyEmail ?? '');
+        if(status) status.textContent = button.dataset.success ?? 'Copied';
+      } catch { if(status) status.textContent = button.dataset.error ?? 'Could not copy'; }
     });
   });
-  const force = document.querySelector('[data-force-terminal]');
-  if (force) {
-    force.addEventListener('click', () => {
-      try { localStorage.setItem('fsc.view', 'terminal'); } catch {}
-    });
-  }
-
-  /* Scroll-reveal — classes added from JS so content stays visible
-     without it; skipped entirely under prefers-reduced-motion. */
-  if (
-    !window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
-    'IntersectionObserver' in window
-  ) {
-    const revealIo = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('cv-revealed');
-            revealIo.unobserve(entry.target);
-          }
-        }
-      },
-      { rootMargin: '0px 0px -40px 0px', threshold: 0.05 }
-    );
-    document.querySelectorAll('.cv-root > section').forEach((s) => {
-      s.classList.add('cv-reveal');
-      revealIo.observe(s);
-    });
-  }
-
-  const stickyBar = document.querySelector('[data-cv-sticky]');
-  const hero = document.querySelector('.cv-hero');
-  if (stickyBar && hero) {
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        stickyBar.classList.toggle('cv-sticky-bar-visible', !entry.isIntersecting);
-        stickyBar.setAttribute('aria-hidden', entry.isIntersecting ? 'true' : 'false');
-      },
-      { threshold: 0, rootMargin: '-72px 0px 0px 0px' }
-    );
-    obs.observe(hero);
-  }
 </script>

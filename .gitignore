@@ -41,3 +41,6 @@ desktop.ini
 
 # Claude Code local config
 .claude/
+
+# Local visual review captures
+.impeccable/review/

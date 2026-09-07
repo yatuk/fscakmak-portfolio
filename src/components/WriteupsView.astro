@@ -32,7 +32,7 @@ const isExternal = (w: Writeup) => !w.path;
 const blogSchema = {
   '@context': 'https://schema.org',
   '@type': 'Blog',
-  name: locale === 'tr' ? 'Fatih Serdar Çakmak — Yazılar' : 'Fatih Serdar Çakmak — Writeups',
+  name: locale === 'tr' ? 'Fatih Serdar Çakmak · Yazılar' : 'Fatih Serdar Çakmak · Writeups',
   url: `${site}${localePrefix}/writeups`,
   inLanguage: locale,
   author: {
@@ -68,7 +68,7 @@ const blogSchema = {
           : 'Notes on detection engineering, malware analysis, and web security.'}
       </p>
       <div class="cv-cta-row">
-        <a class="cv-cta" href={localePrefix || '/'}>
+        <a class="cv-cta" href={`${localePrefix}/terminal`}>
           {locale === 'tr' ? 'Terminal' : 'Terminal'}
         </a>
         <a class="cv-cta" href={`${localePrefix}/cv`}>CV</a>

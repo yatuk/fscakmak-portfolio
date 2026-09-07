@@ -58,7 +58,7 @@ export type CommandHandler = (
 
 /**
  * Command name → handler. Names are intentionally English
- * (whoami, ls, etc.) — universal terminal vocabulary. Per the
+ * (whoami, ls, etc.) · universal terminal vocabulary. Per the
  * v2 spec: command names stay English; outputs render per locale.
  *
  * Easter eggs are merged in from `easter-eggs.ts` so tab-autocomplete

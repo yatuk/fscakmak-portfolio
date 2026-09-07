@@ -13,7 +13,7 @@ interface GithubUser {
   name?: string;
 }
 
-/** Safe subset for localStorage — no free-text fields. */
+/** Safe subset for localStorage · no free-text fields. */
 interface CachedUser {
   login: string;
   public_repos: number;
@@ -118,7 +118,7 @@ const statsHandler: CommandHandler = ({ profile }) => {
           if (placeholder) {
             placeholder.outerHTML = `<div class="cmd-block t-err">
               stats: could not reach GitHub API for @${escapeHtml(username)}.<br>
-              <span class="t-dim">Try again later — rate limits happen.</span>
+              <span class="t-dim">Try again later · rate limits happen.</span>
             </div>`;
           }
         });

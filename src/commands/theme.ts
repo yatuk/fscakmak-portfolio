@@ -22,7 +22,7 @@ function applyTheme(name: ThemeName): void {
   try {
     localStorage.setItem(THEME_STORAGE_KEY, name);
   } catch {
-    /* private mode — no-op */
+    /* private mode · no-op */
   }
   window.setTimeout(() => html.classList.remove('theme-switching'), 300);
 }

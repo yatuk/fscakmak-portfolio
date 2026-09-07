@@ -2,7 +2,7 @@ import type { CommandHandler } from './index';
 import { escapeHtml } from '@lib/sanitize';
 
 /**
- * `git log` — combined timeline of experience + education,
+ * `git log` · combined timeline of experience + education,
  * oldest at bottom (newest commit first, like a real git log).
  */
 export const gitLog: CommandHandler = ({ profile, t }) => {
@@ -20,14 +20,14 @@ export const gitLog: CommandHandler = ({ profile, t }) => {
   const items: Item[] = [
     ...profile.experience.map((e) => ({
       sortKey: e.end ?? '9999-12',
-      range: `${escapeHtml(e.start)} — ${escapeHtml(e.end ?? present)}`,
+      range: `${escapeHtml(e.start)} · ${escapeHtml(e.end ?? present)}`,
       title: escapeHtml(e.title),
-      org: `@ ${escapeHtml(e.company)} — ${escapeHtml(e.location)}`,
+      org: `@ ${escapeHtml(e.company)} · ${escapeHtml(e.location)}`,
       detail: escapeHtml(e.highlights[0] ?? ''),
     })),
     ...profile.education.map((edu) => ({
       sortKey: edu.end,
-      range: `${escapeHtml(edu.start)} — ${escapeHtml(edu.end)}${edu.expected ? ` (${escapeHtml(expected)})` : ''}`,
+      range: `${escapeHtml(edu.start)} · ${escapeHtml(edu.end)}${edu.expected ? ` (${escapeHtml(expected)})` : ''}`,
       title: escapeHtml(edu.degree),
       org: `@ ${escapeHtml(edu.school)}`,
       detail: '',

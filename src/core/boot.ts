@@ -1,7 +1,7 @@
 import type { Profile } from '@ptypes/profile';
 
 /**
- * Boot coordination — after the boot overlay is dismissed, types
+ * Boot coordination · after the boot overlay is dismissed, types
  * "whoami" character-by-character into the terminal and submits it.
  */
 

@@ -9,7 +9,7 @@ export const education: CommandHandler = ({ profile, t }) => {
       (e, idx) => `
     <div class="tl-item${idx === 0 ? ' tl-item-head' : ''}">
       <div class="tl-dot"></div>
-      <div class="tl-date">${escapeHtml(e.start)} — ${escapeHtml(e.end)}${e.expected ? ` (${escapeHtml(expected)})` : ''}</div>
+      <div class="tl-date">${escapeHtml(e.start)} · ${escapeHtml(e.end)}${e.expected ? ` (${escapeHtml(expected)})` : ''}</div>
       <div class="tl-title">${escapeHtml(e.degree)}</div>
       <div class="tl-org">@ ${escapeHtml(e.school)}</div>
     </div>`

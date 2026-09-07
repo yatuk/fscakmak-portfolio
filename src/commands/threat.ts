@@ -12,7 +12,7 @@ interface ThreatActor {
   region:   string;
 }
 
-/* Static CTI brief — actors relevant to banking/finance/OT sector.
+/* Static CTI brief · actors relevant to banking/finance/OT sector.
    Anchored to real, publicly documented threat groups. */
 const ACTORS: ThreatActor[] = [
   {
@@ -50,7 +50,7 @@ const ACTORS: ThreatActor[] = [
     alias:    'Voodoo Bear',
     origin:   'Russia (GRU)',
     targets:  'Energy · OT Infrastructure',
-    campaign: 'ICS/SCADA targeting — destructive wiper deployment',
+    campaign: 'ICS/SCADA targeting · destructive wiper deployment',
     ttps:     ['T0828', 'T0816', 'T1561'],
     severity: 'HIGH',
     region:   'EU (especially TR-adjacent)',
@@ -82,7 +82,7 @@ function actorCard(a: ThreatActor): string {
 export const threat: CommandHandler = () => `
 <div class="cmd-block">
   <div class="cmd-title">Threat Intelligence Brief</div>
-  <div class="cmd-help-hint" style="margin-bottom:10px">Active threat actors relevant to banking / financial sector — Q2 2026.</div>
+  <div class="cmd-help-hint" style="margin-bottom:10px">Active threat actors relevant to banking / financial sector · Q2 2026.</div>
   <div class="threat-grid">${ACTORS.map(actorCard).join('')}</div>
   <div class="cmd-help-hint">Sources: CISA · MITRE ATT&CK · Recorded Future · ENISA ETL 2025.</div>
 </div>`;

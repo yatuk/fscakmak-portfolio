@@ -11,7 +11,7 @@ const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
 const isRecruiter = path === '/cv' || path === '/tr/cv';
 
 const localePrefix = locale === 'tr' ? '/tr' : '';
-const href = isRecruiter ? (localePrefix || '/') : `${localePrefix}/cv`;
+const href = isRecruiter ? `${localePrefix}/terminal` : `${localePrefix}/cv`;
 const label = isRecruiter
   ? t(locale, 'view.terminal_label')
   : t(locale, 'view.recruiter_label');
@@ -33,7 +33,7 @@ const aria = isRecruiter
       const target = el.getAttribute('data-view-target');
       if (!target) return;
       try { localStorage.setItem('fsc.view', target); } catch {}
-      /* Going back to terminal from recruiter view — bypass entry screen. */
+      /* Going back to terminal from recruiter view · bypass entry screen. */
       if (target === 'terminal') {
         try { sessionStorage.setItem('fsc.entry.bypass', '1'); } catch {}
       }

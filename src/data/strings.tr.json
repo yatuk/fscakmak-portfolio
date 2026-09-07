@@ -44,12 +44,12 @@
     "demo_link": "Canlı demo"
   },
   "terminal": {
-    "logo_sub": "fscakmak.com — Fatih Serdar Çakmak'ın portföyü",
+    "logo_sub": "fscakmak.com · Fatih Serdar Çakmak'ın portföyü",
     "nav_prefix": "yaz",
     "nav_suffix": "ile başla",
     "input_aria": "Terminal komut girişi",
     "hint": "tab ile otomatik tamamla • ↑↓ geçmiş",
-    "footer": "fscakmak.com terminal v2.0.0 — kaynak GitHub'da",
+    "footer": "fscakmak.com terminal v2.0.0 · kaynak GitHub'da",
     "score_label": "Skor",
     "output_aria": "Terminal çıktısı",
     "boot_skip": "atla",
@@ -142,8 +142,8 @@
     "type_help_suffix": "yazın."
   },
   "scaffold": {
-    "step1_done": "Adım 1 ✓ — içerik CV'ye birebir uyumlu, tipli JSON'dan geliyor.",
-    "step2_done": "Adım 2 ✓ — i18n runtime aktif, dil değiştirici bağlı."
+    "step1_done": "Adım 1 ✓ · içerik CV'ye birebir uyumlu, tipli JSON'dan geliyor.",
+    "step2_done": "Adım 2 ✓ · i18n runtime aktif, dil değiştirici bağlı."
   },
   "view": {
     "recruiter_label": "Recruiter Görünümü",
@@ -168,6 +168,6 @@
     "cta_download_cv": "CV İndir",
     "footer_note": "Kaynak GitHub'da · Astro ile yapıldı",
     "force_terminal_label": "Terminal modunu zorla",
-    "force_terminal_hint": "Tablet/desktop'ta daha iyi — terminal klavye odaklıdır."
+    "force_terminal_hint": "Tablet/desktop'ta daha iyi · terminal klavye odaklıdır."
   }
 }

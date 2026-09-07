@@ -3,7 +3,7 @@ import type { CommandHandler } from './index';
 /**
  * Triggers a direct download of /resume.pdf. The file must exist
  * under public/resume.pdf at deploy time; if missing, the browser
- * will surface its standard 404 — no client-side check is needed.
+ * will surface its standard 404 · no client-side check is needed.
  *
  * Uses a hidden <a> with `download` attribute so the browser
  * downloads rather than navigates. Falls back to opening in a new

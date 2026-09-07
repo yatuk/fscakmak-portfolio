@@ -33,7 +33,7 @@ const ariaLabel = t(locale, `language.switch_to_${target}_aria`);
     try {
       localStorage.setItem('fsc.lang', current);
     } catch {
-      /* private mode / disabled storage — no-op */
+      /* private mode / disabled storage · no-op */
     }
     document.querySelectorAll('[data-locale-link]').forEach((el) => {
       el.addEventListener('click', () => {

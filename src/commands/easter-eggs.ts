@@ -3,7 +3,7 @@ import { matrix } from '@commands/matrix';
 import { escapeHtml } from '@lib/sanitize';
 
 /**
- * Easter eggs — not listed in `help`, but tab-autocomplete reveals
+ * Easter eggs · not listed in `help`, but tab-autocomplete reveals
  * them and they're worth points. Ported verbatim (in spirit) from
  * v1. Free of any user-data exposure (no real shell, all jokes).
  *
@@ -127,7 +127,7 @@ __/ =| o |=-~~\\  /~~\\  /~~\\  /~~\\ ____Y___________|__
 <div class="cmd-block">
   <span class="t-dim">[sudo] password for fscakmak: </span><span class="t-grn">**************</span><br><br>
   <span class="t-grn">root access granted.</span><br>
-  <span class="t-dim">just kidding — there's no root here.</span><br><br>
+  <span class="t-dim">just kidding · there's no root here.</span><br><br>
   <span class="t-tx">but since you made it to 100: thanks for actually reading everything.</span><br>
   <span class="t-dim">most people just tab through. you didn't. that means something.</span>
 </div>`,

@@ -5,7 +5,7 @@
     "date": "2026-07",
     "lang": "tr",
     "tags": ["MCP", "automation", "Python"],
-    "summary": "Why I built İTÜ MCP: a local MCP server that connects an ITU student's Ninova (LMS) and OBS (student portal) to Claude, Cursor, and Codex, so you can ask about assignments, grades, and transcripts in plain language — without your password ever leaving your machine.",
+    "summary": "Why I built İTÜ MCP: a local MCP server that connects an ITU student's Ninova (LMS) and OBS (student portal) to Claude, Cursor, and Codex, so you can ask about assignments, grades, and transcripts in plain language · without your password ever leaving your machine.",
     "summary_tr": "İTÜ MCP'yi neden yazdım: İTÜ öğrencisinin Ninova ve OBS hesaplarını Claude, Cursor ve Codex'e bağlayan, ödev/not/transkripti düz Türkçeyle sorabildiğin, şifresi cihazından hiç çıkmayan yerel bir MCP sunucusu."
   },
   {
@@ -23,7 +23,7 @@
     "date": "2026-05",
     "lang": "tr",
     "tags": ["ESP32", "phishing", "hardware"],
-    "summary": "A hands-on captive-portal experiment: using a cheap ESP32 board running Bruce firmware to stand up a fake \"Free WiFi\" access point and clone Google's login page in a lab setting — why the attack is so cheap to run and what defenders should watch for.",
+    "summary": "A hands-on captive-portal experiment: using a cheap ESP32 board running Bruce firmware to stand up a fake \"Free WiFi\" access point and clone Google's login page in a lab setting · why the attack is so cheap to run and what defenders should watch for.",
     "summary_tr": "Ucuz bir ESP32 (Bruce firmware) ile sahte \"Free WiFi\" ağı kurup Google login sayfasını klonlayan bir captive-portal deneyi. Saldırının neden bu kadar ucuz ve etkili olduğu, savunma tarafında nelere dikkat edilmesi gerektiği."
   },
   {
@@ -32,7 +32,7 @@
     "date": "2025-09",
     "lang": "tr",
     "tags": ["malware", "trojan", "analysis"],
-    "summary": "Analysis of ClickFix, a social-engineering malware family that tricks users into running malicious commands themselves while thinking they are fixing a problem — how Microsoft Defender flags it and how the lure works.",
+    "summary": "Analysis of ClickFix, a social-engineering malware family that tricks users into running malicious commands themselves while thinking they are fixing a problem · how Microsoft Defender flags it and how the lure works.",
     "summary_tr": "Kullanıcıyı bir sorunu çözdüğünü sanırken kendi eliyle zararlı komut çalıştırmaya kandıran ClickFix sosyal mühendislik zararlısının analizi: Microsoft Defender'ın tespiti ve tuzağın nasıl çalıştığı."
   },
   {

@@ -1,5 +1,5 @@
 /**
- * Scoring module — tracks earned points across commands.
+ * Scoring module · tracks earned points across commands.
  * Extracted from terminal.ts to keep the shell under 250 lines.
  */
 
@@ -37,7 +37,7 @@ export function maxScoreHtml(): string {
     <div class="t-grn">██████████████████████ 100/100</div>
     <div class="t-ylw">achievement unlocked: thorough investigator</div>
     <div class="t-dim">You read everything. Most people don't get this far.</div>
-    <div class="t-dim">There's one more thing — try: <span class="t-link">sudo</span></div>
+    <div class="t-dim">There's one more thing · try: <span class="t-link">sudo</span></div>
   </div>`;
 }
 
@@ -79,7 +79,7 @@ export function setupKonami(ctx: KonamiContext): void {
     ctx.onBlock(`<div class="cmd-block">
         <div class="t-ylw">\u{1F3AE} KONAMI CODE ACTIVATED!</div>
         <div class="t-grn">Achievement Unlocked: Old School Gamer</div>
-        <div class="t-dim">Developer mode unlocked — hidden command list below. +30 bonus points.</div>
+        <div class="t-dim">Developer mode unlocked · hidden command list below. +30 bonus points.</div>
       </div>`);
     ctx.onBlock(ctx.devModeHtml());
 

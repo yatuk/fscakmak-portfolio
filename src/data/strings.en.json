@@ -44,12 +44,12 @@
     "demo_link": "Live demo"
   },
   "terminal": {
-    "logo_sub": "fscakmak.com — Fatih Serdar Çakmak's portfolio",
+    "logo_sub": "fscakmak.com · Fatih Serdar Çakmak's portfolio",
     "nav_prefix": "type",
     "nav_suffix": "to get started",
     "input_aria": "Terminal command input",
     "hint": "tab to autocomplete • ↑↓ history",
-    "footer": "fscakmak.com terminal v2.0.0 — source on GitHub",
+    "footer": "fscakmak.com terminal v2.0.0 · source on GitHub",
     "score_label": "Score",
     "output_aria": "Terminal output",
     "boot_skip": "skip",
@@ -142,8 +142,8 @@
     "type_help_suffix": "for available commands."
   },
   "scaffold": {
-    "step1_done": "Step 1 ✓ — content driven by typed JSON, CV-verbatim.",
-    "step2_done": "Step 2 ✓ — i18n runtime online, locale toggle wired."
+    "step1_done": "Step 1 ✓ · content driven by typed JSON, CV-verbatim.",
+    "step2_done": "Step 2 ✓ · i18n runtime online, locale toggle wired."
   },
   "view": {
     "recruiter_label": "Recruiter View",
@@ -168,6 +168,6 @@
     "cta_download_cv": "Download CV",
     "footer_note": "Source on GitHub · Built with Astro",
     "force_terminal_label": "Force terminal mode",
-    "force_terminal_hint": "Best on tablet/desktop — the terminal is keyboard-driven."
+    "force_terminal_hint": "Best on tablet/desktop · the terminal is keyboard-driven."
   }
 }

@@ -5,13 +5,14 @@ import type { Locale } from '@ptypes/profile';
 
 export interface Props {
   locale: Locale;
+  showLanguage?: boolean;
 }
 
-const { locale } = Astro.props;
+const { locale, showLanguage = true } = Astro.props;
 ---
 
 <div class="header-controls">
-  <LanguageToggle locale={locale} />
+  {showLanguage && <LanguageToggle locale={locale} />}
   <ViewToggle locale={locale} />
 </div>
 

@@ -1,5 +1,5 @@
 /**
- * Profile data shape — single source of truth for what
+ * Profile data shape · single source of truth for what
  * `src/data/profile.{tr,en}.json` files must conform to.
  *
  * Aligned with the user's actual CV. The "GERÇEK KİŞİSEL VERİLER"

@@ -15,26 +15,6 @@ const cvHref = locale === 'tr' ? '/tr/cv' : '/cv';
 const recruiterLabel = t(locale, 'view.recruiter_label');
 ---
 
-<!-- Entry screen — shown on every page load, no persistence.
-     User picks a view; TERMINAL gates the boot sequence. -->
-<div class="entry-screen" data-entry-screen>
-  <div class="entry-title-wrap">
-    <h1 class="entry-title" data-entry-title data-text="FSCAKMAK" aria-label="FSCAKMAK">FSCAKMAK</h1>
-    <p class="entry-subtitle" data-entry-subtitle>fatih serdar çakmak · soc analyst · itu cs</p>
-  </div>
-
-  <div class="entry-typing" data-entry-typing aria-hidden="true"></div>
-
-  <div class="entry-buttons" data-entry-buttons>
-    <button type="button" class="entry-btn entry-btn-terminal" data-entry-terminal>
-      [ TERMINAL ]
-    </button>
-    <button type="button" class="entry-btn entry-btn-recruiter" data-entry-recruiter>
-      [ RECRUITER VIEW ]
-    </button>
-  </div>
-</div>
-
 <div class="term-window" data-term-root data-locale={locale}>
   <div class="term-titlebar">
     <div class="term-dots" aria-hidden="true">
@@ -49,9 +29,9 @@ const recruiterLabel = t(locale, 'view.recruiter_label');
       <span class="term-tbar-sep" aria-hidden="true"></span>
       <span class="term-lang-wrap">
         {locale === 'en' ? (
-          <><span class="term-lang-active">EN</span><span class="term-lang-sep">/</span><a class="term-lang-alt" href="/tr" data-locale-link="tr">TR</a></>
+          <><span class="term-lang-active">EN</span><span class="term-lang-sep">/</span><a class="term-lang-alt" href="/tr/terminal" data-locale-link="tr">TR</a></>
         ) : (
-          <><a class="term-lang-alt" href="/" data-locale-link="en">EN</a><span class="term-lang-sep">/</span><span class="term-lang-active">TR</span></>
+          <><a class="term-lang-alt" href="/terminal" data-locale-link="en">EN</a><span class="term-lang-sep">/</span><span class="term-lang-active">TR</span></>
         )}
       </span>
       <span class="term-tbar-sep" aria-hidden="true"></span>
@@ -59,28 +39,16 @@ const recruiterLabel = t(locale, 'view.recruiter_label');
         {recruiterLabel} <span class="term-view-arrow" aria-hidden="true">→</span>
       </a>
     </div>
-    <!-- Hidden score bar — kept for scoring module compatibility -->
+    <!-- Hidden score bar · kept for scoring module compatibility -->
     <div class="term-score-bar" aria-hidden="true" style="display:none">
       <div class="term-score-fill" data-term-score-fill style="width:0%"></div>
     </div>
   </div>
 
   <div class="term-body" data-term-body>
-    <!-- Boot overlay — covers terminal body during boot, leaves titlebar visible -->
-    <div class="boot-overlay" data-boot-overlay aria-hidden="true">
-      <div class="boot-content" data-boot-lines></div>
-      <button
-        type="button"
-        class="boot-skip"
-        data-boot-skip
-        aria-label={t(locale, 'terminal.boot_skip_aria')}
-      >
-        {t(locale, 'terminal.boot_skip')} ⏵
-      </button>
-    </div>
-
-    <div class="term-logo">FSCAKMAK</div>
-    <div class="term-sub">{t(locale, 'terminal.logo_sub')}</div>
+    <h1 class="term-logo">FSCAKMAK<span class="terminal-cursor" aria-hidden="true">_</span></h1>
+    <div class="term-sub">{locale === 'tr' ? 'Güvenlik operasyonları. Açık kaynak. Biraz merak.' : 'Security operations. Open source. A little curiosity.'}</div>
+    <p class="terminal-note">{locale === 'tr' ? 'Bu etkileşimli bir portfolyo simülasyonudur. Komut seç veya kendin yaz.' : 'An interactive portfolio simulation. Choose a command or type your own.'}</p>
     <div class="term-nav">
       <span class="term-nav-arrow">→</span>
       {t(locale, 'terminal.nav_prefix')}
@@ -104,16 +72,17 @@ const recruiterLabel = t(locale, 'view.recruiter_label');
         data-term-input
         autocomplete="off"
         spellcheck="false"
-        autofocus
         aria-label={t(locale, 'terminal.input_aria')}
       />
     </div>
-    <div class="term-suggestions" data-term-suggestions role="listbox" aria-label="suggestions"></div>
+    <div class="term-suggestions" data-term-suggestions role="group" aria-label="suggestions"></div>
     <div class="term-hint">{t(locale, 'terminal.hint')}</div>
 
     <nav class="term-mobile-chips" aria-label={t(locale, 'terminal.chips_aria')}>
       <button type="button" class="term-chip" data-term-quick="whoami">whoami</button>
       <button type="button" class="term-chip" data-term-quick="projects">projects</button>
+      <button type="button" class="term-chip" data-term-quick="experience">experience</button>
+      <button type="button" class="term-chip" data-term-quick="scan">scan</button>
       <button type="button" class="term-chip" data-term-quick="contact">contact</button>
       <button type="button" class="term-chip" data-term-quick="help">help</button>
     </nav>
@@ -129,314 +98,6 @@ const recruiterLabel = t(locale, 'view.recruiter_label');
   set:html={JSON.stringify({ profile, locale })}
 />
 
-<script is:inline>
-  (() => {
-    const screen = document.querySelector('[data-entry-screen]');
-    if (!screen) return;
-
-    const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
-
-    /* Bypass: returning from recruiter view via the view toggle. */
-    let bypass = false;
-    try {
-      bypass = sessionStorage.getItem('fsc.entry.bypass') === '1';
-      if (bypass) sessionStorage.removeItem('fsc.entry.bypass');
-    } catch {}
-
-    if (bypass) {
-      screen.remove();
-      window.__entryChoice = 'terminal';
-      window.dispatchEvent(new CustomEvent('fsc:terminal-chosen'));
-      return;
-    }
-
-    const locale  = document.documentElement.lang;
-    const cvPath  = locale === 'tr' ? '/tr/cv' : '/cv';
-    const titleEl = screen.querySelector('[data-entry-title]');
-    const typeEl  = screen.querySelector('[data-entry-typing]');
-    const btns    = screen.querySelectorAll('.entry-btn');
-    const TEXT    = '> select interface to continue';
-    const CHAR_MS = 35;
-
-    /* Fade in title at 100ms */
-    if (!reduced && titleEl) {
-      window.setTimeout(() => titleEl.classList.add('title-in'), 100);
-    }
-
-    /* Reveal buttons with stagger — called immediately so buttons are
-       always clickable. The typing animation runs as a cosmetic layer only. */
-    const revealButtons = () => {
-      btns.forEach((btn, i) => {
-        window.setTimeout(() => btn.classList.add('btn-reveal'), i * 120);
-      });
-    };
-    revealButtons();
-
-    if (reduced) {
-      if (titleEl) titleEl.classList.add('title-in');
-      if (typeEl) typeEl.textContent = TEXT;
-    } else if (typeEl) {
-      /* Start typing at 400ms, 35ms/char — cosmetic only, buttons already visible */
-      window.setTimeout(() => {
-        let i = 0;
-        const tick = () => {
-          if (i < TEXT.length) {
-            typeEl.appendChild(document.createTextNode(TEXT[i++]));
-            window.setTimeout(tick, CHAR_MS);
-          } else {
-            typeEl.classList.add('typing-done');
-          }
-        };
-        tick();
-      }, 400);
-    }
-
-    /* Dismiss — mode 'terminal' zooms into the terminal behind the screen.
-       Mode 'recruiter' slides the screen upward toward the new page. */
-    const dismiss = (mode, then) => {
-      btns.forEach((b) => b.classList.add('btn-chosen'));
-      window.setTimeout(() => {
-        screen.classList.add('exit-' + mode);
-        const dur = mode === 'terminal' ? 320 : 260;
-        window.setTimeout(() => { screen.remove(); if (then) then(); }, dur);
-      }, 90);
-    };
-
-    const termBtn = screen.querySelector('[data-entry-terminal]');
-    const recBtn = screen.querySelector('[data-entry-recruiter]');
-    if (!termBtn || !recBtn) {
-      console.warn('[entry] button elements missing from DOM — cannot attach handlers');
-      return;
-    }
-
-    termBtn.addEventListener('click', () => {
-      dismiss('terminal', () => {
-        window.__entryChoice = 'terminal';
-        window.dispatchEvent(new CustomEvent('fsc:terminal-chosen'));
-      });
-    });
-
-    recBtn.addEventListener('click', () => {
-      /* Fade the content but keep the opaque backdrop up until the
-         browser swaps pages — otherwise the terminal behind the entry
-         screen is visible for however long /cv takes to load. */
-      btns.forEach((b) => b.classList.add('btn-chosen'));
-      window.setTimeout(() => {
-        screen.classList.add('exit-nav');
-        window.setTimeout(() => { window.location.href = cvPath; }, 200);
-      }, 90);
-    });
-
-    /* bfcache restore (back button from /cv) — bring the screen back */
-    window.addEventListener('pageshow', (e) => {
-      if (e.persisted && screen.isConnected) {
-        screen.classList.remove('exit-nav');
-        btns.forEach((b) => b.classList.remove('btn-chosen'));
-      }
-    });
-  })();
-</script>
-
-<script is:inline>
-  /* Boot overlay — character-by-character typing, once per page load.
-     [OK] aligns at column 42 in monospace. */
-  (() => {
-    const overlay = document.querySelector('[data-boot-overlay]');
-    if (!overlay) return;
-
-    const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
-    const OK_COL = 42;
-    const CHAR_MS = 18;
-    const BOOT_LINES = [
-      { text: '> initializing kernel',          pause: 120 },
-      { text: '> mounting security context',    pause: 100 },
-      { text: '> loading profile data',         pause: 120 },
-      { text: '> establishing encrypted session', pause: 80 },
-      { text: '> threat intel feeds',           pause: 150 },
-      { text: '> loading defense matrix',       pause: 100 },
-    ];
-    const BOOT_WELCOME = '> welcome, analyst.';
-
-    let dismissed = false;
-
-    const dismiss = () => {
-      if (dismissed) return;
-      dismissed = true;
-      overlay.classList.add('boot-fade');
-      window.setTimeout(() => {
-        overlay.remove();
-        window.dispatchEvent(new CustomEvent('fsc:boot-done'));
-      }, 220);
-    };
-
-    const runBoot = () => {
-      overlay.setAttribute('aria-hidden', 'false');
-      /* Block terminal input during boot */
-      const termInput = document.querySelector('[data-term-input]');
-      if (termInput) termInput.disabled = true;
-
-      if (reduced) {
-        /* Show everything instantly */
-        const container = overlay.querySelector('[data-boot-lines]');
-        if (!container) return;
-        for (const line of BOOT_LINES) {
-          const div = document.createElement('div');
-          div.className = 'boot-line';
-          const pad = OK_COL - 1 - line.text.length;
-          div.innerHTML =
-            `<span class="boot-prefix">> </span>` +
-            `<span class="boot-text">${line.text.slice(2)}</span>` +
-            `<span class="boot-dots">${'.'.repeat(Math.max(0, pad))}</span>` +
-            `<span class="boot-ok">[OK]</span>`;
-          container.appendChild(div);
-        }
-        const wdiv = document.createElement('div');
-        wdiv.className = 'boot-line boot-welcome';
-        wdiv.textContent = BOOT_WELCOME;
-        container.appendChild(wdiv);
-        window.setTimeout(dismiss, 400);
-        return;
-      }
-
-      const container = overlay.querySelector('[data-boot-lines]');
-      if (!container) return;
-
-      const typeLine = (cfg, onDone) => {
-        const div = document.createElement('div');
-        div.className = 'boot-line';
-        container.appendChild(div);
-
-        const prefix = document.createElement('span');
-        prefix.className = 'boot-prefix';
-        prefix.textContent = '> ';
-        div.appendChild(prefix);
-
-        const textSpan = document.createElement('span');
-        textSpan.className = 'boot-text';
-        div.appendChild(textSpan);
-
-        const msg = cfg.text.slice(2);
-        let i = 0;
-        const tick = () => {
-          if (dismissed) return;
-          if (i < msg.length) {
-            textSpan.appendChild(document.createTextNode(msg[i++]));
-            window.setTimeout(tick, CHAR_MS);
-          } else {
-            /* Pad dots to align [OK] at column 42 */
-            const pad = OK_COL - 1 - cfg.text.length;
-            if (pad > 0) {
-              const dots = document.createElement('span');
-              dots.className = 'boot-dots';
-              dots.textContent = '.'.repeat(pad);
-              div.appendChild(dots);
-            }
-            const ok = document.createElement('span');
-            ok.className = 'boot-ok';
-            ok.textContent = '[OK]';
-            div.appendChild(ok);
-            window.setTimeout(onDone, cfg.pause);
-          }
-        };
-        tick();
-      };
-
-      const run = (idx) => {
-        if (dismissed) return;
-        if (idx >= BOOT_LINES.length) {
-          /* Welcome line */
-          const wdiv = document.createElement('div');
-          wdiv.className = 'boot-line boot-welcome';
-          let j = 0;
-          const wtick = () => {
-            if (dismissed) return;
-            if (j < BOOT_WELCOME.length) {
-              wdiv.appendChild(document.createTextNode(BOOT_WELCOME[j++]));
-              window.setTimeout(wtick, CHAR_MS);
-            } else {
-              container.appendChild(wdiv);
-              window.setTimeout(dismiss, 350);
-            }
-          };
-          wtick();
-          return;
-        }
-        typeLine(BOOT_LINES[idx], () => run(idx + 1));
-      };
-
-      window.setTimeout(() => run(0), 250);
-      overlay.querySelector('[data-boot-skip]')?.addEventListener('click', dismiss);
-    };
-
-    /* Gate: wait for the entry screen to signal terminal choice. */
-    if (window.__entryChoice === 'terminal') {
-      runBoot();
-    } else {
-      window.addEventListener('fsc:terminal-chosen', runBoot, { once: true });
-    }
-  })();
-</script>
-
-<script is:inline>
-  /* Logo glitch — character corruption every 3-8s, reduced-motion aware. */
-  (() => {
-    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
-
-    const fire = () => {
-      const logo = document.querySelector('.term-logo');
-      if (!logo || !document.body.contains(logo)) return;
-
-      const original = logo.textContent ?? '';
-      const CHARS = '!@#%^&*<>?/|[]{}ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-      const txt = original.split('');
-
-      /* Corrupt 1-2 random characters */
-      const count = 1 + Math.floor(Math.random() * 2);
-      for (let c = 0; c < count; c++) {
-        const idx = Math.floor(Math.random() * txt.length);
-        txt[idx] = CHARS[Math.floor(Math.random() * CHARS.length)];
-      }
-      logo.textContent = txt.join('');
-
-      /* Restore after 60-120ms */
-      window.setTimeout(() => {
-        const l = document.querySelector('.term-logo');
-        if (l) l.textContent = original;
-      }, 60 + Math.random() * 60);
-
-      /* Schedule next glitch */
-      window.setTimeout(fire, 3000 + Math.random() * 5000);
-    };
-
-    /* First glitch after terminal is settled */
-    window.setTimeout(fire, 4000 + Math.random() * 2000);
-  })();
-</script>
-
-<script is:inline>
-  /* Persist view choice and locale for in-titlebar toggles */
-  (() => {
-    document.querySelectorAll('[data-view-target]').forEach((el) => {
-      el.addEventListener('click', () => {
-        const target = el.getAttribute('data-view-target');
-        if (!target) return;
-        try { localStorage.setItem('fsc.view', target); } catch {}
-        if (target === 'terminal') {
-          try { sessionStorage.setItem('fsc.entry.bypass', '1'); } catch {}
-        }
-      });
-    });
-    document.querySelectorAll('[data-locale-link]').forEach((el) => {
-      el.addEventListener('click', () => {
-        const target = el.getAttribute('data-locale-link');
-        if (target) {
-          try { localStorage.setItem('fsc.lang', target); } catch {}
-        }
-      });
-    });
-  })();
-</script>
-
 <script>
   import { initTerminal } from '@core/terminal';
   import type { Locale, Profile } from '@ptypes/profile';
@@ -448,6 +109,7 @@ const recruiterLabel = t(locale, 'view.recruiter_label');
       profile: Profile;
       locale: Locale;
     };
+    document.body.classList.add('terminal-body');
     initTerminal({ container: root, profile: state.profile, locale: state.locale });
   }
 </script>

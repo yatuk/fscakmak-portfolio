@@ -1,7 +1,7 @@
 import type { CommandHandler } from './index';
 import { escapeHtml } from '@lib/sanitize';
 
-/** Prefix handlers — matched in terminal.ts before the registry. */
+/** Prefix handlers · matched in terminal.ts before the registry. */
 export const prefixHandlers: Array<{
   prefix: string;
   run: (arg: string) => string | Promise<string>;
@@ -90,17 +90,17 @@ const tcpdumpOutput = (): string => `
   <span class="t-grn">12:04:01.442 IP 10.0.0.42.443 &gt; 10.0.0.7.52431: Flags [P.], seq 1:89</span><br>
   <span class="t-ylw">12:04:01.448 IP 10.0.0.7.52431 &gt; 10.0.0.42.443: Flags [.], ack 89</span><br>
   <span class="t-mag">12:04:02.103 IP 10.0.0.99.22 &gt; 10.0.0.42.22: SSH handshake (suspicious?)</span><br>
-  <span class="t-dim">^C — 3 packets captured. Forwarded to SIEM correlation. 🛡️</span>
+  <span class="t-dim">^C · 3 packets captured. Forwarded to SIEM correlation. 🛡️</span>
 </div>`;
 
 const siemAlerts = (): string => `
 <div class="cmd-block">
-  <div class="cmd-title">SIEM — last 5 alerts (simulated)</div>
+  <div class="cmd-title">SIEM · last 5 alerts (simulated)</div>
   <div class="egg-mono">
-    <span class="t-err">[HIGH]</span> T1110 Brute Force — svc_backup @ 10.0.4.12 <span class="t-dim">· 2m ago</span><br>
-    <span class="t-ylw">[MED]</span>  T1059 PowerShell — FIN-WS-042 <span class="t-dim">· 14m ago</span><br>
-    <span class="t-ylw">[MED]</span>  T1078 Valid Accounts — VPN gateway <span class="t-dim">· 31m ago</span><br>
-    <span class="t-grn">[LOW]</span>  T1048 Exfil attempt — blocked by DLP <span class="t-dim">· 1h ago</span><br>
+    <span class="t-err">[HIGH]</span> T1110 Brute Force · svc_backup @ 10.0.4.12 <span class="t-dim">· 2m ago</span><br>
+    <span class="t-ylw">[MED]</span>  T1059 PowerShell · FIN-WS-042 <span class="t-dim">· 14m ago</span><br>
+    <span class="t-ylw">[MED]</span>  T1078 Valid Accounts · VPN gateway <span class="t-dim">· 31m ago</span><br>
+    <span class="t-grn">[LOW]</span>  T1048 Exfil attempt · blocked by DLP <span class="t-dim">· 1h ago</span><br>
     <span class="t-dim">[INFO] Daily CTI feed sync completed · 3h ago</span>
   </div>
   <span class="t-dim">All clear after triage? Run <span class="t-link">coffee</span> first. ☕</span>
@@ -146,14 +146,14 @@ PID  USER     CPU%  MEM%  COMMAND
 1337 fscakmak  7.1   4.2  alert-triage
  9001 fscakmak  0.0   0.1  coffee-daemon ☕
   </pre>
-  <span class="t-dim">Press q to quit — just kidding, you're in a browser. 😄</span>
+  <span class="t-dim">Press q to quit · just kidding, you're in a browser. 😄</span>
 </div>`,
 
   vim: () => `
 <div class="cmd-block">
-  <span class="t-err">VIM — VISUAL BLOCK MODE</span><br>
+  <span class="t-err">VIM · VISUAL BLOCK MODE</span><br>
   <span class="t-dim">Hint: to exit vim, close this tab. (Or type <span class="t-link">:q!</span> and accept your fate.)</span><br>
-  <span class="t-grn">:wq — file saved to /dev/null</span>
+  <span class="t-grn">:wq · file saved to /dev/null</span>
 </div>`,
 
   cowsay: () => cowsayHtml('Stay vigilant'),
@@ -173,7 +173,7 @@ PID  USER     CPU%  MEM%  COMMAND
   },
 };
 
-/** Shown after Konami code — full hidden command reference. */
+/** Shown after Konami code · full hidden command reference. */
 export const DEVELOPER_COMMANDS: ReadonlyArray<{ cmd: string; note: string }> = [
   { cmd: 'matrix', note: 'canvas rain' },
   { cmd: 'nmap', note: 'port scan (mock)' },
@@ -207,7 +207,7 @@ export function developerModeHtml(): string {
 
   return `
 <div class="cmd-block">
-  <div class="cmd-title t-ylw">🎮 Developer mode — hidden commands</div>
+  <div class="cmd-title t-ylw">🎮 Developer mode · hidden commands</div>
   <div class="cmd-help-rows">${rows}</div>
   <div class="cmd-help-hint">Tab autocomplete works. Type any command above.</div>
 </div>`;

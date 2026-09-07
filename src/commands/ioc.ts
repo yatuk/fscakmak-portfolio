@@ -32,7 +32,7 @@ function iocRow(ioc: IOC): string {
 
 export const ioc: CommandHandler = () => `
 <div class="cmd-block">
-  <div class="cmd-title">IOC Feed — Threat Intelligence</div>
+  <div class="cmd-title">IOC Feed · Threat Intelligence</div>
   <div class="ioc-head">
     <span class="ioc-type">TYPE</span>
     <span class="ioc-val">INDICATOR</span>
@@ -41,5 +41,5 @@ export const ioc: CommandHandler = () => `
     <span class="ioc-conf">CONF</span>
   </div>
   <div class="ioc-table">${IOCS.map(iocRow).join('')}</div>
-  <div class="cmd-help-hint">CTI feed review — part of daily SOC triage at Fibabanka. Indicators defanged.</div>
+  <div class="cmd-help-hint">CTI feed review · part of daily SOC triage at Fibabanka. Indicators defanged.</div>
 </div>`;

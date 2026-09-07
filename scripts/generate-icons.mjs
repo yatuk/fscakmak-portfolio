@@ -26,5 +26,4 @@ const image = await renderAsync(sized, {
 
 writeFileSync(OUT_PATH, image.asPng());
 
-// eslint-disable-next-line no-console
 console.log('Generated apple-touch-icon.png (180×180)');

@@ -4,7 +4,7 @@ import { escapeHtml } from '@lib/sanitize';
 export const certs: CommandHandler = ({ profile, t }) => {
   const cards = profile.certifications
     .map((c) => {
-      const fullName = c.full_name ? ` <span class="cert-full">— ${escapeHtml(c.full_name)}</span>` : '';
+      const fullName = c.full_name ? ` <span class="cert-full">- ${escapeHtml(c.full_name)}</span>` : '';
       const date = c.date ? `<span class="cert-date">${escapeHtml(c.date)}</span>` : '';
       const credentialLink =
         c.credential_url

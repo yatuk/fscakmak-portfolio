@@ -4,13 +4,13 @@ import { prefixHandlers, developerModeHtml } from '@commands/step10-eggs';
 import { t as translate } from '@core/i18n';
 import { escapeHtml } from '@lib/sanitize';
 import { addScore, maxScoreHtml, maxScoreEffect, setupKonami, type ScoreState, type ScoreDisplay } from '@core/scoring';
-import { scheduleAutoWhoami, type BootContext } from '@core/boot';
 import { HIST_KEY, HIST_MAX, MAX_SUGGESTIONS } from '@config/index';
 
 function loadHistory(): string[] {
   try {
     const raw = sessionStorage.getItem(HIST_KEY);
-    return raw ? JSON.parse(raw) as string[] : [];
+    const parsed: unknown = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed.filter((item): item is string => typeof item === 'string').slice(0, HIST_MAX) : [];
   } catch { return []; }
 }
 
@@ -35,6 +35,9 @@ interface State {
   earned: Set<string>;
   ctx: CommandContext;
   suggestIdx: number;
+  completionPrefix: string | null;
+  draft: string;
+  initializing: boolean;
 }
 
 export interface InitOpts {
@@ -52,7 +55,7 @@ export function initTerminal({ container, profile, locale }: InitOpts): void {
   const suggestions = container.querySelector<HTMLElement>('[data-term-suggestions]');
 
   if (!body || !output || !input || !sf || !sv || !suggestions) {
-    console.warn('[terminal] required elements missing — skipping init');
+    console.warn('[terminal] required elements missing · skipping init');
     return;
   }
 
@@ -64,14 +67,17 @@ export function initTerminal({ container, profile, locale }: InitOpts): void {
     earned: new Set(),
     ctx: { profile, locale, t: (key) => translate(locale, key), getHistory: () => state.history },
     suggestIdx: -1,
+    completionPrefix: null,
+    draft: '',
+    initializing: true,
   };
 
   input.addEventListener('keydown', (e) => onKey(state, e));
-  input.addEventListener('input', () => updateSuggestions(state));
+  input.addEventListener('input', () => { state.completionPrefix = null; state.hi = -1; updateSuggestions(state); });
   body.addEventListener('click', (e) => {
-    if (!(e.target as Element).closest('a')) input.focus();
+    if (!(e.target as Element).closest('a,button,input') && !window.getSelection()?.toString()) input.focus({ preventScroll: true });
   });
-  input.focus();
+  if (window.matchMedia('(pointer: fine)').matches) input.focus({ preventScroll: true });
   wireQuickLaunch(container);
 
   setupKonami({
@@ -83,18 +89,9 @@ export function initTerminal({ container, profile, locale }: InitOpts): void {
     devModeHtml: () => developerModeHtml(),
   });
 
-  const st: ScoreState = state;
-  const display: ScoreDisplay = state.el;
-  const bootCtx: BootContext = {
-    profile, history: state.history, hi: state.hi, input,
-    onPrompt: (cmd) => prompt(state, cmd),
-    onLine: (html) => line(state, html),
-    onScore: (cmd) => addScore(st, display, cmd, () => {
-      maxScoreEffect(display);
-      block(state, maxScoreHtml());
-    }),
-  };
-  scheduleAutoWhoami(bootCtx);
+  // Render immediately without writing into an input the visitor may already be using.
+  run(state, 'whoami');
+  queueMicrotask(() => { state.initializing = false; });
 }
 
 function wireQuickLaunch(root: ParentNode): void {
@@ -115,6 +112,7 @@ function wireQuickLaunch(root: ParentNode): void {
 /* ── Input handling ──────────────────────────────────── */
 
 function onKey(s: State, e: KeyboardEvent): void {
+  if (e.key !== 'Tab') s.completionPrefix = null;
   if (e.key === 'Enter') {
     hideSuggestions(s);
     s.suggestIdx = -1;
@@ -124,26 +122,30 @@ function onKey(s: State, e: KeyboardEvent): void {
   }
   if (e.key === 'ArrowUp') {
     e.preventDefault();
+    if (s.hi === -1) s.draft = s.el.input.value;
     if (s.hi < s.history.length - 1) { s.hi++; s.el.input.value = s.history[s.hi] ?? ''; }
     return;
   }
   if (e.key === 'ArrowDown') {
     e.preventDefault();
     if (s.hi > 0) { s.hi--; s.el.input.value = s.history[s.hi] ?? ''; }
-    else { s.hi = -1; s.el.input.value = ''; }
+    else { s.hi = -1; s.el.input.value = s.draft; }
     return;
   }
+  if (e.key === 'Tab' && e.shiftKey) { hideSuggestions(s); s.completionPrefix = null; return; }
   if (e.key === 'Tab') {
-    e.preventDefault();
-    const v = s.el.input.value.toLowerCase();
+    const v = s.completionPrefix ?? s.el.input.value.toLowerCase();
     if (!v) return;
+    s.completionPrefix = v;
     const matches = Object.keys(commandRegistry).filter((c) => c.startsWith(v));
     if (matches.length === 0) return;
+    e.preventDefault();
     if (matches.length === 1) { s.el.input.value = matches[0]; hideSuggestions(s); }
     else { s.suggestIdx = (s.suggestIdx + 1) % matches.length; s.el.input.value = matches[s.suggestIdx]; renderSuggestions(s, matches, s.suggestIdx); }
     return;
   }
   if (e.key === 'Escape') { hideSuggestions(s); s.suggestIdx = -1; return; }
+  if (e.key === 'c' && e.ctrlKey) { e.preventDefault(); s.el.input.value = ''; hideSuggestions(s); return; }
   if (e.key === 'l' && e.ctrlKey) { e.preventDefault(); run(s, 'clear'); }
 }
 
@@ -163,13 +165,14 @@ function renderSuggestions(s: State, matches: string[], activeIdx: number): void
   s.el.suggestions.innerHTML = visible
     .map((cmd, i) => {
       const cls = i === activeIdx ? 'term-sug term-sug-active' : 'term-sug';
-      return `<span class="${cls}" data-cmd="${cmd}">${cmd}</span>`;
+      return `<button type="button" class="${cls}" data-cmd="${cmd}">${cmd}</button>`;
     })
     .join('');
   s.el.suggestions.classList.add('term-suggestions-open');
   s.el.suggestions.querySelectorAll<HTMLElement>('[data-cmd]').forEach((el) => {
     el.addEventListener('click', () => {
       s.el.input.value = el.dataset.cmd ?? '';
+      s.completionPrefix = null;
       hideSuggestions(s);
       s.el.input.focus();
     });
@@ -246,5 +249,6 @@ function block(s: State, html: string): void {
 }
 
 function scrollEnd(s: State): void {
+  if (s.initializing) return;
   requestAnimationFrame(() => { s.el.body.scrollTop = s.el.body.scrollHeight; });
 }

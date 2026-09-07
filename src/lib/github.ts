@@ -1,5 +1,5 @@
 /* ============================================================
-   GitHub repo metadata (stars + last push) — shared by the
+   GitHub repo metadata (stars + last push) · shared by the
    terminal `projects` command and the recruiter view. One
    repos-listing request per owner, cached in localStorage
    for an hour.
@@ -72,7 +72,7 @@ async function fetchReposFor(owners: string[]): Promise<Record<string, RepoInfo>
   return repos;
 }
 
-/** "3 days ago" / "3 gün önce" — coarse units, locale-aware. */
+/** "3 days ago" / "3 gün önce" · coarse units, locale-aware. */
 function relativeTime(iso: string, locale: string): string | null {
   const ms = Date.now() - new Date(iso).getTime();
   if (!Number.isFinite(ms) || ms < 0) return null;
