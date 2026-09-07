@@ -5,7 +5,7 @@
     "location": "Istanbul, Turkey",
     "sector": "Financial Services / Banking Security",
     "current": "Defending production banking systems @ Fibabanka",
-    "tagline": "Blue team by day, AI/LLM security tooling by night.",
+    "tagline": "SOC intern by day, AI/LLM security tooling on the side.",
     "email": "fscakmak@proton.me",
     "domain": "fscakmak.com",
     "social": {
@@ -170,14 +170,14 @@
       "featured": false
     },
     {
-      "slug": "wdi-analytics",
-      "name": "WDI Analytics · Full-Stack Data Platform",
-      "url": "https://github.com/s4l1hs/Database-Management-System",
-      "owner_type": "team",
-      "owner_note": "Team project · repo owned by teammate",
-      "status": "complete",
-      "tags": ["Flask", "React", "TypeScript", "MySQL", "Docker"],
-      "summary": "Platform for exploring World Bank development indicators across six domains (countries, health, emissions, energy, freshwater, sustainability). A Flask blueprint API behind a React + TypeScript SPA, with role-based access control (admin / editor / viewer), parameterized SQL to block injection, and audit logging on every change. Chart.js trends, a Leaflet world map, CSV export, Docker Compose, Alembic migrations, and a CI pipeline. Built as an ITU term project (BLG-317E).",
+      "slug": "itu-archive",
+      "name": "İTÜ Ders Arşivi · Course Schedule Archive",
+      "url": "https://github.com/yatuk/itu-archive",
+      "demo_url": "https://itu-ders.com",
+      "owner_type": "personal",
+      "status": "active",
+      "tags": ["Go", "JavaScript", "Scraper", "ICS/CSV"],
+      "summary": "Independent archive of ITU's course schedule and academic calendar. OBS (the university portal) only publishes the current term, so this scrapes and persists the data daily: 27 terms back to 2016, 64,000+ section records. Search past and current sections, instructors, and quotas; build a weekly schedule with conflict detection and export to ICS/CSV; browse a department's prerequisite map and exam calendar. GPA calculation from a transcript preview runs entirely client-side.",
       "featured": false
     }
   ]

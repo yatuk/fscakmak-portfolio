@@ -5,7 +5,7 @@
     "location": "İstanbul, Türkiye",
     "sector": "Finansal Hizmetler / Bankacılık Güvenliği",
     "current": "Fibabanka'da canlı bankacılık sistemlerini savunuyor",
-    "tagline": "Gündüz blue team, gece AI/LLM güvenlik araçları.",
+    "tagline": "Gündüz SOC stajyeri, boş vakitlerde AI/LLM güvenlik araçları.",
     "email": "fscakmak@proton.me",
     "domain": "fscakmak.com",
     "social": {
@@ -170,14 +170,14 @@
       "featured": false
     },
     {
-      "slug": "wdi-analytics",
-      "name": "WDI Analytics · Full-Stack Veri Platformu",
-      "url": "https://github.com/s4l1hs/Database-Management-System",
-      "owner_type": "team",
-      "owner_note": "Takım projesi · repo takım üyesine ait",
-      "status": "complete",
-      "tags": ["Flask", "React", "TypeScript", "MySQL", "Docker"],
-      "summary": "Dünya Bankası kalkınma göstergelerini altı alanda (ülkeler, sağlık, emisyon, enerji, tatlı su, sürdürülebilirlik) keşfetmeye yarayan platform. React + TypeScript SPA'nın arkasında Flask blueprint API; rol tabanlı erişim kontrolü (admin / editor / viewer), injection'ı engelleyen parametreli SQL ve her değişiklikte audit logging. Chart.js trendleri, Leaflet dünya haritası, CSV export, Docker Compose, Alembic migration'ları ve CI pipeline'ı. İTÜ dönem projesi olarak geliştirildi (BLG-317E).",
+      "slug": "itu-archive",
+      "name": "İTÜ Ders Arşivi",
+      "url": "https://github.com/yatuk/itu-archive",
+      "demo_url": "https://itu-ders.com",
+      "owner_type": "personal",
+      "status": "active",
+      "tags": ["Go", "JavaScript", "Scraper", "ICS/CSV"],
+      "summary": "İTÜ'nün ders programı ve akademik takviminin bağımsız arşivi. OBS yalnızca aktif dönemi yayınladığı için veriyi her gün çekip kalıcılaştırıyor: 2016'dan bugüne 27 dönem, 64.000+ şube kaydı. Geçmiş ve güncel şubeleri, hocaları, kontenjanları ara; haftalık program oluştur, çakışmaları gör, ICS/CSV olarak dışa aktar; bölümün önşart haritasını ve sınav takvimini incele. Transkript önizlemesinden GANO hesaplama tamamen tarayıcıda çalışır.",
       "featured": false
     }
   ]
