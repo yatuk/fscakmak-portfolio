@@ -22,7 +22,7 @@ const recruiterLabel = t(locale, 'view.recruiter_label');
       <div class="term-dot term-dot-y"></div>
       <div class="term-dot term-dot-g"></div>
     </div>
-    <div class="term-title">fscakmak@kali ~ % zsh</div>
+    <div class="term-title" data-term-title>fscakmak@kali ~ % zsh</div>
     <div class="term-titlebar-right">
       <span class="term-score-label">{t(locale, 'terminal.score_label')}:</span>
       <span class="term-score-value" data-term-score-value>0/100</span>
@@ -100,7 +100,10 @@ const recruiterLabel = t(locale, 'view.recruiter_label');
 
 <script>
   import { initTerminal } from '@core/terminal';
+  import { scrambleReveal } from '@lib/motion';
   import type { Locale, Profile } from '@ptypes/profile';
+
+  scrambleReveal(document.querySelector('[data-term-title]'));
 
   const root = document.querySelector<HTMLElement>('[data-term-root]');
   const stateEl = document.querySelector<HTMLElement>('[data-term-state]');

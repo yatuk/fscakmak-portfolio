@@ -1,5 +1,6 @@
 import type { CommandHandler } from './index';
 import { escapeHtml } from '@lib/sanitize';
+import { countUp } from '@lib/motion';
 import { GH_CACHE_KEY, GH_CACHE_TTL_MS } from '@config/index';
 
 interface GithubUser {
@@ -66,9 +67,9 @@ function formatStats(user: GithubUser | CachedUser, cached: boolean): string {
 <div class="cmd-block">
   <div class="cmd-title">GitHub @${escapeHtml(user.login)}${cached ? ' <span class="t-dim">(cached)</span>' : ''}</div>
   <div class="kv" style="margin-top:8px">
-    <div class="kv-row"><span class="kv-k">repos</span><span class="kv-v kv-v-emph">${user.public_repos}</span></div>
-    <div class="kv-row"><span class="kv-k">followers</span><span class="kv-v">${user.followers}</span></div>
-    <div class="kv-row"><span class="kv-k">following</span><span class="kv-v">${user.following}</span></div>
+    <div class="kv-row"><span class="kv-k">repos</span><span class="kv-v kv-v-emph" data-count>${user.public_repos}</span></div>
+    <div class="kv-row"><span class="kv-k">followers</span><span class="kv-v" data-count>${user.followers}</span></div>
+    <div class="kv-row"><span class="kv-k">following</span><span class="kv-v" data-count>${user.following}</span></div>
     <div class="kv-row"><span class="kv-k">member since</span><span class="kv-v">${since}</span></div>
   </div>
   ${bio}
@@ -101,7 +102,7 @@ const statsHandler: CommandHandler = ({ profile }) => {
   const username = profile.identity.social.github;
   const cached = readCache(username);
   if (cached) {
-    return formatStats(cached, true);
+    return { html: formatStats(cached, true), effect: () => countUp() };
   }
 
   return {
@@ -111,7 +112,10 @@ const statsHandler: CommandHandler = ({ profile }) => {
         .then((user) => {
           writeCache(user);
           const placeholder = document.getElementById(LOADING_ID);
-          if (placeholder) placeholder.outerHTML = formatStats(user, false);
+          if (placeholder) {
+            placeholder.outerHTML = formatStats(user, false);
+            countUp();
+          }
         })
         .catch(() => {
           const placeholder = document.getElementById(LOADING_ID);

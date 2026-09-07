@@ -58,16 +58,16 @@ const blogSchema = {
 <article class="cv-root wr-root">
   <header class="cv-hero wr-hero">
     <div class="cv-hero-left">
-      <div class="cv-hero-label">[ WRITEUPS ]</div>
-      <h1 class="cv-hero-name wr-title">
+      <div class="cv-hero-label" data-reveal-hero>[ WRITEUPS ]</div>
+      <h1 class="cv-hero-name wr-title" data-reveal-hero>
         {locale === 'tr' ? 'Yazılar' : 'Writeups'}
       </h1>
-      <p class="cv-hero-tagline">
+      <p class="cv-hero-tagline" data-reveal-hero>
         &gt; {locale === 'tr'
           ? 'Tespit mühendisliği, zararlı analizi ve web güvenliği üzerine notlar.'
           : 'Notes on detection engineering, malware analysis, and web security.'}
       </p>
-      <div class="cv-cta-row">
+      <div class="cv-cta-row" data-reveal-hero>
         <a class="cv-cta" href={`${localePrefix}/terminal`}>
           {locale === 'tr' ? 'Terminal' : 'Terminal'}
         </a>
@@ -87,7 +87,7 @@ const blogSchema = {
   <section class="cv-card">
     <div class="wr-list">
       {items.map((w) => (
-        <article class="wr-item">
+        <article class="wr-item" data-reveal>
           <div class="wr-item-meta">
             <span class="wr-item-date">{w.date}</span>
             <div class="wr-item-tags">
@@ -114,8 +114,11 @@ const blogSchema = {
   <footer class="cv-footer">{t(locale, 'recruiter.footer_note')}</footer>
 </article>
 
-<script is:inline>
+<script>
+  import { heroReveal, scrollReveal } from '@lib/motion';
   document.body.classList.add('cv-body');
+  heroReveal();
+  scrollReveal();
 </script>
 
 <style>
