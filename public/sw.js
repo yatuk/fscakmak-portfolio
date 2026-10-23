@@ -5,7 +5,7 @@
    Bump VERSION to invalidate everything after a breaking change.
    ============================================================ */
 
-const VERSION = 'v3';
+const VERSION = 'v4';
 const CACHE = `fsc-${VERSION}`;
 
 self.addEventListener('install', () => {

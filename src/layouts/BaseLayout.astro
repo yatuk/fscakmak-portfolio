@@ -2,7 +2,7 @@
 import '@styles/globals.css';
 import jbmLatin400 from '@fontsource/jetbrains-mono/files/jetbrains-mono-latin-400-normal.woff2?url';
 import jbmLatin600 from '@fontsource/jetbrains-mono/files/jetbrains-mono-latin-600-normal.woff2?url';
-import HeaderControls from '@components/HeaderControls.astro';
+import TopBar from '@components/TopBar.astro';
 import { t } from '@core/i18n';
 import type { Locale } from '@ptypes/profile';
 
@@ -12,7 +12,9 @@ export interface Props {
   locale?: Locale;
   canonical?: string;
   ogImage?: string;
+  /** Hides the top-right language + terminal bar (the terminal has its own titlebar). */
   hideHeaderControls?: boolean;
+  themeColor?: string;
   metaRobots?: string;
   /** en/tr equivalents of this page (paths or absolute URLs). Omit on
       single-language pages so no incorrect hreflang alternates are emitted. */
@@ -26,6 +28,7 @@ const {
   canonical,
   ogImage = '/og-image.png',
   hideHeaderControls = false,
+  themeColor = '#0d0d0d',
   metaRobots,
   alternates,
 } = Astro.props;
@@ -83,7 +86,7 @@ const cfBeaconToken = import.meta.env.PUBLIC_CF_WEB_ANALYTICS_TOKEN;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="color-scheme" content="dark" />
-    <meta name="theme-color" content="#0d0d0d" />
+    <meta name="theme-color" content={themeColor} />
     {metaRobots && <meta name="robots" content={metaRobots} />}
     <meta name="generator" content={Astro.generator} />
 
@@ -181,9 +184,9 @@ const cfBeaconToken = import.meta.env.PUBLIC_CF_WEB_ANALYTICS_TOKEN;
       />
     )}
   </head>
-  <body class={Astro.url.pathname.includes("/terminal") ? "terminal-body" : "cv-body"}>
+  <body class={Astro.url.pathname.includes('/terminal') ? 'terminal-body' : 'notebook-body'}>
     <a href="#main" class="skip-link">{t(locale, 'site.skip_to_content')}</a>
-    {!hideHeaderControls && <HeaderControls locale={locale} showLanguage={Boolean(alternates)} />}
+    {!hideHeaderControls && <TopBar locale={locale} showLanguage={Boolean(alternates)} />}
     <main id="main">
       <slot />
     </main>

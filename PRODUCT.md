@@ -3,12 +3,12 @@
 ## Platform
 web
 ## Users
-Recruiters evaluating Fatih Serdar Çakmak and technical visitors exploring his security projects.
+Recruiters and technical visitors looking at Fatih Serdar Çakmak's security work.
 ## Product Purpose
-A bilingual personal portfolio presenting existing experience, projects, writing, and contact information, with an interactive terminal.
+A bilingual personal site: a short notebook-style home (work, projects, writing, contact), a writing index with on-site articles, and an interactive terminal.
 ## Capabilities and Constraints
-Preserve factual profile data, English and Turkish routes, downloadable resume, articles, terminal commands and accessibility. User explicitly delegates design and entry flow choices. No invented employment or performance claims.
+Preserve factual profile data, English and Turkish routes, articles, terminal commands (including `download` for resume.pdf), and accessibility. No standalone CV page; /cv redirects home. The terminal page is not to be changed when the notebook pages change. No invented employment or performance claims.
 ## Brand Commitments
-Cybersecurity character, terminal and recruiter views. Remove em dashes from site copy.
+Cybersecurity character. Notebook (charcoal paper) for reading, terminal for exploring. Plain first-person copy, no marketing taglines.
 ## Evidence on Hand
-src/data profile and writeups files; existing Astro components and command modules.
+src/data profile and writeups files; Astro components and command modules.

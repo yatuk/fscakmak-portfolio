@@ -1,8 +1,8 @@
 ---
-import { t } from '@core/i18n';
 import type { Locale } from '@ptypes/profile';
-import '@styles/fonts-body.css';
-import '@styles/recruiter.css';
+import HandRule from './HandRule.astro';
+import NotebookFooter from './NotebookFooter.astro';
+import '@styles/notebook.css';
 
 export interface Props {
   locale: Locale;
@@ -13,180 +13,31 @@ export interface Props {
 }
 
 const { locale, title, date, tags, readingTime } = Astro.props;
-const localePrefix = locale === 'tr' ? '/tr' : '';
+const tr = locale === 'tr';
+const writingHref = `${tr ? '/tr' : ''}/writeups`;
 ---
 
-<article class="art-root cv-root">
-  <a class="art-back" href={`${localePrefix}/writeups`}>
-    ← {locale === 'tr' ? 'Tüm yazılar' : 'All writeups'}
-  </a>
+<article class="nb">
+  <a class="nb-back" href={writingHref}>← {tr ? 'yazdıklarım' : 'writing'}</a>
 
-  <header class="art-header">
-    <div class="art-meta">
-      <span class="art-date">{date}</span>
-      {readingTime && <span class="art-dot">·</span>}
-      {readingTime && <span class="art-read">{readingTime}</span>}
+  <header>
+    <div class="nb-post-meta">
+      <span>{date}</span>
+      {readingTime && <span>{readingTime}</span>}
+      <span>{tags.join(' · ')}</span>
     </div>
-    <h1 class="art-title">{title}</h1>
-    <div class="art-tags">
-      {tags.map((tg) => <span class="cv-project-tag">{tg}</span>)}
-    </div>
+    <h1 class="nb-art-title">{title}</h1>
   </header>
 
-  <div class="art-body">
+  <HandRule variant={0} />
+
+  <div class="nb-prose">
     <slot />
   </div>
 
-  <footer class="art-footer">
-    <a class="art-back" href={`${localePrefix}/writeups`}>
-      ← {locale === 'tr' ? 'Tüm yazılar' : 'All writeups'}
-    </a>
-    <p class="art-footer-note">{t(locale, 'recruiter.footer_note')}</p>
-  </footer>
+  <p class="nb-after">
+    <a class="nb-back" href={writingHref}>← {tr ? 'tüm yazılar' : 'all writing'}</a>
+  </p>
+
+  <NotebookFooter locale={locale} />
 </article>
-
-<script is:inline>
-  document.body.classList.add('cv-body');
-</script>
-
-<style>
-  .art-root {
-    max-width: 720px;
-  }
-
-  .art-back {
-    display: inline-block;
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
-    color: var(--color-link);
-    text-decoration: none;
-    margin-bottom: var(--space-5);
-  }
-
-  .art-back:hover {
-    color: var(--color-link-hover);
-  }
-
-  .art-header {
-    padding-bottom: var(--space-5);
-    margin-bottom: var(--space-6);
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .art-meta {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    color: rgba(34, 211, 238, 0.7);
-    margin-bottom: var(--space-3);
-  }
-
-  .art-dot {
-    color: var(--color-text-dim);
-  }
-
-  .art-read {
-    color: var(--color-text-dim);
-  }
-
-  .art-title {
-    font-family: var(--font-body);
-    font-size: clamp(1.6rem, 4vw, 2.4rem);
-    font-weight: 700;
-    line-height: 1.2;
-    letter-spacing: -0.01em;
-    margin-bottom: var(--space-4);
-  }
-
-  .art-tags {
-    display: flex;
-    gap: 4px;
-    flex-wrap: wrap;
-  }
-
-  .art-body {
-    font-family: var(--font-body);
-    font-size: 1.02rem;
-    line-height: 1.75;
-    color: var(--color-text);
-  }
-
-  .art-body :global(p) {
-    margin-bottom: var(--space-4);
-  }
-
-  .art-body :global(h2) {
-    font-size: 1.3rem;
-    font-weight: 600;
-    line-height: 1.3;
-    margin: var(--space-6) 0 var(--space-3);
-  }
-
-  .art-body :global(ul) {
-    margin: 0 0 var(--space-4) var(--space-5);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-  }
-
-  .art-body :global(a) {
-    color: var(--color-link);
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
-
-  .art-body :global(a:hover) {
-    color: var(--color-link-hover);
-  }
-
-  .art-body :global(code) {
-    font-family: var(--font-mono);
-    font-size: 0.86em;
-    background: var(--color-surface-raised);
-    padding: 1px 5px;
-    border-radius: var(--radius-sm);
-  }
-
-  .art-body :global(pre) {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    padding: var(--space-4);
-    overflow-x: auto;
-    margin-bottom: var(--space-4);
-  }
-
-  .art-body :global(pre code) {
-    background: none;
-    padding: 0;
-    font-size: 0.82rem;
-    line-height: 1.6;
-  }
-
-  .art-body :global(blockquote) {
-    border-left: 2px solid var(--color-accent);
-    padding-left: var(--space-4);
-    margin: 0 0 var(--space-4);
-    color: var(--color-text-dim);
-  }
-
-  .art-body :global(strong) {
-    color: var(--color-text);
-    font-weight: 600;
-  }
-
-  .art-footer {
-    margin-top: var(--space-8);
-    padding-top: var(--space-5);
-    border-top: 1px solid var(--color-border);
-  }
-
-  .art-footer-note {
-    margin-top: var(--space-4);
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    color: var(--color-text-dim);
-  }
-</style>

@@ -11,8 +11,8 @@ export interface Props {
 const { locale } = Astro.props;
 const profile = getProfile(locale);
 
-const cvHref = locale === 'tr' ? '/tr/cv' : '/cv';
-const recruiterLabel = t(locale, 'view.recruiter_label');
+const homeHref = locale === 'tr' ? '/tr' : '/';
+const backLabel = locale === 'tr' ? 'Ana sayfaya dön' : 'Back to home';
 ---
 
 <div class="term-window" data-term-root data-locale={locale}>
@@ -35,8 +35,8 @@ const recruiterLabel = t(locale, 'view.recruiter_label');
         )}
       </span>
       <span class="term-tbar-sep" aria-hidden="true"></span>
-      <a class="term-view-toggle" href={cvHref} data-view-target="recruiter">
-        {recruiterLabel} <span class="term-view-arrow" aria-hidden="true">→</span>
+      <a class="term-view-toggle term-back" href={homeHref} aria-label={backLabel} title={backLabel}>
+        <span aria-hidden="true">←</span>
       </a>
     </div>
     <!-- Hidden score bar · kept for scoring module compatibility -->

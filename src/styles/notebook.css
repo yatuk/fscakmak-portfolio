@@ -1,0 +1,361 @@
+/* Notebook: one narrow column of charcoal paper. Serif for reading,
+   Kalam for handwritten headings and margin notes, JetBrains Mono for
+   dates and small technical labels (the thread back to the terminal).
+   Fixed palette rather than --color-* tokens, which the terminal's
+   `theme` command rewrites site-wide. */
+@import './fonts-notebook.css';
+
+body.notebook-body {
+  --nb-bg: #1b1a17;
+  --nb-ink: #ebe6d9;
+  --nb-muted: #a8a191;
+  --nb-faint: #8a8476;
+  --nb-rule: #3a3830;
+  --nb-chalk: #c3ec88;
+  --nb-code-bg: #24221e;
+  --nb-serif: 'Source Serif 4', Georgia, serif;
+  --nb-hand: 'Kalam', 'Comic Sans MS', cursive;
+
+  display: block;
+  min-height: 100dvh;
+  padding: 0;
+  background: var(--nb-bg);
+  color: var(--nb-ink);
+  font-family: var(--nb-serif);
+  font-size: 19px;
+  line-height: 1.65;
+}
+
+/* Keep the paper grain from globals.css, drop the blueprint grid. */
+body.notebook-body::before { display: none; }
+body.notebook-body::after { opacity: 0.05; }
+
+.nb {
+  position: relative;
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 128px 24px 72px;
+}
+
+/* ── Links ────────────────────────────────────────────── */
+.nb a {
+  color: var(--nb-ink);
+  text-decoration: underline;
+  text-decoration-color: var(--nb-rule);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition: color 120ms ease-out, text-decoration-color 120ms ease-out;
+}
+
+.nb a:hover {
+  color: var(--nb-chalk);
+  text-decoration-color: currentColor;
+}
+
+.nb strong { font-weight: 600; }
+
+/* ── Hero ─────────────────────────────────────────────── */
+.nb-name {
+  font-family: var(--nb-hand);
+  font-weight: 700;
+  font-size: clamp(42px, 8.5vw, 64px);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.nb-name-mark {
+  display: block;
+  width: min(100%, 520px);
+  height: auto;
+  margin-top: 2px;
+  overflow: visible;
+}
+
+.nb-note {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  margin: 0 0 0 14px;
+  font-family: var(--nb-hand);
+  font-size: 22px;
+  line-height: 1;
+  color: var(--nb-muted);
+  transform: rotate(-2deg);
+  transform-origin: left center;
+}
+
+.nb-arrow {
+  width: 34px;
+  height: 30px;
+  flex-shrink: 0;
+  overflow: visible;
+}
+
+.nb-lede {
+  margin-top: 30px;
+  font-size: 22px;
+  line-height: 1.5;
+}
+
+.nb-hl {
+  position: relative;
+  color: var(--nb-chalk);
+  white-space: nowrap;
+}
+
+.nb-hl svg {
+  position: absolute;
+  left: -3px;
+  bottom: -5px;
+  width: calc(100% + 6px);
+  height: 9px;
+  overflow: visible;
+}
+
+/* Hand-drawn strokes. Pre-hidden only when a script can draw them in;
+   without JS, or with reduced motion, they render finished. */
+.nb-hero svg path {
+  fill: none;
+  stroke: var(--nb-chalk);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.nb-name-mark .nb-draw-thin { stroke-width: 1.6; opacity: 0.6; }
+.nb-arrow path { stroke: var(--nb-muted); stroke-width: 2; }
+.nb-hl svg path { stroke-width: 2.5; }
+
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  .nb-draw {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+}
+
+/* ── Dividers ─────────────────────────────────────────── */
+.nb-rule {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 52px 0 40px;
+  overflow: visible;
+}
+
+.nb-rule path {
+  fill: none;
+  stroke: var(--nb-rule);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+/* ── Sections ─────────────────────────────────────────── */
+.nb-section h2 {
+  font-family: var(--nb-hand);
+  font-weight: 400;
+  font-size: 40px;
+  line-height: 1.1;
+  margin-bottom: 18px;
+  scroll-margin-top: 24px;
+}
+
+.nb-section p + p { margin-top: 16px; }
+
+.nb-section-tight { margin-top: 44px; }
+
+.nb-ps {
+  font-size: 16.5px;
+  font-style: italic;
+  color: var(--nb-muted);
+}
+
+.nb-plain { font-style: normal; color: var(--nb-ink); }
+
+.nb-list {
+  list-style: none;
+  display: grid;
+  gap: 14px;
+}
+
+.nb-dash { color: var(--nb-faint); }
+.nb-desc { color: var(--nb-muted); }
+
+.nb-meta {
+  margin-left: 8px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.02em;
+  color: var(--nb-faint);
+  white-space: nowrap;
+}
+
+.nb .nb-meta-link {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--nb-faint);
+  white-space: nowrap;
+}
+
+.nb-after { margin-top: 20px; font-size: 17px; }
+
+.nb-links { overflow-wrap: anywhere; }
+
+.nb-copy { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+.nb-copy button {
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--nb-muted);
+  font: 13px var(--font-mono);
+  text-decoration: underline dotted;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+
+.nb-copy button:hover { color: var(--nb-chalk); }
+.nb-copy-status { font: 13px var(--font-mono); color: var(--nb-chalk); }
+
+/* ── Footer ───────────────────────────────────────────── */
+.nb-footer {
+  margin-top: 8px;
+  display: grid;
+  gap: 6px;
+  font-size: 16px;
+  color: var(--nb-muted);
+}
+
+.nb-footer .nb-rule { margin: 52px 0 28px; }
+
+.nb-footer small {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--nb-faint);
+}
+
+.nb-footer small a { color: var(--nb-faint); }
+
+/* ── Writing index ────────────────────────────────────── */
+.nb-back {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-bottom: 20px;
+  font: 13px var(--font-mono);
+}
+
+.nb .nb-back { color: var(--nb-muted); text-decoration: none; }
+.nb .nb-back:hover { color: var(--nb-chalk); }
+
+.nb-page-title {
+  font-family: var(--nb-hand);
+  font-weight: 700;
+  font-size: clamp(44px, 8vw, 60px);
+  line-height: 1.05;
+}
+
+.nb-intro { margin-top: 18px; color: var(--nb-muted); }
+
+.nb-posts { list-style: none; display: grid; gap: 34px; }
+
+.nb-post-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin-bottom: 4px;
+  font: 12.5px var(--font-mono);
+  letter-spacing: 0.02em;
+  color: var(--nb-faint);
+}
+
+.nb-post-title {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.35;
+  text-wrap: balance;
+}
+
+.nb-post-summary { margin-top: 8px; font-size: 17px; color: var(--nb-muted); }
+
+/* ── Article ──────────────────────────────────────────── */
+.nb-art-title {
+  font-size: clamp(30px, 5.4vw, 42px);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  margin: 6px 0 14px;
+}
+
+.nb-prose { margin-top: 8px; }
+.nb-prose p { margin-bottom: 20px; }
+
+.nb-prose h2 {
+  font-family: var(--nb-hand);
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 1.15;
+  margin: 40px 0 14px;
+}
+
+.nb-prose ul,
+.nb-prose ol { padding-left: 24px; margin-bottom: 20px; }
+.nb-prose li + li { margin-top: 8px; }
+
+.nb-prose code {
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+  background: var(--nb-code-bg);
+  padding: 2px 5px;
+  border-radius: 3px;
+}
+
+.nb-prose pre {
+  background: #141311;
+  border: 1px solid var(--nb-rule);
+  border-radius: 4px;
+  padding: 16px;
+  overflow-x: auto;
+  margin-bottom: 20px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.nb-prose pre code { background: none; padding: 0; font-size: inherit; }
+
+.nb-prose blockquote {
+  border-left: 2px solid var(--nb-chalk);
+  padding-left: 16px;
+  margin: 0 0 20px;
+  color: var(--nb-muted);
+}
+
+/* ── Small screens ────────────────────────────────────── */
+@media (max-width: 640px) {
+  body.notebook-body { font-size: 18px; }
+  .nb { padding: 96px 20px 56px; }
+  .nb-lede { font-size: 20px; }
+  .nb-section h2 { font-size: 34px; }
+  .nb-rule { margin: 40px 0 32px; }
+  .nb-meta { display: block; margin: 2px 0 0; }
+}
+
+/* ── Print ────────────────────────────────────────────── */
+@media print {
+  body.notebook-body {
+    --nb-bg: #fff;
+    --nb-ink: #111;
+    --nb-muted: #444;
+    --nb-faint: #555;
+    --nb-rule: #bbb;
+    --nb-chalk: #23451b;
+    --nb-code-bg: #eee;
+    font-size: 11pt;
+  }
+  body.notebook-body::after { display: none; }
+  .nb { padding: 0; max-width: none; }
+  .nb-copy, .nb-note { display: none; }
+  .nb a { text-decoration: none; }
+}

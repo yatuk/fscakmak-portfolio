@@ -68,6 +68,8 @@ export interface ProjectEntry {
   owner_note?: string;
   tags: string[];
   summary: string;
+  /** One-line description for the notebook home page. */
+  short?: string;
   featured: boolean;
   status?: 'active' | 'complete';
   demo_url?: string;

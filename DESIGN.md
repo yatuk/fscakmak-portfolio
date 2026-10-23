@@ -1,104 +1,68 @@
 ---
 name: Fatih Serdar Çakmak Portfolio
-description: An editorial security portfolio with a companion interactive terminal.
+description: A charcoal-paper notebook home with a companion interactive terminal.
 colors:
-  portfolio-bg: "#101310"
-  paper: "#eef0e8"
-  muted: "#a6afa3"
-  line: "#31382f"
-  lime: "#c3ec88"
-  primary-ink: "#172110"
-  primary-hover: "#d7f4af"
-  project-surface: "#1c261a"
-  project-surface-alt: "#202823"
+  paper: "#1b1a17"
+  ink: "#ebe6d9"
+  muted: "#a8a191"
+  faint: "#8a8476"
+  rule: "#3a3830"
+  chalk: "#c3ec88"
+  code-bg: "#24221e"
 typography:
-  display:
-    fontFamily: "Manrope, system-ui, -apple-system, sans-serif"
-    fontSize: "clamp(48px, 5.8vw, 78px)"
-    fontWeight: 600
-    lineHeight: 1.03
-    letterSpacing: "-0.04em"
-  headline:
-    fontFamily: "Manrope, system-ui, -apple-system, sans-serif"
-    fontSize: "clamp(28px, 3vw, 40px)"
-    fontWeight: 500
-    lineHeight: 1.2
-    letterSpacing: "-0.035em"
+  hand:
+    fontFamily: "Kalam, cursive"
+    use: "h1 name, section headings, margin notes"
   body:
-    fontFamily: "Manrope, system-ui, -apple-system, sans-serif"
-    fontSize: "16px"
-    lineHeight: 1.8
+    fontFamily: "Source Serif 4, Georgia, serif"
+    fontSize: "19px (18px under 640px)"
+    lineHeight: 1.65
   metadata:
-    fontFamily: "JetBrains Mono, ui-monospace, SF Mono, Menlo, Consolas, monospace"
-    fontSize: "11px"
-rounded:
-  button: "3px"
-  terminal-link: "4px"
-  terminal-window: "7px"
-components:
-  button-primary:
-    backgroundColor: "{colors.lime}"
-    textColor: "{colors.primary-ink}"
-    rounded: "{rounded.button}"
-    padding: "12px 20px"
-  button-primary-hover:
-    backgroundColor: "{colors.primary-hover}"
-    textColor: "{colors.primary-ink}"
+    fontFamily: "JetBrains Mono, ui-monospace, monospace"
+    fontSize: "12.5–13px"
 ---
 
 # Design System: Fatih Serdar Çakmak
 
 ## Overview
 
-The built direction is an editorial security fieldbook: dark olive surfaces, generous reading space, lime emphasis, and small technical diagrams. This is a code-led record, not an approved visual comp. The homepage presents the profile directly for recruiters; English and Turkish terminal routes provide an optional interactive exploration surface.
+Two surfaces, one person. The home page, the writing index, and articles are a notebook: one narrow column of dark charcoal paper, handwritten headings, serif reading text, and a few hand-drawn pen marks. The terminal (`/terminal`, `/tr/terminal`) is the machine: a dark olive window with its own palette and themes. The terminal is deliberately left as it is; the notebook ties back to it through the lime accent (used as chalk) and JetBrains Mono for dates and labels.
 
-Source of truth: `src/components/RecruiterView.astro`, `src/styles/recruiter.css`, `src/components/TerminalShell.astro`, `src/styles/terminal.css`, `src/styles/tokens.css`, and `PRODUCT.md`. Frontmatter captures the recruiter palette and observed type roles; terminal themes remain defined in `tokens.css`.
+The CV page was retired. `/cv` and `/tr/cv` redirect to home (`astro.config.mjs` and `public/_redirects`) for old links and the terminal page's crawlable summary. The terminal's titlebar has a single `←` back button (no label, aria-label "Back to home") that goes straight to home.
+
+Source of truth: `src/styles/notebook.css`, `src/components/HomeView.astro`, `WriteupsView.astro`, `ArticleView.astro`, `TopBar.astro`, `HandRule.astro`, `NotebookFooter.astro`. Terminal: `TerminalShell.astro`, `terminal.css`, `tokens.css`.
 
 ## Colors
 
-Use `paper` for primary reading text, `muted` for descriptions and metadata, and `line` for section dividers on `portfolio-bg`. Lime marks the surname, principal action, current status, selected skill headings, and diagram nodes. Project illustrations use two quiet green surfaces rather than bright promotional artwork.
+`ink` on `paper` for reading text, `muted` for descriptions and the p.s. line, `faint` for mono dates and meta (still 4.6:1 on paper), `rule` for hand-drawn dividers and link underlines. `chalk` (the terminal's lime) is used sparingly: the name underline, the one highlighted word in the lede, link hover, and the `>_` prompt in the top bar.
 
-The terminal's default theme now draws its semantic `--color-*` properties directly from the recruiter palette (`tokens.css`): dark olive ground, paper text, lime for links/accent/prompt. This is deliberate — the terminal and CV are one product and should read as one, not two different sites. Severity/data hues stay distinct where they carry meaning (SOC command output: red/orange for critical/high alerts, warm gold for tags and typed commands) — those are functional, not brand decoration, and are not touched. The macOS-style traffic-light dots were recolored to the same olive/lime pair for the same reason. The alternate themes (`cyberpunk`, `matrix`, `catppuccin`, selectable via the `theme` command) remain intentionally distinct skins — a user opt-in, not the default identity.
+The notebook uses its own fixed palette, not the `--color-*` tokens. The terminal's `theme` command rewrites those tokens site-wide, and the notebook should not change color when someone tries the matrix theme.
 
 ## Typography
 
-Manrope carries headings and prose. JetBrains Mono carries code, dates, tags, and technical labels. Manrope includes Latin extended files for Turkish characters.
-
-The hero name is the largest element, with tight tracking and a balanced two-line composition. The statement below it uses 22–30px type at 1.3 line height. Section headings use the headline token; project titles are 26px at weight 500. Descriptions generally use 14–16px and 1.8–1.95 line height. The hero introduction stays within 48ch. Small mono labels are supporting information, not the primary explanation.
+Kalam carries the name (700) and section headings (400, lowercase: "what i do", "work", "building", "also made", "writing", "say hi"). Source Serif 4 carries everything people actually read. JetBrains Mono is for dates, language/tags, the top bar, and small links like "live ↗". All three load latin + latin-ext so Turkish renders correctly.
 
 ## Layout
 
-The recruiter container is centered at a maximum 1280px with 56px horizontal padding. The hero uses a 1.3:1 grid and 64px gap; featured projects use two equal columns with a 28px gap. Experience and additional project rows use a 1:2 grid. Thin rules and generous vertical spacing establish the page rhythm: major sections begin with 86px of space.
+A single column, max 620px, centered, 128px top padding (96px on mobile). Sections are separated by hand-drawn SVG dividers (`HandRule`, three slightly different wobbles). Lists are one line per item: **name** — short description, with mono meta trailing (dropping below on mobile). No cards, no grids, no hero art.
 
-At 1000px, horizontal padding becomes 32px. At 700px, it becomes 22px; navigation wraps into a second row, content grids become single columns, the decorative hero diagram hides, and major section spacing reduces to 54px. The name is 58px on mobile, reducing to 49px at 360px with 16px page padding. Contact addresses can wrap anywhere. Credentials stack and writing dates move above titles.
+The top bar sits absolutely in the top-right: an `EN / TR` switch and a `>_ terminal` chip. It is hidden on the terminal pages, which have their own titlebar.
 
-Terminal content is capped at 1120px with an independently scrolling body and 32px internal padding. At 640px, outer padding becomes 12px 10px and inner padding 20px 16px. Quick-command buttons remain visible at every size. The title hides below 1100px to protect the controls; decorative window dots and score labels hide on small screens. Structured command output can scroll horizontally.
+## Motion
 
-Print styles use white paper, dark text, compact spacing, and hide navigation, actions, diagrams, and footer. Writing and article surfaces retain their own narrower reading layouts.
-
-## Elevation & Depth
-
-The recruiter page is flat: spacing, thin borders, and tonal surfaces separate content without card shadows. The terminal is a distinct window with the existing `--shadow-window` shadow and raised title bar. Keep terminal chrome local to that experience.
-
-## Shapes
-
-Use restrained rectangular forms: 3px corners on the main button and project artwork, 4px on the terminal entry link, and 7px on the terminal window. Round dots indicate status or decorate window chrome. Terminal command chips retain their pill shape. The hero shield and project architecture diagrams are SVG/CSS elements, not raster assets.
+Only the hero's pen marks animate: the name underline, the margin-note arrow, and the squiggle under the highlighted word draw in once, in sequence (`drawStrokes` in `src/lib/motion.ts`, WAAPI). They are pre-hidden only under `(scripting: enabled) and (prefers-reduced-motion: no-preference)`, so they render finished without JS or with reduced motion. Nothing else moves.
 
 ## Components
 
-- **Navigation:** lowercase `fsc.` wordmark, section links, language switch, and outlined terminal link. Preserve visible English/Turkish route access and direct paths back to the recruiter view.
-- **Actions:** lime primary button with dark text, minimum 50px height, and a 160ms background transition. Secondary actions use text and directional glyphs. Recruiter focus uses a 2px lime outline with 5px offset.
-- **Project presentations:** two featured diagrams followed by unboxed descriptions and plain mono tags. Additional projects, experience, credentials, and writing use ruled rows rather than a uniform card grid.
-- **Contact:** prominent email link, social links, and a copy button. Copy results use `role="status"`, including a failure message that points visitors to the email link.
-- **Terminal:** clearly described as a portfolio simulation. A labeled input accepts commands; quick commands and suggestions are native buttons. Output uses `role="log"` with polite live announcements. Input text is 16px; chips and suggestions have a minimum 44px height. Keep keyboard focus visible and decorative glyphs hidden from assistive technology.
-- **Motion:** use brief state transitions. Shared reduced-motion rules reduce animation and transitions and restore automatic scrolling. Terminal input focus does not animate or add text glow.
+- **TopBar:** language switch + terminal chip, 44px touch targets, fixed hex colors.
+- **HomeView:** name + margin note + lede, then what i do (with a p.s. on school and certs), work (from `experience`), building / also made (from `projects`, using each project's `short` line), writing (from `writeups.json`), say hi (email, links, copy-email button with a `role="status"` result).
+- **WriteupsView / ArticleView:** same column, mono meta row, serif titles, handwritten article subheadings, code on a darker block.
+- **NotebookFooter:** a pointer to the terminal and the source link.
 
 ## Do's and Don'ts
 
-- **Do** keep professional facts and project descriptions tied to existing profile data.
-- **Do** preserve bilingual navigation, the downloadable resume, writing, and terminal commands.
-- **Do** use lime sparingly for hierarchy and interaction while keeping prose readable.
-- **Do** preserve semantic links, native buttons, labeled controls, focus treatment, and mobile wrapping.
-- **Don't** make visitors use a terminal to access the profile.
-- **Don't** introduce invented employment, performance claims, or decorative metrics.
-- **Don't** replace the editorial reading surface with terminal chrome or add em dashes to site copy.
+- **Do** keep copy short, first person, and factual. One line per project.
+- **Do** keep the terminal untouched when changing the notebook.
+- **Don't** add cards, metrics, badges, or invented claims.
+- **Don't** use chalk for large areas; it is a pen, not a fill.
+- **Don't** add em dashes as decoration in prose (the " — " between a name and its description is the list format, not a sentence device).

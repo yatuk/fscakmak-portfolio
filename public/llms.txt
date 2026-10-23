@@ -2,8 +2,8 @@
 
 > SOC analyst intern at Fibabanka (BDDK-regulated banking SOC) and Computer
 > Engineering student at Istanbul Technical University (ITU), graduating 2027.
-> Blue team by day — SIEM/SOAR/EDR alert triage, detection engineering, incident
-> response — and by night an open-source builder of AI/LLM security tooling.
+> Works on SIEM/SOAR/EDR alert triage, detection engineering, and incident
+> response, and builds open-source AI/LLM security tooling on the side.
 > Based in Istanbul, Turkey.
 
 ## Focus areas
@@ -19,14 +19,15 @@
 - [İTÜ MCP](https://github.com/yatuk/itu-mcp): Local MCP server connecting ITU Ninova (LMS) and OBS (student portal) to Claude, Cursor, and Codex. Local-first; credentials never leave the machine. MIT.
 - [SOC n8n Workflows](https://github.com/yatuk/soc-n8n-workflows): 10 production-shaped SOC automation playbooks for n8n — LLM-assisted alert triage, phishing analysis, IOC enrichment, human-approved containment, CVE watch, reporting.
 - [SOC Simulation](https://github.com/yatuk/soc-simulation): End-to-end SIEM/SOAR case study (127 alerts, 126 false positives, 1 real threat) mapped to MITRE ATT&CK.
+- [İTÜ Ders Arşivi](https://github.com/yatuk/itu-archive): Independent archive of ITU's course schedule and academic calendar, scraped daily since OBS only publishes the current term. 27 terms back to 2016, 64,000+ section records. Live at https://itu-ders.com.
 
 ## Pages
 
-- [CV](https://fscakmak.com/cv): Full experience, skills, education, and certifications.
+- [Home](https://fscakmak.com/): Short profile: current work, projects, writing, contact.
 - [Writeups](https://fscakmak.com/writeups): Security writeups on detection engineering, malware analysis, and web security.
 - [I built a security scanner for MCP servers](https://fscakmak.com/writeups/mcpradar): Why MCPRadar exists and what it detects.
 - [İTÜ MCP](https://fscakmak.com/writeups/itu-mcp): Building a local MCP server for ITU's Ninova and OBS (Turkish).
-- [Terminal](https://fscakmak.com/): Interactive terminal view of the profile.
+- [Terminal](https://fscakmak.com/terminal): Interactive terminal view of the profile.
 
 ## Links
 

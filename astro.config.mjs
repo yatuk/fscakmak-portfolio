@@ -16,22 +16,25 @@ export default defineConfig({
           tr: 'tr',
         },
       },
+      filter: (page) => !/\/cv\/?$/.test(new URL(page).pathname),
       serialize(item) {
         const path = new URL(item.url).pathname;
         item.lastmod = new Date().toISOString();
-        if (path === '/cv' || path === '/tr/cv') {
-          return { ...item, priority: 0.9, changefreq: 'monthly' };
-        }
         if (path.startsWith('/writeups') || path.startsWith('/tr/writeups')) {
           return { ...item, priority: 0.7, changefreq: 'weekly' };
         }
         if (path === '/' || path === '/tr') {
-          return { ...item, priority: 0.5, changefreq: 'monthly' };
+          return { ...item, priority: 1.0, changefreq: 'monthly' };
         }
         return item;
       },
     }),
   ],
+  // The CV page was retired; the terminal still links to /cv, so it lands on home.
+  redirects: {
+    '/cv': '/',
+    '/tr/cv': '/tr',
+  },
   output: 'static',
   trailingSlash: 'never',
   build: {
@@ -55,7 +58,7 @@ export default defineConfig({
       rollupOptions: {
         output: {
           manualChunks(id) {
-            /* Shared helpers get their own small chunk so the CV page
+            /* Shared helpers get their own small chunk so the notebook pages
                doesn't pull the whole terminal commands bundle. */
             if (id.includes('src/lib/')) return 'lib';
             if (id.includes('src/commands/')) return 'commands';

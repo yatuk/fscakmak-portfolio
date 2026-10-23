@@ -125,6 +125,7 @@
       "status": "active",
       "tags": ["Go", "Python", "Next.js", "AI Security", "AGPL-3.0"],
       "summary": "Open-source proxy you host yourself, sitting between your app and the LLM provider (OpenAI, Anthropic, Azure, Vertex). Redacts PII inline (TC Kimlik, IBAN, credit cards), blocks leaked secrets, and catches prompt injection with sub-millisecond static scanning via an Aho-Corasick DFA. Ships KVKK / BDDK / GDPR / PCI-DSS compliance mappings, hash-chained audit logs, a Next.js incident dashboard, and a 309-prompt adversarial suite gated in CI.",
+      "short": "a self-hosted proxy between your app and the LLM. Redacts PII, blocks leaked secrets, catches prompt injection.",
       "featured": true
     },
     {
@@ -136,6 +137,7 @@
       "status": "active",
       "tags": ["Python", "MCP", "Supply Chain", "SARIF", "PyPI"],
       "summary": "Catches tool poisoning, prompt injection, and supply-chain rug pulls in Model Context Protocol servers before your agent runs them. 6 detection rules (zero-width Unicode, injection patterns, encoded blobs, hidden HTML/Markdown, permission scope mismatch, dangerous tool names), SARIF output that drops straight into the GitHub Security tab, and SQLite snapshot diffing to flag silent schema changes. One-shot run with uvx, no install needed.",
+      "short": "scans MCP servers for tool poisoning and rug pulls before your agent runs them. On PyPI.",
       "featured": true
     },
     {
@@ -146,6 +148,7 @@
       "status": "active",
       "tags": ["Python", "MCP", "Automation", "MIT"],
       "summary": "Local MCP server that connects an ITU student's Ninova (LMS) and OBS (student portal) accounts to Claude, Cursor, Codex, and other MCP clients. Ask about assignments, deadlines, grades, transcripts, or attendance in natural language; reads PDF/DOCX files, uploads homework only with explicit confirmation. Local-first: credentials never leave the machine and are sent only to ITU endpoints.",
+      "short": "connects ITU’s Ninova and OBS to Claude and other MCP clients. Your password stays on your machine.",
       "featured": true
     },
     {
@@ -157,6 +160,7 @@
       "status": "complete",
       "tags": ["Python", "React", "SIEM", "SOAR", "MITRE ATT&CK"],
       "summary": "End-to-end SOC simulation: 127 alerts, 126 false positives, 1 real threat. Maps multi-stage attacks to MITRE ATT&CK TTPs, with a React dashboard for real-time alert visualization, realistic log datasets to test SIEM correlation rules, and Python-based SOAR playbook flows for automated triage and enrichment.",
+      "short": "127 alerts, 126 false positives, 1 real threat. A SIEM/SOAR case study mapped to MITRE ATT&CK.",
       "featured": true
     },
     {
@@ -167,6 +171,7 @@
       "status": "active",
       "tags": ["n8n", "SOAR", "Automation", "LLM"],
       "summary": "10 production-shaped SOC automation playbooks for n8n: LLM-assisted alert triage, phishing analysis, IOC enrichment, human-approved containment, CVE watch, and SOC reporting. Import-ready JSON, zero secrets.",
+      "short": "10 SOC automation playbooks for n8n, ready to import.",
       "featured": false
     },
     {
@@ -178,6 +183,7 @@
       "status": "active",
       "tags": ["Go", "JavaScript", "Scraper", "ICS/CSV"],
       "summary": "Independent archive of ITU's course schedule and academic calendar. OBS (the university portal) only publishes the current term, so this scrapes and persists the data daily: 27 terms back to 2016, 64,000+ section records. Search past and current sections, instructors, and quotas; build a weekly schedule with conflict detection and export to ICS/CSV; browse a department's prerequisite map and exam calendar. GPA calculation from a transcript preview runs entirely client-side.",
+      "short": "every ITU course section since 2016, archived daily, because OBS only shows the current term.",
       "featured": false
     }
   ]

@@ -211,27 +211,3 @@ a:hover {
 
 ::selection { background:#c3ec88; color:#172110; }
 
-/* ── Scroll/load reveal · progressively enhanced by Motion ──
-   Hidden only when JS can run the animation; visible by default
-   for no-JS and reduced-motion so content is never gated on JS. */
-[data-reveal],
-[data-reveal-hero] {
-  opacity: 0;
-  transform: translateY(18px);
-}
-
-@media (scripting: none) {
-  [data-reveal],
-  [data-reveal-hero] {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  [data-reveal],
-  [data-reveal-hero] {
-    opacity: 1;
-    transform: none;
-  }
-}

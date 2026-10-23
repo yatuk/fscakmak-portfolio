@@ -1549,3 +1549,4 @@ body.terminal-body main { width:100%; max-width:1120px; }
 
 .term-window { min-width:0; }
 .term-title,.term-lang-alt,.term-score-label { color:var(--color-text-dim); }
+.term-back { justify-content:center; min-width:44px; padding:0; font-size:16px; }

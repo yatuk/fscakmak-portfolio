@@ -1,0 +1,172 @@
+---
+import { getProfile } from '@lib/profile';
+import { t } from '@core/i18n';
+import type { Locale } from '@ptypes/profile';
+import writeups from '@data/writeups.json';
+import HandRule from './HandRule.astro';
+import NotebookFooter from './NotebookFooter.astro';
+import '@styles/notebook.css';
+
+export interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const tr = locale === 'tr';
+const prefix = tr ? '/tr' : '';
+const { identity, experience, projects, certifications } = getProfile(locale);
+
+const displayName = (name: string) => name.split(' · ')[0].split(':')[0];
+const BUILDING = ['tamga', 'mcpradar', 'itu-archive', 'itu-mcp'];
+const building = BUILDING.map((slug) => projects.find((p) => p.slug === slug)).filter((p) => p !== undefined);
+const alsoMade = projects.filter((p) => !BUILDING.includes(p.slug));
+const now = tr ? 'şimdi' : 'now';
+---
+
+<article class="nb">
+  <header class="nb-hero">
+    <h1 class="nb-name">
+      Fatih Serdar Çakmak
+      <svg class="nb-name-mark" viewBox="0 0 520 22" aria-hidden="true" focusable="false">
+        <path class="nb-draw" pathLength="1" d="M4 13 C 90 7, 200 16, 310 10 S 450 7, 516 12" />
+        <path class="nb-draw nb-draw-thin" pathLength="1" d="M22 17 C 120 12, 230 19, 330 14 S 460 12, 505 16" />
+      </svg>
+    </h1>
+    <p class="nb-note">
+      <svg class="nb-arrow" viewBox="0 0 40 34" aria-hidden="true" focusable="false">
+        <path class="nb-draw" pathLength="1" d="M34 30 C 22 28, 12 20, 9 6" />
+        <path class="nb-draw" pathLength="1" d="M3 12 L 9 5 L 15 11" />
+      </svg>
+      {tr ? 'kısaca fsc' : 'fsc for short'}
+    </p>
+    <p class="nb-lede">
+      {tr ? 'Bir bankada SOC stajyeriyim. Boş vakitlerimde ' : 'SOC intern at a bank. Building security tools for '}
+      <span class="nb-hl">AI<svg viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path class="nb-draw" pathLength="1" d="M2 6 C 25 3, 50 8, 75 4 S 95 6, 98 5" /></svg></span>
+      {tr ? ' için güvenlik araçları yazıyorum.' : ' on the side.'}
+    </p>
+  </header>
+
+  <HandRule variant={0} />
+
+  <section class="nb-section" aria-labelledby="what">
+    <h2 id="what">{tr ? 'ne yapıyorum' : 'what i do'}</h2>
+    <p>
+      {tr
+        ? 'Güvenliğin savunma tarafında çalışıyorum. Gün içinde bir bankada SIEM ve EDR alertlerini triyajlıyor, SOC işinin tekrar eden kısımlarını n8n ile otomatikleştiriyorum. Kendi zamanımda LLM uygulamalarını ve agent’ların bağlandığı MCP sunucularını güvenli hale getiren açık kaynak araçlar yazıyorum.'
+        : 'I work on the defensive side of security. During the day that means triaging SIEM and EDR alerts at a bank and automating the repetitive parts of SOC work with n8n. In my own time I build open-source tools for securing LLM apps and the MCP servers that agents plug into.'}
+    </p>
+    <p class="nb-ps">
+      {tr
+        ? 'not: İTÜ’de bilgisayar mühendisliği okuyorum, 2027’de mezun oluyorum. Öncesinde teknik lisede endüstriyel otomasyon okudum; OT güvenliği için fena bir hazırlık olmadı. Şimdiye kadarki sertifika: '
+        : 'p.s. I’m studying Computer Engineering at ITU, graduating in 2027. Before that I did industrial automation at a technical high school, which turned out to be decent prep for OT security. Certs so far: '}
+      <span class="nb-plain">{certifications.map((c) => c.name).join(' · ')}</span>.
+    </p>
+  </section>
+
+  <HandRule variant={1} />
+
+  <section class="nb-section" aria-labelledby="work">
+    <h2 id="work">{tr ? 'iş' : 'work'}</h2>
+    <ul class="nb-list">
+      {experience.map((e) => (
+        <li>
+          <strong>{e.company}</strong>
+          <span class="nb-dash"> — </span>
+          <span class="nb-desc">{e.title}{e.part_time ? `, ${t(locale, 'cmd.experience.part_time').toLowerCase()}` : ''}</span>
+          <span class="nb-meta">{e.start} → {e.end ?? now}</span>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <HandRule variant={2} />
+
+  <section class="nb-section" aria-labelledby="building">
+    <h2 id="building">{tr ? 'yapım aşamasında' : 'building'}</h2>
+    <ul class="nb-list">
+      {building.map((p) => (
+        <li>
+          <a href={p.url} target="_blank" rel="noopener noreferrer"><strong>{displayName(p.name)}</strong></a>
+          <span class="nb-dash"> — </span>
+          <span class="nb-desc">{p.short}</span>
+          {p.demo_url && <> <a class="nb-meta-link" href={p.demo_url} target="_blank" rel="noopener noreferrer">{tr ? 'canlı' : 'live'} ↗</a></>}
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="nb-section nb-section-tight" aria-labelledby="made">
+    <h2 id="made">{tr ? 'bir de bunlar' : 'also made'}</h2>
+    <ul class="nb-list">
+      {alsoMade.map((p) => (
+        <li>
+          {p.url ? <a href={p.url} target="_blank" rel="noopener noreferrer"><strong>{displayName(p.name)}</strong></a> : <strong>{displayName(p.name)}</strong>}
+          <span class="nb-dash"> — </span>
+          <span class="nb-desc">{p.short}</span>
+          {p.demo_url && <> <a class="nb-meta-link" href={p.demo_url} target="_blank" rel="noopener noreferrer">{tr ? 'canlı' : 'live'} ↗</a></>}
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <HandRule variant={0} />
+
+  <section class="nb-section" aria-labelledby="writing">
+    <h2 id="writing">{tr ? 'yazdıklarım' : 'writing'}</h2>
+    <ul class="nb-list">
+      {writeups.map((w) => (
+        <li>
+          {w.path
+            ? <a href={w.path} lang={w.lang}>{w.title}</a>
+            : <a href={w.url} lang={w.lang} target="_blank" rel="noopener noreferrer">{w.title} ↗</a>}
+          <span class="nb-meta">{w.date}</span>
+        </li>
+      ))}
+    </ul>
+    <p class="nb-after">
+      <a href={`${prefix}/writeups`}>{tr ? 'hepsi, özetleriyle' : 'all of it, with summaries'} →</a>
+      <span class="nb-dash"> · </span>
+      <a href="https://medium.com/@fscakmak" target="_blank" rel="noopener noreferrer">{tr ? 'Medium’da da var' : 'also on Medium'} ↗</a>
+    </p>
+  </section>
+
+  <HandRule variant={1} />
+
+  <section class="nb-section" aria-labelledby="hi">
+    <h2 id="hi">{tr ? 'selam ver' : 'say hi'}</h2>
+    <p>{tr ? 'Bana en hızlı e-postayla ulaşırsın.' : 'Email is the fastest way to reach me.'}</p>
+    <p class="nb-links">
+      <a href={`mailto:${identity.email}`}>{identity.email}</a>
+      <span class="nb-dash"> · </span>
+      <a href={`https://github.com/${identity.social.github}`} target="_blank" rel="noopener noreferrer">github</a>
+      <span class="nb-dash"> · </span>
+      <a href={`https://linkedin.com/in/${identity.social.linkedin}`} target="_blank" rel="noopener noreferrer">linkedin</a>
+      <span class="nb-dash"> · </span>
+      <a href="https://medium.com/@fscakmak" target="_blank" rel="noopener noreferrer">medium</a>
+    </p>
+    <p class="nb-copy">
+      <button type="button" data-copy-email={identity.email} data-success={tr ? 'kopyalandı' : 'copied'} data-error={tr ? 'kopyalanamadı, yukarıdaki bağlantıyı kullan' : 'couldn’t copy, use the link above'}>
+        {tr ? 'e-postayı kopyala' : 'copy email'}
+      </button>
+      <span class="nb-copy-status" role="status"></span>
+    </p>
+  </section>
+
+  <NotebookFooter locale={locale} />
+</article>
+
+<script>
+  import { drawStrokes } from '@lib/motion';
+  drawStrokes();
+  document.querySelectorAll<HTMLButtonElement>('[data-copy-email]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const status = button.parentElement?.querySelector('.nb-copy-status');
+      try {
+        await navigator.clipboard.writeText(button.dataset.copyEmail ?? '');
+        if (status) status.textContent = button.dataset.success ?? 'copied';
+      } catch {
+        if (status) status.textContent = button.dataset.error ?? 'couldn’t copy';
+      }
+    });
+  });
+</script>

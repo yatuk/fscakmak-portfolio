@@ -1,0 +1,99 @@
+---
+import { oppositeLocale, swapLocaleInUrl, t } from '@core/i18n';
+import type { Locale } from '@ptypes/profile';
+
+export interface Props {
+  locale: Locale;
+  showLanguage?: boolean;
+}
+
+const { locale, showLanguage = true } = Astro.props;
+const target = oppositeLocale(locale);
+const langHref = swapLocaleInUrl(Astro.url.pathname, target);
+const terminalHref = `${locale === 'tr' ? '/tr' : ''}/terminal`;
+---
+
+<nav class="topbar" aria-label={locale === 'tr' ? 'Dil ve terminal' : 'Language and terminal'}>
+  {showLanguage && (
+    <a class="tb-lang" href={langHref} hreflang={target} aria-label={t(locale, `language.switch_to_${target}_aria`)}>
+      <span class="tb-lang-current">{locale.toUpperCase()}</span>
+      <span aria-hidden="true">/</span>
+      <span>{target.toUpperCase()}</span>
+    </a>
+  )}
+  <a class="tb-term" href={terminalHref}>
+    <span class="tb-prompt" aria-hidden="true">&gt;_</span> terminal
+  </a>
+</nav>
+
+<style>
+  /* Fixed hex rather than theme tokens: the terminal's `theme` command
+     rewrites --color-* site-wide, and this bar should not follow it. */
+  .topbar {
+    position: absolute;
+    top: 20px;
+    right: 24px;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+
+  .tb-lang {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    color: #8a8476;
+    text-decoration: none;
+    letter-spacing: 0.06em;
+  }
+
+  .tb-lang-current {
+    color: #ebe6d9;
+    font-weight: 600;
+  }
+
+  .tb-lang:hover {
+    color: #ebe6d9;
+  }
+
+  .tb-term {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 14px;
+    background: #121210;
+    border: 1px solid #3a3830;
+    border-radius: 4px;
+    color: #ebe6d9;
+    text-decoration: none;
+    transition: border-color 120ms ease-out;
+  }
+
+  .tb-term:hover {
+    border-color: #c3ec88;
+    color: #ebe6d9;
+  }
+
+  .tb-prompt {
+    color: #c3ec88;
+  }
+
+  @media (max-width: 640px) {
+    .topbar {
+      top: 12px;
+      right: 14px;
+      gap: 12px;
+    }
+  }
+
+  @media print {
+    .topbar {
+      display: none;
+    }
+  }
+</style>

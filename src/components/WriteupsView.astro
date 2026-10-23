@@ -1,16 +1,17 @@
 ---
-import { t } from '@core/i18n';
 import type { Locale } from '@ptypes/profile';
 import writeups from '@data/writeups.json';
-import '@styles/fonts-body.css';
-import '@styles/recruiter.css';
+import HandRule from './HandRule.astro';
+import NotebookFooter from './NotebookFooter.astro';
+import '@styles/notebook.css';
 
 export interface Props {
   locale: Locale;
 }
 
 const { locale } = Astro.props;
-const localePrefix = locale === 'tr' ? '/tr' : '';
+const tr = locale === 'tr';
+const localePrefix = tr ? '/tr' : '';
 
 interface Writeup {
   title: string;
@@ -26,13 +27,10 @@ interface Writeup {
 const items = writeups as Writeup[];
 
 const site = Astro.site?.toString().replace(/\/$/, '') ?? 'https://fscakmak.com';
-/** On-site article → internal path; otherwise the external (Medium) URL. */
-const hrefOf = (w: Writeup) => w.path ?? w.url ?? '#';
-const isExternal = (w: Writeup) => !w.path;
 const blogSchema = {
   '@context': 'https://schema.org',
   '@type': 'Blog',
-  name: locale === 'tr' ? 'Fatih Serdar Çakmak · Yazılar' : 'Fatih Serdar Çakmak · Writeups',
+  name: tr ? 'Fatih Serdar Çakmak · Yazılar' : 'Fatih Serdar Çakmak · Writeups',
   url: `${site}${localePrefix}/writeups`,
   inLanguage: locale,
   author: {
@@ -47,7 +45,7 @@ const blogSchema = {
     datePublished: `${w.date}-01`,
     inLanguage: w.lang,
     keywords: w.tags.join(', '),
-    abstract: locale === 'tr' ? w.summary_tr : w.summary,
+    abstract: tr ? w.summary_tr : w.summary,
     author: { '@type': 'Person', name: 'Fatih Serdar Çakmak', url: site },
   })),
 };
@@ -55,137 +53,38 @@ const blogSchema = {
 
 <script type="application/ld+json" is:inline set:html={JSON.stringify(blogSchema)} />
 
-<article class="cv-root wr-root">
-  <header class="cv-hero wr-hero">
-    <div class="cv-hero-left">
-      <div class="cv-hero-label" data-reveal-hero>[ WRITEUPS ]</div>
-      <h1 class="cv-hero-name wr-title" data-reveal-hero>
-        {locale === 'tr' ? 'Yazılar' : 'Writeups'}
-      </h1>
-      <p class="cv-hero-tagline" data-reveal-hero>
-        &gt; {locale === 'tr'
-          ? 'Tespit mühendisliği, zararlı analizi ve web güvenliği üzerine notlar.'
-          : 'Notes on detection engineering, malware analysis, and web security.'}
-      </p>
-      <div class="cv-cta-row" data-reveal-hero>
-        <a class="cv-cta" href={`${localePrefix}/terminal`}>
-          {locale === 'tr' ? 'Terminal' : 'Terminal'}
-        </a>
-        <a class="cv-cta" href={`${localePrefix}/cv`}>CV</a>
-        <a
-          class="cv-cta"
-          href="https://medium.com/@fscakmak"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Medium
-        </a>
-      </div>
-    </div>
-  </header>
+<article class="nb">
+  <a class="nb-back" href={localePrefix || '/'}>← Fatih Serdar Çakmak</a>
+  <h1 class="nb-page-title">{tr ? 'yazdıklarım' : 'writing'}</h1>
+  <p class="nb-intro">
+    {tr
+      ? 'Detection engineering, zararlı analizi ve web güvenliği üzerine notlar. Eskiler Medium’da, yeniler burada.'
+      : 'Notes on detection engineering, malware analysis, and web security. The older ones are on Medium, the newer ones live here.'}
+  </p>
 
-  <section class="cv-card">
-    <div class="wr-list">
-      {items.map((w) => (
-        <article class="wr-item" data-reveal>
-          <div class="wr-item-meta">
-            <span class="wr-item-date">{w.date}</span>
-            <div class="wr-item-tags">
-              {w.tags.map((tg) => <span class="cv-project-tag">{tg}</span>)}
-            </div>
-          </div>
-          <h2 class="wr-item-title">
-            {isExternal(w) ? (
-              <a href={hrefOf(w)} target="_blank" rel="noopener noreferrer">
-                {w.title} ↗
-              </a>
-            ) : (
-              <a href={hrefOf(w)}>{w.title} →</a>
-            )}
-          </h2>
-          <p class="wr-item-summary">
-            {locale === 'tr' ? w.summary_tr : w.summary}
-          </p>
-        </article>
-      ))}
-    </div>
-  </section>
+  <HandRule variant={1} />
 
-  <footer class="cv-footer">{t(locale, 'recruiter.footer_note')}</footer>
+  <ul class="nb-posts">
+    {items.map((w) => (
+      <li>
+        <div class="nb-post-meta">
+          <span>{w.date}</span>
+          <span>{w.lang.toUpperCase()}</span>
+          <span>{w.tags.join(' · ')}</span>
+        </div>
+        <h2 class="nb-post-title">
+          {w.path
+            ? <a href={w.path} lang={w.lang}>{w.title}</a>
+            : <a href={w.url} lang={w.lang} target="_blank" rel="noopener noreferrer">{w.title} ↗</a>}
+        </h2>
+        <p class="nb-post-summary">{tr ? w.summary_tr : w.summary}</p>
+      </li>
+    ))}
+  </ul>
+
+  <p class="nb-after">
+    <a href="https://medium.com/@fscakmak" target="_blank" rel="noopener noreferrer">{tr ? 'Medium’daki tüm yazılar' : 'everything on Medium'} ↗</a>
+  </p>
+
+  <NotebookFooter locale={locale} />
 </article>
-
-<script>
-  import { heroReveal, scrollReveal } from '@lib/motion';
-  document.body.classList.add('cv-body');
-  heroReveal();
-  scrollReveal();
-</script>
-
-<style>
-  .wr-title {
-    font-size: clamp(2rem, 5vw, 3rem);
-  }
-
-  .wr-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-5);
-  }
-
-  .wr-item {
-    padding-bottom: var(--space-5);
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .wr-item:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-  }
-
-  .wr-item-meta {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    flex-wrap: wrap;
-    margin-bottom: var(--space-2);
-  }
-
-  .wr-item-date {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    color: rgba(34, 211, 238, 0.7);
-    letter-spacing: 0.03em;
-  }
-
-  .wr-item-tags {
-    display: inline-flex;
-    gap: 4px;
-    flex-wrap: wrap;
-  }
-
-  .wr-item-title {
-    font-family: var(--font-body);
-    font-size: 1.15rem;
-    font-weight: 600;
-    line-height: 1.35;
-    margin-bottom: var(--space-2);
-  }
-
-  .wr-item-title a {
-    color: var(--color-text);
-    text-decoration: none;
-    transition: color var(--transition-fast);
-  }
-
-  .wr-item-title a:hover {
-    color: var(--color-accent);
-  }
-
-  .wr-item-summary {
-    font-family: var(--font-body);
-    color: var(--color-text-dim);
-    font-size: 0.9rem;
-    line-height: 1.65;
-    max-width: 68ch;
-  }
-</style>

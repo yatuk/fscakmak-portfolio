@@ -1,107 +1,41 @@
 /**
- * Thin wrapper around the `motion` package for the site's two reveal
- * patterns: a staggered hero entrance on load, and a fade-in-on-scroll
- * for content rows further down the page. Both are no-ops under
- * prefers-reduced-motion — [data-reveal]/[data-reveal-hero] fall back
- * to fully visible via CSS (see globals.css), this just skips the
- * redundant animation work.
+ * Animation helpers. countUp and scrambleReveal drive the terminal;
+ * drawStrokes draws the notebook pages' hand-drawn pen marks in.
  */
-import { animate, inView } from 'motion';
+import { animate } from 'motion';
 
 const prefersReducedMotion = () =>
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /**
- * Stagger-reveal every `[data-reveal-hero]` element inside `root`, once, on
- * call. Animates each element individually with an increasing numeric delay
- * rather than using motion's `stagger()` helper — a numeric delay keeps this
- * on native WAAPI (compositor-driven, keeps running if the tab is
- * backgrounded mid-animation); `stagger()` forces a JS-timed group instead.
+ * Draw each `.nb-draw` SVG path in, one after another. The paths are
+ * pre-hidden by a stylesheet rule (stroke-dashoffset: 1 against
+ * pathLength="1"). This uses WAAPI directly rather than motion's animate():
+ * motion writes SVG presentation attributes, and that stylesheet rule
+ * outranks attributes, so the stroke would never appear.
  */
-export function heroReveal(root: ParentNode = document): void {
+export function drawStrokes(root: ParentNode = document): void {
   if (prefersReducedMotion()) return;
-  const els = root.querySelectorAll<HTMLElement>('[data-reveal-hero]');
-  if (!els.length) return;
-  els.forEach((el, i) => {
-    animate(
-      el,
-      { opacity: [0, 1], transform: ['translateY(18px)', 'translateY(0)'] },
-      { duration: 0.6, delay: 0.05 + i * 0.08, ease: 'easeOut' }
+  root.querySelectorAll<SVGPathElement>('.nb-draw').forEach((path, i) => {
+    const anim = path.animate(
+      [{ strokeDashoffset: '1' }, { strokeDashoffset: '0' }],
+      { duration: 650, delay: 250 + i * 160, easing: 'cubic-bezier(.65,0,.35,1)', fill: 'both' }
     );
+    anim.finished
+      .then(() => {
+        path.style.strokeDashoffset = '0';
+        anim.cancel();
+      })
+      .catch(() => {});
   });
-}
-
-const reveal = (el: HTMLElement, animated: boolean) => {
-  if (animated) {
-    animate(
-      el,
-      { opacity: [0, 1], transform: ['translateY(18px)', 'translateY(0)'] },
-      { duration: 0.5, ease: 'easeOut' }
-    );
-  } else {
-    el.style.opacity = '1';
-    el.style.transform = 'none';
-  }
-};
-
-/**
- * Fade in each `[data-reveal]` element inside `root` the first time it
- * enters the viewport. `amount: 0` (fire on the first pixel of overlap)
- * plus the scroll-driven safety net below means a fast flick-scroll can't
- * skip an element past the observer and leave it stuck invisible.
- */
-export function scrollReveal(root: ParentNode = document): void {
-  const els = Array.from(root.querySelectorAll<HTMLElement>('[data-reveal]'));
-  if (!els.length) return;
-  if (prefersReducedMotion()) {
-    els.forEach((el) => reveal(el, false));
-    return;
-  }
-
-  const pending = new Set(els);
-  const catchUp = () => {
-    pending.forEach((el) => {
-      if (el.getBoundingClientRect().top < window.innerHeight) {
-        reveal(el, false);
-        pending.delete(el);
-      }
-    });
-  };
-
-  els.forEach((el) => {
-    const stop = inView(
-      el,
-      () => {
-        pending.delete(el);
-        reveal(el, true);
-        stop();
-      },
-      { margin: '0px 0px -2% 0px', amount: 0 }
-    );
-  });
-
-  let ticking = false;
-  window.addEventListener(
-    'scroll',
-    () => {
-      if (ticking || !pending.size) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        catchUp();
-        ticking = false;
-      });
-    },
-    { passive: true }
-  );
 }
 
 /**
  * Count up every `[data-count]` element inside `root` from 0 to its target
  * integer (the element's own text at call time). Used for stats that land
  * in the DOM already-final (e.g. an API response) rather than server-
- * rendered, so there's no [data-reveal]-style no-JS fallback to wire up —
- * the target number is always the immediate, correct text under reduced
- * motion or a stalled animation.
+ * rendered, so the target number is always the immediate, correct text under
+ * reduced motion or a stalled animation.
  */
 export function countUp(root: ParentNode = document): void {
   const els = root.querySelectorAll<HTMLElement>('[data-count]');

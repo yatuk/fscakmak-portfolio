@@ -125,6 +125,7 @@
       "status": "active",
       "tags": ["Go", "Python", "Next.js", "AI Security", "AGPL-3.0"],
       "summary": "Uygulamanız ile LLM sağlayıcısı (OpenAI, Anthropic, Azure, Vertex) arasında duran, kendi sunucunuzda barındırdığınız açık kaynak proxy. PII'yi anında maskeler (TC Kimlik, IBAN, kredi kartı), sızan secret'ları engeller ve Aho-Corasick DFA ile milisaniyenin altında statik taramayla prompt injection yakalar. KVKK / BDDK / GDPR / PCI-DSS uyumluluk eşlemeleri, hash zincirli audit logları, Next.js olay dashboard'u ve CI'da koşan 309 prompt'luk adversarial test paketiyle gelir.",
+      "short": "uygulaman ile LLM arasında duran, kendi sunucunda çalışan bir proxy. PII’yi maskeler, sızan secret’ları engeller, prompt injection yakalar.",
       "featured": true
     },
     {
@@ -136,6 +137,7 @@
       "status": "active",
       "tags": ["Python", "MCP", "Supply Chain", "SARIF", "PyPI"],
       "summary": "Model Context Protocol sunucularındaki tool poisoning, prompt injection ve supply-chain \"rug pull\" saldırılarını agent'ınız çalıştırmadan önce yakalar. 6 tespit kuralı (zero-width Unicode, injection desenleri, encode edilmiş bloblar, gizli HTML/Markdown, izin kapsamı uyumsuzluğu, tehlikeli tool isimleri), GitHub Security sekmesine doğrudan düşen SARIF çıktısı ve sessiz şema değişikliklerini işaretleyen SQLite snapshot diff'i. uvx ile tek komutta çalışır, kurulum gerektirmez.",
+      "short": "MCP sunucularını, agent’ın çalıştırmadan önce tool poisoning ve rug pull’a karşı tarar. PyPI’da.",
       "featured": true
     },
     {
@@ -146,6 +148,7 @@
       "status": "active",
       "tags": ["Python", "MCP", "Automation", "MIT"],
       "summary": "İTÜ öğrencisinin Ninova (LMS) ve OBS hesaplarını Claude, Cursor, Codex ve diğer MCP istemcilerine bağlayan yerel MCP sunucusu. Ödevleri, teslim tarihlerini, notları, transkripti ve yoklamayı doğal dilde sorabilirsin; PDF/DOCX okur, ödev yüklemeyi yalnızca açık onayla yapar. Önce yerel: kimlik bilgileri cihazdan çıkmaz, yalnızca İTÜ adreslerine gönderilir.",
+      "short": "İTÜ’nün Ninova ve OBS’sini Claude ve diğer MCP istemcilerine bağlar. Şifren cihazından çıkmaz.",
       "featured": true
     },
     {
@@ -157,6 +160,7 @@
       "status": "complete",
       "tags": ["Python", "React", "SIEM", "SOAR", "MITRE ATT&CK"],
       "summary": "Uçtan uca SOC simülasyonu: 127 alert, 126 false positive, 1 gerçek tehdit. Çok aşamalı saldırıları MITRE ATT&CK TTP'lerine eşler; gerçek zamanlı alert görselleştirme için React dashboard, SIEM correlation kurallarını test etmek için gerçekçi log veri setleri ve otomatik triyaj için Python tabanlı SOAR playbook akışları içerir.",
+      "short": "127 alert, 126 false positive, 1 gerçek tehdit. MITRE ATT&CK’e eşlenmiş bir SIEM/SOAR vaka çalışması.",
       "featured": true
     },
     {
@@ -167,6 +171,7 @@
       "status": "active",
       "tags": ["n8n", "SOAR", "Automation", "LLM"],
       "summary": "n8n için üretim kalitesinde 10 SOC otomasyon playbook'u: LLM destekli alert triyajı, phishing analizi, IOC zenginleştirme, insan onaylı containment, CVE takibi ve SOC raporlama. Import'a hazır JSON, sıfır secret.",
+      "short": "n8n için import’a hazır 10 SOC otomasyon playbook’u.",
       "featured": false
     },
     {
@@ -178,6 +183,7 @@
       "status": "active",
       "tags": ["Go", "JavaScript", "Scraper", "ICS/CSV"],
       "summary": "İTÜ'nün ders programı ve akademik takviminin bağımsız arşivi. OBS yalnızca aktif dönemi yayınladığı için veriyi her gün çekip kalıcılaştırıyor: 2016'dan bugüne 27 dönem, 64.000+ şube kaydı. Geçmiş ve güncel şubeleri, hocaları, kontenjanları ara; haftalık program oluştur, çakışmaları gör, ICS/CSV olarak dışa aktar; bölümün önşart haritasını ve sınav takvimini incele. Transkript önizlemesinden GANO hesaplama tamamen tarayıcıda çalışır.",
+      "short": "2016’dan bu yana İTÜ’deki her ders şubesi, her gün arşivleniyor; çünkü OBS yalnızca aktif dönemi gösteriyor.",
       "featured": false
     }
   ]

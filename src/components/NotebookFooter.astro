@@ -1,0 +1,23 @@
+---
+import type { Locale } from '@ptypes/profile';
+import HandRule from './HandRule.astro';
+
+export interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const tr = locale === 'tr';
+---
+
+<footer class="nb-footer">
+  <HandRule variant={2} />
+  <p>
+    {tr ? 'Kabuk mu seversin? Sitenin tamamı ' : 'Prefer a shell? This whole site also runs as a '}
+    <a href={`${tr ? '/tr' : ''}/terminal`}>{tr ? 'terminal olarak da çalışıyor' : 'terminal'}</a>.
+  </p>
+  <small>
+    © {new Date().getFullYear()} Fatih Serdar Çakmak ·
+    <a href="https://github.com/yatuk/fscakmak-portfolio" target="_blank" rel="noopener noreferrer">{tr ? 'kaynak kod' : 'source'}</a>
+  </small>
+</footer>
