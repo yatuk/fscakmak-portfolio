@@ -21,7 +21,7 @@ const image = await renderAsync(sized, {
   font: {
     loadSystemFonts: false,
   },
-  background: '#0D0D0D',
+  background: '#1b1a17',
 });
 
 writeFileSync(OUT_PATH, image.asPng());

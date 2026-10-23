@@ -1,11 +1,11 @@
 {
-  "name": "Fatih Serdar Çakmak — SOC Analyst",
+  "name": "Fatih Serdar Çakmak · SOC Analyst",
   "short_name": "fscakmak",
-  "description": "SOC Analyst portfolio — terminal-themed, multi-language.",
+  "description": "Fatih Serdar Çakmak: SOC work, open-source AI security tools, writing, and an interactive terminal.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0a0e14",
-  "theme_color": "#0a0e14",
+  "background_color": "#1b1a17",
+  "theme_color": "#1b1a17",
   "icons": [
     {
       "src": "/favicon.svg",
